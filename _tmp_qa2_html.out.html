@@ -1,0 +1,112 @@
+<div class="qa2-stage" id="qa2-stage-el">
+  <div class="qa2-inner" id="qa2-inner-el">
+
+    <!-- Header -->
+    <div class="qa2-header">
+      <div>
+        <div class="qa2-kicker">SEE IT RUN: QUOTING</div>
+        <div class="qa2-desc">
+          A commercial developer is commissioning an office HVAC system. Three customer questions come in. Flow presents options back each time.
+        </div>
+      </div>
+      <div class="qa2-header-right">
+        <div class="qa2-controls">
+          <button class="qa2-ctl-btn" id="qa2-btn-play" aria-label="Pause" title="Pause">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+              <rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+              <rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+            </svg>
+          </button>
+          <button class="qa2-ctl-btn" id="qa2-btn-restart" aria-label="Restart" title="Restart">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7 A4 4 0 1 1 7 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+              <path d="M1 5 L3 7 L5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP STRIP: compact input + cascade -->
+    <div class="qa2-top-strip">
+      <!-- Input card -->
+      <div class="qa2-input-card" id="qa2-input-panel">
+        <div id="qa2-input-empty-state">
+          <div class="qa2-input-head">
+            <div class="qa2-input-filename" style="color: var(--ink-faint);">No active enquiry</div>
+            <div class="qa2-input-label" style="color: var(--ink-faint);">DRAWING</div>
+          </div>
+          <div style="font-size: 11px; color: var(--ink-faint); margin-top: 8px;">
+            Waiting for next order.
+          </div>
+        </div>
+        <div id="qa2-input-populated" style="display: none; flex-direction: column; gap: 10px; flex: 1;">
+          <div class="qa2-input-head">
+            <div class="qa2-input-filename">office_tower_hvac_03.dwg</div>
+            <div class="qa2-input-label">DRAWING</div>
+          </div>
+          <div class="qa2-input-meta-grid">
+            <div class="qa2-input-meta-row">
+              <span class="qa2-input-meta-key">Customer</span>
+              <span class="qa2-input-meta-val">Commercial developer</span>
+            </div>
+            <div class="qa2-input-meta-row">
+              <span class="qa2-input-meta-key">Floors</span>
+              <span class="qa2-input-meta-val">2</span>
+            </div>
+            <div class="qa2-input-meta-row">
+              <span class="qa2-input-meta-key">Format</span>
+              <span class="qa2-input-meta-val">AutoCAD R2024</span>
+            </div>
+            <div class="qa2-input-meta-row">
+              <span class="qa2-input-meta-key">Total area</span>
+              <span class="qa2-input-meta-val">4,800m²</span>
+            </div>
+          </div>
+          <div id="qa2-delta-slot"></div>
+        </div>
+      </div>
+
+      <!-- Cascade panel -->
+      <div class="qa2-cascade-panel" id="qa2-cascade-panel-el">
+        <div class="qa2-cascade-head">
+          <div class="qa2-input-label">CONSTRAINT CASCADE</div>
+          <div class="qa2-cascade-status" id="qa2-cascade-status-el">IDLE</div>
+        </div>
+        <div class="qa2-cascade-grid" id="qa2-cascade-list"></div>
+        <div id="qa2-detail-slot"></div>
+      </div>
+    </div>
+
+    <!-- HERO: where the action happens -->
+    <div class="qa2-hero" id="qa2-hero-el">
+      <div class="qa2-hero-empty" id="qa2-hero-empty-el">QUOTE WILL APPEAR WHEN CASCADE COMPLETES</div>
+      <div id="qa2-hero-content" style="display: none;">
+        <div class="qa2-hero-head">
+          <div class="qa2-hero-title-wrap">
+            <div class="qa2-hero-title" id="qa2-hero-title-el">Quote ready</div>
+            <div class="qa2-hero-sub" id="qa2-hero-sub-el"></div>
+          </div>
+          <div class="qa2-hero-head-right">
+            <div class="qa2-progress-wrap">
+              <div class="qa2-progress-label">QUESTIONS</div>
+              <div class="qa2-dot" id="qa2-dot-0"></div>
+              <div class="qa2-dot" id="qa2-dot-1"></div>
+              <div class="qa2-dot" id="qa2-dot-2"></div>
+            </div>
+            <div class="qa2-hero-badge" id="qa2-hero-badge-el">READY TO SEND</div>
+          </div>
+        </div>
+        <div id="qa2-hero-body"></div>
+      </div>
+    </div>
+
+    <!-- Overlays -->
+    <div id="qa2-notify-slot"></div>
+    <svg id="qa2-cursor-el" class="qa2-cursor" viewBox="0 0 22 28" fill="none">
+      <path d="M2 2 L2 22 L7 17.5 L11 25 L14 23.5 L10 16 L17 15 Z"
+            fill="#0B0B12" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>
+    </svg>
+
+  </div>
+</div>

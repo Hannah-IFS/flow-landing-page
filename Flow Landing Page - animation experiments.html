@@ -1,0 +1,1590 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Flow — IFS Nexus Black</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="css/nxb.css">
+<style>
+  /* ---------- Page shell ---------- */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#000;color:#fff;font-family:var(--font-ui);font-weight:350;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+  :root{
+    --purple:#7C5CFC;
+    --purple-deep:#170430;
+    --purple-soft:rgba(124,92,252,0.10);
+    --line-dark:rgba(255,255,255,0.14);
+    --line-light:rgba(0,0,0,0.10);
+    --dim-dark:rgba(255,255,255,0.82);
+    --faint-dark:rgba(255,255,255,0.55);
+    --dim-light:#2E2E2E;
+    --faint-light:#6B6B6B;
+  }
+
+  /* ---------- Top Nav ---------- */
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-dark)}
+  .nav .brand{display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:13px;letter-spacing:-0.01em;color:#fff}
+  .nav .brand img{height:20px;width:auto}
+  .nav .right{display:flex;align-items:center;gap:20px}
+  .nav .linklist{display:none}
+  @media(min-width:900px){.nav .linklist{display:flex;gap:28px;font-family:var(--font-ui);font-size:13px;color:var(--dim-dark)}
+    .nav .linklist a:hover{color:#fff}}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;background:linear-gradient(180deg,#7e3bdb 0%,#6520c2 55%,#4f14a3 100%);color:#fff;font-family:var(--font-mono);font-size:12px;letter-spacing:-0.01em;transition:all .18s ease;text-decoration:none;border:1px solid rgba(255,255,255,0.08);cursor:pointer;box-shadow:0 0 0 4px rgba(101,32,194,0.22),0 6px 16px rgba(79,20,163,0.5),inset 0 1px 0 rgba(255,255,255,0.15)}
+  .pill:hover{background:linear-gradient(180deg,#9150ea 0%,#7530d4 55%,#5a1bbd 100%);box-shadow:0 0 0 6px rgba(101,32,194,0.28),0 8px 22px rgba(79,20,163,0.55),inset 0 1px 0 rgba(255,255,255,0.2)}
+  .pill--ghost{background:transparent;border:1px solid var(--line-dark);color:#fff}
+  .pill--ghost:hover{background:rgba(255,255,255,0.05)}
+  .pill--ghost-light{background:transparent;border:1px solid rgba(0,0,0,0.18);color:#000}
+  .pill--ghost-light:hover{background:rgba(0,0,0,0.04)}
+
+  /* ---------- Section base ---------- */
+  section{padding:56px 48px;position:relative}
+  section.light + section.light{padding-top:0}
+  .inner{max-width:1240px;margin:0 auto;position:relative}
+  .inner--narrow{max-width:1040px}
+  .dark{background:#000;color:#fff}
+  .light{background:#F5F5F2;color:#000}
+
+  /* Corner bracket label (from screenshots) */
+  .cbl{position:relative;display:inline-block;padding:10px 16px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple)}
+  .cbl::before,.cbl::after{content:"";position:absolute;width:10px;height:10px;border:1px solid var(--purple)}
+  .cbl::before{top:0;left:0;border-right:0;border-bottom:0}
+  .cbl::after{bottom:0;right:0;border-left:0;border-top:0}
+
+  /* Type */
+  .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint-dark)}
+  .light .eyebrow{color:var(--dim-light)}
+  h1.display,h2.display{font-family:var(--font-ui);font-weight:500;letter-spacing:-0.02em;line-height:1.02}
+  .h-hero{font-size:clamp(52px,6.2vw,92px);font-weight:500;letter-spacing:-0.025em;line-height:1}
+  .h-section{font-size:clamp(38px,4.2vw,60px);font-weight:500;letter-spacing:-0.02em;line-height:1.02}
+  .h-sub{font-size:clamp(28px,2.6vw,36px);font-weight:500;letter-spacing:-0.015em;line-height:1.1}
+  .lede{font-family:var(--font-ui);font-weight:350;font-size:17px;line-height:1.55;color:var(--dim-dark);max-width:56ch}
+  .light .lede{color:var(--dim-light)}
+  .body{font-family:var(--font-ui);font-weight:350;font-size:15px;line-height:1.6;color:var(--dim-dark)}
+  .light .body{color:var(--dim-light)}
+  .italic-note{font-style:italic;color:var(--faint-dark);font-size:14px;line-height:1.55}
+  .light .italic-note{color:var(--faint-light)}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:56px 48px 88px;background:#000;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:start}
+  @media(min-width:900px){.hero-grid{grid-template-columns:1.55fr 1fr;gap:80px;align-items:flex-start}}
+  .hero-statement{font-family:var(--font-ui);font-weight:500;font-size:clamp(32px,3.6vw,54px);line-height:1.08;letter-spacing:-0.022em;color:#fff;max-width:24ch;margin:0}
+  .hero-statement span{display:block}
+  .hero-statement .resolve{color:var(--purple);font-weight:500;letter-spacing:-0.022em}
+  .hero-aside{padding-top:6px;display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+  .hero-aside p{color:rgba(255,255,255,0.82);font-size:17px;line-height:1.5;max-width:42ch;margin:0;letter-spacing:-0.005em}
+  .hero-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;letter-spacing:-0.005em;color:#fff;padding:2px 0;border-bottom:1px solid transparent;text-decoration:none;transition:border-color .18s}
+  .hero-link:hover{border-bottom-color:#fff}
+  .hero-link .arr-glyph{display:inline-block;width:8px;height:8px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(-45deg);margin-left:4px}
+  .hero-link .arr-glyph.arr-down{width:auto;height:auto;border:0;transform:none;font-family:var(--font-mono);font-size:14px;line-height:1;margin-left:6px}
+  .hero-cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+
+  /* ---------- Section 01 — Why Flow ---------- */
+  .why-grid{display:grid;grid-template-columns:1fr;gap:48px;padding:0;max-width:1400px;margin:0 auto}
+  @media(min-width:1000px){.why-grid{grid-template-columns:1fr 1fr;gap:20px;align-items:start}}
+  .why-left{display:flex;align-items:center;gap:16px;padding-top:8px}
+  .swirl{width:44px;height:44px;display:block;color:#000;flex-shrink:0;object-fit:contain}
+  .swirl-sm{width:64px;height:76px}
+  section.dark .swirl,.cta-left .swirl{color:#fff}
+  .why-label{font-family:var(--font-mono);font-size:18px;letter-spacing:-0.005em;color:#000}
+  .why-headline{font-family:var(--font-ui);font-weight:500;font-size:clamp(36px,3.8vw,52px);line-height:1.08;letter-spacing:-0.018em;color:#000;max-width:22ch}
+  .why-headline span{display:block}
+  .why-body{margin-top:44px;display:flex;flex-direction:column;gap:24px;max-width:52ch}
+  .why-body p{font-family:var(--font-ui);font-weight:400;font-size:15px;line-height:1.6;color:var(--dim-light);margin:0}
+
+  /* ---------- Section 02 — Animation ---------- */
+  .anim-wrap{margin-top:56px;position:relative;border:1px solid var(--line-dark);background:#050510;padding:32px 24px;max-width:1100px;margin-left:auto;margin-right:auto}
+  .anim-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--faint-dark);padding-bottom:14px;border-bottom:1px solid var(--line-dark)}
+  .anim-scene-label{color:var(--purple);letter-spacing:0.18em}
+  .anim-pbars{display:flex;gap:6px;justify-content:center;padding:18px 0 10px}
+  .anim-pbars .pb{width:52px;height:2px;background:rgba(255,255,255,0.10);transition:background .4s}
+
+  .anim-stage{position:relative;width:100%;padding-bottom:48%;margin-top:6px}
+  .anim-stage>div,.anim-stage>svg{position:absolute;inset:0;width:100%;height:100%}
+  @keyframes cp{0%,100%{r:46;opacity:0.18}50%{r:54;opacity:0.08}}
+  .cpulse{animation:cp 2.6s ease-in-out infinite}
+  .nd{transition:all 0.6s ease}
+  .dot{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--purple);box-shadow:0 0 8px var(--purple);opacity:0}
+  @keyframes dot1{0%{left:17%;top:20%;opacity:0}50%{opacity:0.8}100%{left:50%;top:20%;opacity:0}}
+  @keyframes dot2{0%{left:50%;top:20%;opacity:0}50%{opacity:0.8}100%{left:83%;top:20%;opacity:0}}
+  @keyframes dot3{0%{left:83%;top:20%;opacity:0}50%{opacity:0.8}100%{left:83%;top:76%;opacity:0}}
+  @keyframes dot4{0%{left:83%;top:76%;opacity:0}50%{opacity:0.8}100%{left:50%;top:76%;opacity:0}}
+  @keyframes dot5{0%{left:50%;top:76%;opacity:0}50%{opacity:0.8}100%{left:17%;top:76%;opacity:0}}
+  @keyframes dot6{0%{left:17%;top:76%;opacity:0}50%{opacity:0.8}100%{left:17%;top:20%;opacity:0}}
+  @keyframes dot7{0%{left:17%;top:20%;opacity:0}50%{opacity:0.55}100%{left:50%;top:48%;opacity:0}}
+  @keyframes dot8{0%{left:50%;top:20%;opacity:0}50%{opacity:0.55}100%{left:50%;top:48%;opacity:0}}
+  @keyframes dot9{0%{left:83%;top:20%;opacity:0}50%{opacity:0.55}100%{left:50%;top:48%;opacity:0}}
+
+  .anim-status{display:flex;align-items:center;gap:14px;margin-top:14px;padding:14px 18px;border:1px solid var(--line-dark);background:rgba(255,255,255,0.02);transition:all 0.6s}
+  @keyframes pdot{0%,100%{opacity:0.35}50%{opacity:1}}
+  .anim-status .sd{width:7px;height:7px;border-radius:50%;flex-shrink:0;animation:pdot 1.4s ease-in-out infinite}
+  .anim-status .sl{font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;flex-shrink:0}
+  .anim-status .sdt{font-family:var(--font-ui);font-size:13px;color:var(--dim-dark)}
+  .anim-meta{display:flex;justify-content:space-between;padding:12px 4px 0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint-dark)}
+  .anim-meta b{color:#fff;font-weight:400;padding:0 4px}
+  .anim-caption{margin-top:28px;font-style:italic;color:var(--faint-dark);font-size:14px;line-height:1.6;max-width:60ch}
+
+  /* ---------- Section 03 — What changes ---------- */
+  .wc-wrap{display:grid;grid-template-columns:1fr;gap:48px;margin-top:48px;max-width:1400px;margin-left:auto;margin-right:auto}
+  @media(min-width:1000px){.wc-wrap{grid-template-columns:0.9fr 1.4fr;gap:80px;align-items:start}}
+  .wc-left{position:sticky;top:80px}
+  .wc-eyebrow{font-family:var(--font-mono);color:var(--purple);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:24px}
+  .wc-h{font-family:var(--font-ui);font-weight:500;font-size:clamp(36px,3.4vw,48px);line-height:1.05;letter-spacing:-0.018em;color:#fff;margin:0 0 24px}
+  .wc-h .dim{color:#8A8A8A}
+  .wc-sub{font-family:var(--font-ui);font-size:15px;line-height:1.6;color:var(--dim-dark);margin:0 0 32px;max-width:42ch}
+  .wc-meta{display:flex;flex-direction:column;gap:10px;border-top:1px solid rgba(255,255,255,0.16);padding-top:20px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.02em;color:rgba(255,255,255,0.55)}
+  .wc-meta div{display:flex;justify-content:space-between;gap:16px}
+  .wc-meta span:last-child{color:#fff}
+
+  .wc-list{display:flex;flex-direction:column;gap:20px}
+  .wc-row{display:grid;grid-template-columns:1fr;gap:0;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:28px 32px;transition:border-color .25s, background .25s}
+  .wc-row:hover{border-color:rgba(124,58,237,0.5);background:rgba(124,58,237,0.04)}
+  .wc-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:12px}
+  .wc-num{font-family:var(--font-mono);color:var(--purple);font-size:11px;letter-spacing:0.12em;text-transform:uppercase}
+  .wc-num .gt{opacity:0.5;margin-right:6px}
+  .wc-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5)}
+  .wc-title{font-family:var(--font-ui);font-weight:500;font-size:clamp(22px,1.8vw,28px);line-height:1.15;letter-spacing:-0.016em;color:#fff;margin:0 0 10px}
+  .wc-body{font-size:14px;line-height:1.6;color:var(--dim-dark);margin:0 0 22px;max-width:56ch}
+  .wc-delta{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;border-top:1px dashed rgba(255,255,255,0.16);padding-top:18px}
+  .wc-cell{display:flex;flex-direction:column;gap:4px}
+  .wc-cell .lbl{font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45)}
+  .wc-cell .val{font-family:var(--font-mono);font-size:15px;color:#fff;letter-spacing:-0.01em}
+  .wc-cell.before .val{color:rgba(255,255,255,0.5);text-decoration:line-through;text-decoration-color:rgba(255,255,255,0.25)}
+  .wc-cell.after .val{color:var(--purple)}
+  .wc-arrow{display:flex;align-items:center;color:rgba(255,255,255,0.35);font-family:var(--font-mono);font-size:14px;padding-top:14px}
+
+  /* light-section overrides */
+  .light .wc-h{color:#000}
+  .light .wc-h .dim{color:#8A8A8A}
+  .light .wc-sub{color:var(--dim-light)}
+  .light .wc-meta{border-top-color:var(--line-light);color:rgba(0,0,0,0.5)}
+  .light .wc-meta span:last-child{color:#000}
+  .light .wc-row{background:rgba(0,0,0,0.02);border-color:rgba(0,0,0,0.08)}
+  .light .wc-row:hover{border-color:rgba(124,58,237,0.4);background:rgba(124,58,237,0.04)}
+  .light .wc-tag{color:rgba(0,0,0,0.5)}
+  .light .wc-title{color:#000}
+  .light .wc-body{color:var(--dim-light)}
+  .light .wc-delta{border-top-color:rgba(0,0,0,0.15)}
+  .light .wc-cell .lbl{color:rgba(0,0,0,0.5)}
+  .light .wc-cell .val{color:#000}
+  .light .wc-cell.before .val{color:rgba(0,0,0,0.4);text-decoration-color:rgba(0,0,0,0.2)}
+  .light .wc-arrow{color:rgba(0,0,0,0.35)}
+
+  /* cbl on light bg */
+  .cbl-light{color:var(--purple)}
+
+  /* See-it-run: 2-col grid of animation cards (NxB industry-card style) */
+  .sir-grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:1400px;margin:0 auto}
+  @media(min-width:1000px){.sir-grid{grid-template-columns:1fr 1fr;gap:20px}}
+  .sir-card{background:#fff;border:1px solid var(--line-light);border-radius:6px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,0.02);display:flex;flex-direction:column;min-width:0}
+  .sir-card-head{display:flex;align-items:baseline;gap:14px;padding:6px 6px 14px;font-family:var(--font-mono);font-size:12px;letter-spacing:-0.005em;color:#000}
+  .sir-card-head .num{color:var(--faint-light)}
+  .sir-card-head .ttl{color:#000;font-family:var(--font-ui);font-weight:500;font-size:13px}
+  .sir-card-foot{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:20px 6px 6px;flex:1 1 auto}
+  .sir-card-foot h3{font-family:var(--font-ui);font-weight:500;font-size:17px;line-height:1.3;letter-spacing:-0.012em;color:#000;margin:0 0 6px}
+  .sir-card-foot p{font-size:13px;line-height:1.55;color:#6a6a72;margin:0;max-width:none}
+  .sir-card-foot .sir-more{margin-top:auto}
+  .sir-more{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:#000;color:#fff;font-family:var(--font-mono);font-size:11px;text-decoration:none;white-space:nowrap;transition:background 0.18s;border:0;cursor:pointer}
+  .sir-more:hover{background:#1a1a1a}
+  .sir-more .arr{display:inline-block;width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(-45deg);margin-left:2px}
+
+  /* Animation surface inside each card — lock to natural render width and scale down */
+  .sir-card-anim{position:relative;width:100%;overflow:hidden;border-radius:4px}
+  .sir-card-anim-inner{width:1100px;transform-origin:top left}
+  .sir-card .anim-wrap{margin:0;max-width:none;border:0;background:#000;padding:16px 16px 72px;overflow:hidden;width:100%}
+  .sir-card .qanim-wrap{margin:0;border:0;overflow:hidden;width:100%}
+  .sir-lb .sir-card-anim .anim-wrap{padding:16px}
+
+  /* Intro above the animation grid, right-aligned with the right card */
+  .sir-intro{display:grid;grid-template-columns:1fr;gap:20px;max-width:1400px;margin:0 auto 32px}
+  @media(min-width:1000px){.sir-intro{grid-template-columns:1fr 1fr;gap:20px}}
+  .sir-intro-spacer{display:none}
+  @media(min-width:1000px){.sir-intro-spacer{display:block}}
+  .sir-intro-body{display:flex;flex-direction:column;gap:16px;padding:0 6px}
+  .sir-intro-body p{font-family:var(--font-ui);font-size:15px;line-height:1.6;color:#6a6a72;margin:0;max-width:52ch}
+
+  /* Watch lightbox */
+  .sir-lb{position:fixed;inset:0;background:rgba(6,6,14,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:1000;display:none;align-items:center;justify-content:center;padding:40px 24px;overflow-y:auto}
+  .sir-lb.on{display:flex;animation:sirLbIn .25s ease-out}
+  @keyframes sirLbIn{from{opacity:0}to{opacity:1}}
+  .sir-lb-inner{width:100%;max-width:1280px;position:relative}
+  .sir-lb-close{position:fixed;top:20px;right:20px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.32);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:18px;padding:0;transition:background .18s, transform .18s;z-index:1001}
+  .sir-lb-close:hover{background:rgba(255,255,255,0.24);transform:scale(1.05)}
+  .sir-lb-stage{background:transparent;border-radius:6px;overflow:hidden;position:relative}
+  body.sir-lb-open{overflow:hidden}
+
+  /* ---------- Quoting Animation (scoped with .qanim) ---------- */
+  .qanim-wrap{margin:0;padding:0;background:#F7F6F4;border:1px solid var(--line-light)}
+  .qanim{
+    --qa-bg:#F7F6F4;
+    --qa-panel:#fff;
+    --qa-panel-border:#EAE7E1;
+    --qa-ink:#0B0B12;
+    --qa-ink-muted:#5F5E68;
+    --qa-ink-faint:#9A99A3;
+    --qa-purple:#7C5CFC;
+    --qa-purple-tint:#F3EFFF;
+    --qa-purple-border:#D8CEFF;
+    --qa-green:#0EA862;
+    --qa-green-tint:#EAF7F0;
+    --qa-green-border:#BFE6D0;
+    background:var(--qa-bg);
+    color:var(--qa-ink);
+    font-family:var(--font-ui);
+    padding:20px 24px;
+    position:relative;
+    overflow:hidden;
+  }
+  .qanim *{box-sizing:border-box}
+  .qanim-inner{max-width:1100px;margin:0 auto;position:relative}
+  .qanim-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:24px;flex-wrap:wrap}
+  .qanim-kicker{font-family:var(--font-mono);font-size:10px;color:var(--qa-purple);letter-spacing:2px;margin-bottom:8px}
+  .qanim-desc{font-size:13px;color:var(--qa-ink-muted);font-style:italic;max-width:56ch}
+  .qanim-header-right{display:flex;align-items:center;gap:20px}
+  .qanim-progress-wrap{display:flex;align-items:center;gap:10px}
+  .qanim-progress-label{font-family:var(--font-mono);font-size:10px;color:var(--qa-ink-faint);letter-spacing:1.5px;margin-right:4px}
+  .qanim-dot{width:10px;height:10px;border-radius:6px;background:var(--qa-panel-border);transition:all .5s ease}
+  .qanim-dot.active{width:28px;background:var(--qa-purple)}
+  .qanim-dot.done{background:var(--qa-purple)}
+  .qanim-controls{display:flex;gap:6px}
+  .qanim-ctl-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:var(--qa-panel);border:1px solid var(--qa-panel-border);color:var(--qa-ink);cursor:pointer;transition:all .2s ease;padding:0}
+  .qanim-ctl-btn:hover{background:var(--qa-purple-tint);border-color:var(--qa-purple-border);color:var(--qa-purple)}
+  .qanim-ctl-btn:active{transform:scale(.96)}
+
+  .qanim-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:20px;margin-bottom:20px;position:relative}
+  @media(max-width:760px){.qanim-grid{grid-template-columns:1fr}}
+  .qanim-panel{background:var(--qa-panel);border:1px solid var(--qa-panel-border);border-radius:12px;padding:22px;min-height:400px;transition:border-color .5s ease}
+  .qanim-panel.accented{border-color:var(--qa-purple-border)}
+  .qanim-panel-label{font-family:var(--font-mono);font-size:10px;color:var(--qa-purple);letter-spacing:2px;margin-bottom:12px}
+  .qanim-panel-title{font-size:16px;font-weight:500;color:var(--qa-ink);margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--qa-panel-border)}
+  .qanim-meta{display:flex;flex-direction:column;gap:12px}
+  .qanim-meta-row{display:grid;grid-template-columns:110px 1fr;gap:16px}
+  .qanim-meta-key{font-family:var(--font-mono);font-size:10px;color:var(--qa-ink-faint);letter-spacing:1.5px;text-transform:uppercase;align-self:center}
+  .qanim-meta-val{font-size:13px;color:var(--qa-ink-muted)}
+
+  .qanim-delta{margin-top:24px;padding:14px 16px;border-radius:10px;background:var(--qa-purple-tint);border:1px solid var(--qa-purple-border);animation:qaDeltaLand .7s cubic-bezier(.2,.8,.2,1) both}
+  .qanim-delta-label{font-family:var(--font-mono);font-size:9px;color:var(--qa-purple);letter-spacing:1.5px;margin-bottom:8px}
+  .qanim-delta-row{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--qa-ink);flex-wrap:wrap}
+  .qanim-delta-from{color:var(--qa-ink-muted)}
+  .qanim-delta-old{font-family:var(--font-mono);font-size:13px;color:var(--qa-ink-faint);text-decoration:line-through}
+  .qanim-delta-arrow{color:var(--qa-ink-faint)}
+  .qanim-delta-new{font-family:var(--font-mono);font-size:14px;color:var(--qa-purple);font-weight:500}
+
+  .qanim-cascade-panel{background:var(--qa-panel);border:1px solid var(--qa-panel-border);border-radius:12px;padding:22px;min-height:400px;display:flex;flex-direction:column}
+  .qanim-cascade-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
+  .qanim-cascade-status{font-family:var(--font-mono);font-size:10px;color:var(--qa-ink-faint);letter-spacing:1.5px;transition:color .4s ease}
+  .qanim-cascade-status.active{color:var(--qa-purple)}
+  .qanim-cascade-status.pulsing{animation:qaRethinkPulse .9s ease-in-out infinite}
+  .qanim-cascade-list{display:flex;flex-direction:column;gap:6px;flex:1}
+  .qanim-cascade-box{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-radius:8px;border:1px solid var(--qa-panel-border);background:var(--qa-bg);transition:all .5s ease}
+  .qanim-cascade-box.lit{animation:qaLightUp .5s ease-out both;border-color:var(--qa-green-border);background:var(--qa-green-tint)}
+  .qanim-cascade-box.lit.resolving{border-color:var(--qa-purple-border);background:var(--qa-purple-tint)}
+  .qanim-cascade-label{font-size:13px;color:var(--qa-ink-faint);transition:color .4s ease}
+  .qanim-cascade-box.lit .qanim-cascade-label{color:var(--qa-ink)}
+  .qanim-cascade-timing{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--qa-ink-faint);transition:color .4s ease}
+  .qanim-cascade-box.lit .qanim-cascade-timing{color:var(--qa-green)}
+  .qanim-cascade-box.lit.resolving .qanim-cascade-timing{color:var(--qa-purple)}
+
+  .qanim-quote{background:var(--qa-panel);border:1px solid var(--qa-panel-border);border-radius:12px;padding:16px 20px;transition:all .6s ease;min-height:100px}
+  .qanim-quote.active{background:var(--qa-purple-tint);border-color:var(--qa-purple-border)}
+  .qanim-quote-empty{font-family:var(--font-mono);font-size:10px;color:var(--qa-ink-faint);letter-spacing:2px;text-align:center;padding-top:24px}
+  .qanim-quote-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--qa-purple-border)}
+  .qanim-quote-title{font-size:15px;font-weight:500;color:var(--qa-ink)}
+  .qanim-quote-badge{font-family:var(--font-mono);font-size:10px;color:var(--qa-purple);letter-spacing:1.5px}
+  .qanim-quote-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:760px){.qanim-quote-grid{grid-template-columns:repeat(2,1fr)}}
+  .qanim-quote-line{animation:qaFadeUp .6s ease-out both}
+  .qanim-quote-key{font-family:var(--font-mono);font-size:9px;color:var(--qa-ink-faint);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+  .qanim-quote-val{font-size:13px;color:var(--qa-ink);line-height:1.3;transition:color .5s ease}
+  .qanim-quote-val.price{font-size:16px;font-weight:600}
+  .qanim-quote-val.price.revised{color:var(--qa-purple)}
+
+  .qanim-notify{position:absolute;top:120px;right:-8px;width:340px;max-width:90%;background:var(--qa-panel);border:1px solid var(--qa-purple-border);border-left:4px solid var(--qa-purple);border-radius:10px;padding:18px 20px;box-shadow:0 12px 40px rgba(0,0,0,.10);z-index:10;animation:qaSlideInRight .6s cubic-bezier(.2,.8,.2,1) both}
+  .qanim-notify-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .qanim-notify-dot{width:8px;height:8px;border-radius:50%;background:var(--qa-purple)}
+  .qanim-notify-label{font-family:var(--font-mono);font-size:10px;color:var(--qa-purple);letter-spacing:1.5px}
+  .qanim-notify-from{font-size:10px;color:var(--qa-ink-faint);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+  .qanim-notify-headline{font-size:15px;color:var(--qa-ink);font-weight:500;margin-bottom:8px;line-height:1.35}
+  .qanim-notify-detail{font-size:12px;color:var(--qa-ink-muted);line-height:1.45}
+
+  @keyframes qaFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes qaLightUp{from{opacity:.55;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
+  @keyframes qaSlideInRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes qaRethinkPulse{0%,100%{opacity:1}50%{opacity:.55}}
+  @keyframes qaDeltaLand{0%{opacity:0;transform:scale(.9)}60%{opacity:1;transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}
+
+  .sir-card .qanim-wrap{border:0;background:transparent;padding:0}
+
+  /* ---------- Section 04 — A day in the life ---------- */
+  .ditl-intro{max-width:760px}
+  .ditl-tabs{display:inline-flex;gap:8px;margin-top:36px;padding:4px;border:1px solid rgba(0,0,0,0.12);background:#fff}
+  .ditl-tab{padding:12px 20px;font-family:var(--font-mono);font-size:12px;letter-spacing:-0.005em;color:#000;background:transparent;cursor:pointer;transition:background .18s}
+  .ditl-tab.on{background:#000;color:#fff}
+  .ditl-tab:not(.on):hover{background:rgba(0,0,0,0.05)}
+  .ditl-panel{display:none;margin-top:48px}
+  .ditl-panel.on{display:block}
+
+  .ditl-section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin-bottom:28px}
+  .ditl-table{display:grid;grid-template-columns:1fr;gap:0}
+  @media(min-width:900px){
+    .ditl-table{
+      grid-template-columns:1fr 1fr;
+      column-gap:56px;
+      row-gap:0;
+    }
+    .ditl-table.rows-9{grid-template-rows:repeat(9,auto)}
+    .ditl-table.rows-8{grid-template-rows:repeat(8,auto)}
+    .ditl-table.rows-6{grid-template-rows:repeat(6,auto)}
+    .ditl-col{display:grid;grid-template-rows:subgrid;grid-row:1 / -1}
+  }
+  .ditl-col{padding-top:0}
+  .ditl-col-head{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,0.18);margin-bottom:6px}
+  .ditl-col-title{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase}
+  .ditl-col-title.without{color:var(--faint-light)}
+  .ditl-col-title.with{color:var(--purple)}
+  .ditl-row{display:grid;grid-template-columns:90px 1fr;gap:24px;padding:24px 0;border-bottom:1px solid rgba(0,0,0,0.08)}
+  .ditl-time{font-family:var(--font-mono);font-size:13px;letter-spacing:-0.01em;color:#000;font-weight:500;line-height:1.4}
+  .ditl-event{font-family:var(--font-ui);font-size:14px;line-height:1.55;color:#000}
+  .ditl-event b{font-weight:500;color:#000}
+  .ditl-event .desc{color:var(--dim-light);font-weight:350}
+  .ditl-tag{display:inline-block;margin-top:10px;padding:4px 10px;font-family:var(--font-mono);font-size:11px;letter-spacing:-0.005em;background:rgba(0,0,0,0.05);color:#000;border-radius:2px}
+  .ditl-tag.red{background:rgba(226,75,74,0.08);color:#9E2F2E}
+  .ditl-tag.green{background:rgba(23,4,48,0.08);color:var(--purple-deep)}
+
+  .ditl-footer-note{margin-top:64px;padding-top:32px;border-top:1px solid rgba(0,0,0,0.12);font-style:italic;color:var(--faint-light);font-size:15px;max-width:60ch}
+
+  .ditl-summary{display:grid;grid-template-columns:1fr;gap:32px;margin-top:56px;padding-top:40px;border-top:1px solid rgba(0,0,0,0.18)}
+  @media(min-width:900px){.ditl-summary{grid-template-columns:1fr 1fr;gap:56px}}
+  .ditl-summary-col{}
+  .ditl-summary-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px}
+  .ditl-summary-col.without .ditl-summary-label{color:var(--faint-light)}
+  .ditl-summary-col.with .ditl-summary-label{color:var(--purple)}
+  .ditl-summary-col p{font-family:var(--font-ui);font-size:20px;line-height:1.4;letter-spacing:-0.012em;color:#000;margin:0;font-weight:350}
+
+  .ditl-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:24px 32px;margin-top:56px;padding-top:40px;border-top:1px solid rgba(0,0,0,0.18)}
+  @media(min-width:900px){.ditl-stats{grid-template-columns:repeat(4,1fr)}}
+  .ditl-stat{}
+  .ditl-stat .n{font-family:var(--font-ui);font-size:clamp(44px,5vw,64px);font-weight:500;letter-spacing:-0.02em;line-height:1;color:var(--purple)}
+  .ditl-stat .l{font-family:var(--font-mono);font-size:12px;letter-spacing:-0.005em;color:var(--dim-light);margin-top:10px;line-height:1.5}
+  .ditl-stat .l .was{color:var(--faint-light)}
+
+  /* ---------- Section 05 — Come and talk ---------- */
+  .cta-section{padding-top:120px;padding-bottom:120px}
+  .cta-grid{display:grid;grid-template-columns:1fr;gap:72px;align-items:start}
+  @media(min-width:900px){.cta-grid{grid-template-columns:1fr 1.15fr;gap:96px}}
+  .cta-left .swirl{width:44px;height:44px;margin-bottom:28px;display:block}
+  .cta-left h2{font-family:var(--font-ui);font-weight:500;font-size:clamp(30px,3.2vw,44px);line-height:1.05;letter-spacing:-0.02em;color:#fff;max-width:16ch}
+  .cta-left .lede-sm{margin-top:24px;font-size:16px;line-height:1.6;color:var(--dim-dark);max-width:50ch}
+  .cta-left .email{margin-top:36px;font-family:var(--font-ui);font-size:16px;color:#fff}
+  .cta-left .email a:hover{color:var(--purple)}
+  .cta-left .fine-note{margin-top:40px;padding-top:24px;border-top:1px solid var(--line-dark);font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint-dark);max-width:28ch;line-height:1.7}
+
+  .cta-form{display:grid;grid-template-columns:1fr 1fr;gap:18px 16px}
+  .cta-form .f{display:flex;flex-direction:column;gap:8px}
+  .cta-form .f.full{grid-column:1/-1}
+  .cta-form label{font-family:var(--font-ui);font-size:13px;color:#E8E8E8;letter-spacing:0;font-weight:400}
+  .cta-form label .req{color:var(--purple);margin-left:2px}
+  .cta-form input,.cta-form select,.cta-form textarea{width:100%;background:#F5F5F2;border:1px solid transparent;outline:none;color:#000;font-family:var(--font-ui);font-size:15px;padding:11px 14px;border-radius:0;transition:border-color .18s, background .18s}
+  .cta-form input:focus,.cta-form select:focus,.cta-form textarea:focus{border-color:var(--purple);background:#fff}
+  .cta-form textarea{min-height:96px;resize:vertical;font-family:var(--font-ui)}
+  .cta-form select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;color:#8A8A8A}
+  .cta-form select.has-value{color:#000}
+  .cta-form .consent{grid-column:1/-1;display:flex;gap:12px;align-items:flex-start;margin-top:4px;font-size:13px;color:var(--dim-dark);line-height:1.5}
+  .cta-form .consent input[type=checkbox]{width:16px;height:16px;margin-top:3px;flex-shrink:0;accent-color:var(--purple)}
+  .cta-form .consent a{color:var(--purple);text-decoration:underline}
+  .cta-form .submit-row{grid-column:1/-1;margin-top:4px}
+  .cta-form .submit-row button{font-family:var(--font-ui);font-weight:500;font-size:14px;padding:12px 28px}
+
+  /* ---------- Footer ---------- */
+  footer{padding:40px 48px;border-top:1px solid var(--line-dark);background:#000;color:var(--dim-dark);font-family:var(--font-mono);font-size:12px;letter-spacing:-0.005em}
+  .footer-inner{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
+  .footer-inner .brand-line{color:#fff}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(12px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.on{opacity:1;transform:none}
+
+  /* Utility */
+  .arr::after{content:" →";font-family:var(--font-mono)}
+  .divider{height:1px;background:var(--line-dark);width:100%;margin:0}
+</style>
+</head>
+<body>
+
+<!-- ================== NAV ================== -->
+<nav class="nav">
+  <div class="brand">
+    <img src="assets/logos/ifs-nexusblack-inline-white.png" alt="IFS NexusBlack">
+    <span style="opacity:0.4;margin:0 10px">·</span>
+    <span style="letter-spacing:0.18em;text-transform:uppercase;font-size:11px;color:var(--faint-dark)">Flow</span>
+  </div>
+  <div class="right">
+    <div class="linklist">
+      <a href="#what">What Flow does</a>
+      <a href="#animation">See it run</a>
+      <a href="#changes">What changes</a>
+      <a href="#ditl">A day in the life</a>
+    </div>
+    <a class="pill" href="#contact">Book a meeting</a>
+  </div>
+</nav>
+
+<!-- ================== HERO ================== -->
+<section class="hero">
+  <div class="inner">
+    <div class="hero-grid">
+      <div>
+        <h1 class="hero-statement">
+          <span>One line goes down.</span>
+          <span>One supplier slips.</span>
+          <span>One order moves.</span>
+          <span class="resolve">The whole plan re-solves.</span>
+        </h1>
+        <div class="hero-cta-row">
+          <a class="pill" href="#contact">Book a meeting</a>
+        </div>
+      </div>
+      <div class="hero-aside">
+        <p>Flow is our Industrial AI product for production planning and scheduling. It quotes the work against real capacity, plans the factory against what it can actually do, and re-solves the moment anything changes. Results in weeks, not quarters.</p>
+        <a class="hero-link" href="#animation">See how it works <span class="arr-glyph arr-down">↓</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 01 WHAT FLOW DOES ================== -->
+<section class="light" id="what">
+  <div class="inner">
+    <div class="why-grid">
+      <div class="why-left">
+        <img class="swirl swirl-sm" src="assets/why-flow-swirl-black.png" alt="">
+        <span class="why-label">Why Flow</span>
+      </div>
+      <div class="why-right">
+        <h2 class="why-headline">
+          <span>Quote the work.</span>
+          <span>Plan the factory.</span>
+          <span style="color:#8A8A8A">Re-solve the moment anything changes.</span>
+        </h2>
+        <div class="why-body">
+          <p>Most planning tools run once a day and hope nothing changes. Flow runs every time something does. A line goes down. A customer pulls an order forward. A supplier slips. A new order lands.</p>
+          <p>Each one re-solves the forecast, the plan, and the schedule together. Options on screen, trade-offs visible, decision in the planner&apos;s hands.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 02 SEE IT RUN ================== -->
+<section class="light" id="animation">
+  <div class="inner">
+
+    <!-- Grid of two animation cards -->
+    <div class="sir-grid">
+
+    <!-- ===== Card 1: PRODUCTION ===== -->
+    <div class="sir-card">
+      <div class="sir-card-head">
+        <span class="num">01</span>
+        <span class="ttl">See it run: Production Planning and Scheduling</span>
+      </div>
+
+      <div class="sir-card-anim"><div class="sir-card-anim-inner">
+      <div class="anim-wrap" aria-label="Flow intelligence layer, live">
+      <div class="anim-top">
+        <span>Flow · Intelligence Layer</span>
+        <span id="scLabel" class="anim-scene-label">SCENARIO 1 OF 4 : LINE DOWN</span>
+      </div>
+      <div class="anim-pbars">
+        <div class="pb" id="pb0"></div>
+        <div class="pb" id="pb1"></div>
+        <div class="pb" id="pb2"></div>
+        <div class="pb" id="pb3"></div>
+      </div>
+
+      <div class="anim-stage">
+        <div>
+          <!-- moving purple dots along the perimeter -->
+          <div class="dot" style="animation:dot1 2.2s linear infinite"></div>
+          <div class="dot" style="animation:dot2 2.6s linear infinite 0.5s"></div>
+          <div class="dot" style="animation:dot3 2.9s linear infinite 1s"></div>
+          <div class="dot" style="animation:dot4 3.1s linear infinite 1.5s"></div>
+          <div class="dot" style="animation:dot5 3.4s linear infinite 2s"></div>
+          <div class="dot" style="animation:dot6 3.7s linear infinite 2.5s"></div>
+          <div class="dot" style="animation:dot7 2.1s linear infinite"></div>
+          <div class="dot" style="animation:dot8 2.5s linear infinite 0.5s"></div>
+          <div class="dot" style="animation:dot9 2.8s linear infinite 1s"></div>
+        </div>
+        <svg viewBox="0 35 660 318" preserveAspectRatio="xMidYMid meet" width="100%" height="100%">
+          <defs>
+            <filter id="ng"><feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#7C5CFC" flood-opacity="0.25"/></filter>
+            <filter id="na"><feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#7C5CFC" flood-opacity="0.7"/></filter>
+          </defs>
+          <!-- perimeter lines (dashed) -->
+          <line x1="120" y1="70" x2="330" y2="70" stroke="rgba(175,169,236,0.55)" stroke-width="1" stroke-dasharray="3 9"/>
+          <line x1="330" y1="70" x2="540" y2="70" stroke="rgba(175,169,236,0.55)" stroke-width="1" stroke-dasharray="3 9"/>
+          <line x1="540" y1="70" x2="540" y2="295" stroke="rgba(175,169,236,0.55)" stroke-width="1" stroke-dasharray="3 9"/>
+          <line x1="540" y1="295" x2="330" y2="295" stroke="rgba(175,169,236,0.55)" stroke-width="1" stroke-dasharray="3 9"/>
+          <line x1="330" y1="295" x2="120" y2="295" stroke="rgba(175,169,236,0.55)" stroke-width="1" stroke-dasharray="3 9"/>
+          <line x1="120" y1="295" x2="120" y2="70" stroke="rgba(175,169,236,0.55)" stroke-width="1" stroke-dasharray="3 9"/>
+          <!-- cross-links into centre -->
+          <line x1="120" y1="70" x2="330" y2="180" stroke="rgba(150,140,220,0.38)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <line x1="330" y1="70" x2="330" y2="180" stroke="rgba(150,140,220,0.38)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <line x1="540" y1="70" x2="330" y2="180" stroke="rgba(150,140,220,0.38)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <line x1="540" y1="295" x2="330" y2="180" stroke="rgba(150,140,220,0.38)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <line x1="330" y1="295" x2="330" y2="180" stroke="rgba(150,140,220,0.38)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <line x1="120" y1="295" x2="330" y2="180" stroke="rgba(150,140,220,0.38)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <!-- diagonal cross-connections -->
+          <line x1="120" y1="70" x2="540" y2="295" stroke="rgba(150,140,220,0.26)" stroke-width="0.6" stroke-dasharray="3 9"/>
+          <line x1="540" y1="70" x2="120" y2="295" stroke="rgba(150,140,220,0.26)" stroke-width="0.6" stroke-dasharray="3 9"/>
+
+          <!-- Centre: THE PLAN -->
+          <circle cx="330" cy="180" r="46" fill="none" stroke-width="0.8" class="cpulse" id="po" stroke="#7C5CFC"/>
+          <circle cx="330" cy="180" r="42" fill="rgba(8,8,16,0.95)" stroke="#7C5CFC" stroke-width="1.2" opacity="0.5" id="pi"/>
+          <text x="330" y="168" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="7" font-family="'Suisse Intl Mono',monospace" letter-spacing="2">THE PLAN</text>
+          <text x="330" y="186" text-anchor="middle" font-size="8" font-weight="600" id="ps" fill="#7C5CFC">STEADY STATE</text>
+
+          <!-- Nodes -->
+          <g filter="url(#ng)" id="n0" class="nd">
+            <rect x="50" y="47" width="140" height="46" rx="0" fill="rgba(20,16,40,0.95)" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r0"/>
+            <text x="120" y="66" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Forecasting</text>
+            <text x="120" y="82" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="8" font-family="'Suisse Intl Mono',monospace">by customer</text>
+          </g>
+          <g filter="url(#ng)" id="n1" class="nd">
+            <rect x="260" y="47" width="140" height="46" rx="0" fill="rgba(20,16,40,0.95)" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r1"/>
+            <text x="330" y="66" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Order obligations</text>
+            <text x="330" y="82" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="8" font-family="'Suisse Intl Mono',monospace">priority + risk</text>
+          </g>
+          <g filter="url(#ng)" id="n2" class="nd">
+            <rect x="470" y="49" width="140" height="42" rx="0" fill="rgba(20,16,40,0.95)" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r2"/>
+            <text x="540" y="74" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Order changes</text>
+          </g>
+          <g filter="url(#ng)" id="n3" class="nd">
+            <rect x="470" y="272" width="140" height="46" rx="0" fill="rgba(20,16,40,0.95)" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r3"/>
+            <text x="540" y="291" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Production plan</text>
+            <text x="540" y="307" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="8" font-family="'Suisse Intl Mono',monospace">capacity aware</text>
+          </g>
+          <g filter="url(#ng)" id="n4" class="nd">
+            <rect x="250" y="272" width="160" height="46" rx="0" fill="rgba(20,16,40,0.95)" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r4"/>
+            <text x="330" y="291" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Scheduling + Sequencing</text>
+            <text x="330" y="307" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="8" font-family="'Suisse Intl Mono',monospace">changeover aware</text>
+          </g>
+          <g filter="url(#ng)" id="n5" class="nd">
+            <rect x="45" y="272" width="150" height="46" rx="0" fill="rgba(20,16,40,0.95)" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r5"/>
+            <text x="120" y="291" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Unplanned events</text>
+            <text x="120" y="307" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="8" font-family="'Suisse Intl Mono',monospace">options + trade-offs</text>
+          </g>
+
+          <text x="330" y="345" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="9" font-family="'Suisse Intl Mono',monospace" letter-spacing="1">Resolving against: constraints · capacity · changeover · lead times · safety stock</text>
+        </svg>
+      </div>
+
+      <div class="anim-status" id="sb">
+        <div class="sd" id="sd" style="background:#7C5CFC"></div>
+        <span class="sl" id="sl" style="color:#7C5CFC">STEADY STATE</span>
+        <span class="sdt" id="sdt">Forecast, plan, and schedule running together.</span>
+      </div>
+
+      <div class="anim-meta">
+        <span><b id="ctr">0</b> disruptions resolved</span>
+        <span><b>0</b> line stoppages</span>
+        <span>Live · resolving continuously</span>
+      </div>
+    </div>
+      </div></div><!-- /sir-card-anim production -->
+
+      <div class="sir-card-foot">
+        <h3>Watch Flow plan and re-solve.</h3>
+        <p>Most planning tools run once a day and hope nothing changes. A line goes down, a customer pulls an order forward, a supplier slips, a new order lands. Each one re-solves the forecast, the plan, and the schedule together. Options surfaced, trade-offs visible, decision in the planner&apos;s hands.</p>
+        <button class="sir-more" type="button" data-sir-watch="production">Watch <span class="arr"></span></button>
+      </div>
+    </div><!-- /sir-card production -->
+
+    <!-- ===== Card 2: QUOTING ===== -->
+    <div class="sir-card">
+      <div class="sir-card-head">
+        <span class="num">02</span>
+        <span class="ttl">See it run: Quoting</span>
+      </div>
+
+      <div class="sir-card-anim"><div class="sir-card-anim-inner">
+      <div class="qanim-wrap">
+        <div class="qanim">
+          <div class="qanim-inner">
+
+            <!-- Header -->
+            <div class="qanim-header">
+              <div>
+                <div class="qanim-desc">An alpine resort commissions a 3-section ropeway. Three customer changes land. Flow re-solves the quote each time.</div>
+              </div>
+
+              <div class="qanim-header-right">
+                <div class="qanim-progress-wrap">
+                  <div class="qanim-progress-label">CHANGES</div>
+                  <div class="qanim-dot" id="qa-dot-0"></div>
+                  <div class="qanim-dot" id="qa-dot-1"></div>
+                  <div class="qanim-dot" id="qa-dot-2"></div>
+                </div>
+                <div class="qanim-controls">
+                  <button class="qanim-ctl-btn" id="qa-btn-play" aria-label="Pause" title="Pause">
+                    <svg width="12" height="14" viewBox="0 0 12 14" fill="none"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg>
+                  </button>
+                  <button class="qanim-ctl-btn" id="qa-btn-restart" aria-label="Restart" title="Restart">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7 A4 4 0 1 1 7 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/><path d="M1 5 L3 7 L5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="qanim-grid">
+              <div class="qanim-panel" id="qa-input-panel">
+                <div class="qanim-panel-label">DRAWING</div>
+                <div class="qanim-panel-title">ropeway_alpine_03.dwg</div>
+                <div class="qanim-meta">
+                  <div class="qanim-meta-row"><span class="qanim-meta-key">Customer</span><span class="qanim-meta-val">Alpine resort</span></div>
+                  <div class="qanim-meta-row"><span class="qanim-meta-key">Format</span><span class="qanim-meta-val">AutoCAD R2024</span></div>
+                  <div class="qanim-meta-row"><span class="qanim-meta-key">Sections</span><span class="qanim-meta-val">3</span></div>
+                  <div class="qanim-meta-row"><span class="qanim-meta-key">Vehicles</span><span class="qanim-meta-val">42</span></div>
+                </div>
+                <div id="qa-delta-slot"></div>
+              </div>
+
+              <div class="qanim-cascade-panel">
+                <div class="qanim-cascade-head">
+                  <div class="qanim-panel-label" style="margin-bottom:0">CONSTRAINT CASCADE</div>
+                  <div class="qanim-cascade-status" id="qa-cascade-status">IDLE</div>
+                </div>
+                <div class="qanim-cascade-list" id="qa-cascade-list"></div>
+              </div>
+            </div>
+
+            <div class="qanim-quote" id="qa-quote">
+              <div class="qanim-quote-empty" id="qa-quote-empty">QUOTE WILL APPEAR WHEN CASCADE COMPLETES</div>
+              <div id="qa-quote-content" style="display:none">
+                <div class="qanim-quote-head">
+                  <div class="qanim-quote-title" id="qa-quote-title">Quote ready</div>
+                  <div class="qanim-quote-badge" id="qa-quote-badge">READY TO SEND</div>
+                </div>
+                <div class="qanim-quote-grid" id="qa-quote-grid"></div>
+              </div>
+            </div>
+
+            <div id="qa-notify-slot"></div>
+
+          </div>
+        </div>
+      </div>
+      </div></div><!-- /sir-card-anim quoting -->
+
+      <div class="sir-card-foot">
+        <h3>Watch Flow quote and re-solve.</h3>
+        <p>Most quoting takes weeks, and every change starts the clock again. Flow reads the input, works through the full constraint system, and produces a quote in minutes. Customer changes a parameter, the whole quote re-solves. Works wherever the spec, the drawing, or the tender drives the quote.</p>
+        <button class="sir-more" type="button" data-sir-watch="quoting">Watch <span class="arr"></span></button>
+      </div>
+    </div><!-- /sir-card quoting -->
+
+    </div><!-- /sir-grid -->
+  </div>
+</section>
+
+<!-- ================== 03 WHAT CHANGES ================== -->
+<section class="dark" id="changes">
+  <div class="inner">
+    <div class="cbl">03 &nbsp; What changes</div>
+
+    <div class="wc-wrap">
+      <div class="wc-left">
+        <div class="wc-eyebrow">Day one &middot; measurable</div>
+        <h2 class="wc-h">Three things that <span class="dim">change on day one.</span></h2>
+        <p class="wc-sub">Not a roadmap. Not a pilot result. What planners and engineers see the week Flow goes live.</p>
+      </div>
+
+      <div class="wc-list">
+        <div class="wc-row">
+          <div class="wc-head">
+            <div class="wc-num"><span class="gt">&gt;</span>01 &middot; Disruption</div>
+            <div class="wc-tag">Planning</div>
+          </div>
+          <h3 class="wc-title">Absorb disruption in minutes.</h3>
+          <p class="wc-body">Line down. Supplier slips. Pull-in lands. Flow works out the options and puts them on screen. Planner picks. The rest of the factory never stopped.</p>
+          <div class="wc-delta">
+            <div class="wc-cell before"><span class="lbl">Before</span><span class="val">Hours to re-plan</span></div>
+            <div class="wc-arrow">&rarr;</div>
+            <div class="wc-cell after"><span class="lbl">With Flow</span><span class="val">Minutes, options on screen</span></div>
+          </div>
+        </div>
+
+        <div class="wc-row">
+          <div class="wc-head">
+            <div class="wc-num"><span class="gt">&gt;</span>02 &middot; Capacity</div>
+            <div class="wc-tag">Scheduling</div>
+          </div>
+          <h3 class="wc-title">Find capacity already in the factory.</h3>
+          <p class="wc-body">The schedule isn&apos;t as full as it looks. Flow surfaces the hour on Line 3, the half-shift on Tuesday, the sequence that frees two changeovers. Orders you&apos;d have turned away, taken.</p>
+          <div class="wc-delta">
+            <div class="wc-cell before"><span class="lbl">Before</span><span class="val">Orders turned away</span></div>
+            <div class="wc-arrow">&rarr;</div>
+            <div class="wc-cell after"><span class="lbl">With Flow</span><span class="val">Hidden capacity surfaced</span></div>
+          </div>
+        </div>
+
+        <div class="wc-row">
+          <div class="wc-head">
+            <div class="wc-num"><span class="gt">&gt;</span>03 &middot; Quoting</div>
+            <div class="wc-tag">Engineering</div>
+          </div>
+          <h3 class="wc-title">Quote in hours, not weeks.</h3>
+          <p class="wc-body">Drawing, spec, or tender in. Quote out the same day. Customer changes a parameter, the whole quote re-solves. Engineers back on real engineering work.</p>
+          <div class="wc-delta">
+            <div class="wc-cell before"><span class="lbl">Before</span><span class="val">Weeks, every change re-starts the clock</span></div>
+            <div class="wc-arrow">&rarr;</div>
+            <div class="wc-cell after"><span class="lbl">With Flow</span><span class="val">Same-day, re-solves live</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 04 A DAY IN THE LIFE ================== -->
+<section class="light" id="ditl">
+  <div class="inner">
+    <div class="cbl">04 &nbsp; A day in the life</div>
+
+    <div class="ditl-intro" style="margin-top:24px">
+      <h2 class="h-section" style="color:#000">A day in a plant.<br><span style="color:#8A8A8A;font-weight:500">A cycle in an engineered quote.</span></h2>
+      <p class="lede" style="color:var(--dim-light);margin-top:18px">Two ways the same problem shows up. Same factory, same people, two very different days. Flip between them.</p>
+    </div>
+
+    <div class="ditl-tabs" role="tablist">
+      <button class="ditl-tab on" data-tab="plant" id="tb-plant">Day in a plant</button>
+      <button class="ditl-tab" data-tab="quote" id="tb-quote">Engineered quote cycle</button>
+    </div>
+
+    <!-- PLANT PANEL -->
+    <div class="ditl-panel on" id="panel-plant">
+      <div class="ditl-section-label">Plant &middot; a day</div>
+      <div class="ditl-table rows-8">
+        <!-- WITHOUT -->
+        <div class="ditl-col">
+          <div class="ditl-col-head">
+            <span class="ditl-col-title without">Without Flow</span>
+            <span class="ditl-col-title without">Timeline</span>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">07:00</div>
+            <div class="ditl-event">
+              <b>Lead planner arrives.</b>
+              <span class="desc"> Overnight, three of five lines made the wrong quantities. Today&apos;s plan was built on what should have been made, not what actually was. Planner opens Excel and rebuilds from scratch.</span>
+              <div><span class="ditl-tag red">+1 hr rebuilding</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">07:45</div>
+            <div class="ditl-event">
+              <b>Plan the day&apos;s sequence.</b>
+              <span class="desc"> Senior planner decides what runs next, based on years of knowing the floor. Cover shift, they guess. Line 3 sat idle for an hour.</span>
+              <div><span class="ditl-tag red">+30 min tribal knowledge</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">08:15</div>
+            <div class="ditl-event">
+              <b>Demand shifts.</b>
+              <span class="desc"> Two orders cancelled. Another came in larger. Planner scrambles to adjust across three systems.</span>
+              <div><span class="ditl-tag red">+45 min scramble</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">10:30</div>
+            <div class="ditl-event">
+              <b>Pull-in request from sales.</b>
+              <span class="desc"> &ldquo;Move Henderson forward two weeks.&rdquo; 9th pull-in this week. Planner rebuilds across three spreadsheets.</span>
+              <div><span class="ditl-tag red">+1.5 hrs replanning</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">11:30</div>
+            <div class="ditl-event">
+              <b>New order opportunity.</b>
+              <span class="desc"> &ldquo;Can we take it?&rdquo; Schedule looks full. Planner says no.</span>
+              <div><span class="ditl-tag red">Order turned away</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">13:00</div>
+            <div class="ditl-event">
+              <b>Line 2 down.</b>
+              <span class="desc"> Maintenance says two hours. Planner rebuilds the schedule from scratch. Two hours of replanning on top of the downtime.</span>
+              <div><span class="ditl-tag red">+2 hrs replanning</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">18:00</div>
+            <div class="ditl-event">
+              <b>Planner leaves late.</b>
+              <span class="desc"> Day spent rebuilding. Tomorrow will be the same.</span>
+              <div><span class="ditl-tag red">Long day. 0 hrs improving.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WITH -->
+        <div class="ditl-col">
+          <div class="ditl-col-head">
+            <span class="ditl-col-title with">With Flow</span>
+            <span class="ditl-col-title with">Timeline</span>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">07:00</div>
+            <div class="ditl-event">
+              <b>Today&apos;s plan already reflects last night.</b>
+              <span class="desc"> Flow compared what came off the line against what was planned. Three lines were off. Today&apos;s plan is already corrected. Planner reviews, approves.</span>
+              <div><span class="ditl-tag green">Done in minutes</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">07:15</div>
+            <div class="ditl-event">
+              <b>Sequence is already set.</b>
+              <span class="desc"> Flow grouped compatible products to cut cleaning and changeover time. Same logic whether the lead or the cover is on shift.</span>
+              <div><span class="ditl-tag green">Rules in the system</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">07:20</div>
+            <div class="ditl-event">
+              <b>Cancellations absorbed. Larger order flagged.</b>
+              <span class="desc"> The cancellations adjust silently. The larger order needs a call: safety stock, push another order, or overtime. Flow shows the options. Planner decides.</span>
+              <div><span class="ditl-tag green">Adjusted automatically</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">10:30</div>
+            <div class="ditl-event">
+              <b>Trade-offs on screen.</b>
+              <span class="desc"> &ldquo;Yes, Midwest shifts three days.&rdquo; Planner sees the impact and picks in minutes. No rebuild.</span>
+              <div><span class="ditl-tag green">Resolved in minutes</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">11:30</div>
+            <div class="ditl-event">
+              <b>Real capacity checked.</b>
+              <span class="desc"> Schedule isn&apos;t as full as it looks. Safety stock for that customer is oversized. Room to take the order.</span>
+              <div><span class="ditl-tag green">Revenue captured</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">13:00</div>
+            <div class="ditl-event">
+              <b>Line 2 down. Three paths on screen.</b>
+              <span class="desc"> Move to Line 4 (allergen-safe, 45 min restart). Pull tomorrow&apos;s Line 3 run forward. Or wait. Planner picks.</span>
+              <div><span class="ditl-tag green">Live in minutes</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">16:00</div>
+            <div class="ditl-event">
+              <b>Planner leaves after 8 hours.</b>
+              <span class="desc"> Afternoon on root cause for Line 2. The work that actually improves the factory.</span>
+              <div><span class="ditl-tag green">+3 hrs on root cause</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ditl-summary">
+        <div class="ditl-summary-col without">
+          <div class="ditl-summary-label">Without Flow</div>
+          <p>A chaotic day that ate the planner&apos;s shift. Firefighting, rebuilding, and one order turned away.</p>
+        </div>
+        <div class="ditl-summary-col with">
+          <div class="ditl-summary-label">With Flow</div>
+          <p>A chaotic day absorbed into a handful of decisions. Factory ran as close to optimal as the day allowed. Time freed up for the work that improves operations.</p>
+        </div>
+      </div>
+
+      <div class="ditl-stats">
+        <div class="ditl-stat"><div class="n">4</div><div class="l">disruptions absorbed</div></div>
+        <div class="ditl-stat"><div class="n">1</div><div class="l">extra order captured</div></div>
+        <div class="ditl-stat"><div class="n">3</div><div class="l">hours on improvement</div></div>
+        <div class="ditl-stat"><div class="n">0</div><div class="l">line stoppages</div></div>
+      </div>
+
+      <div class="ditl-footer-note">Not every day is this eventful. Flow makes the extraordinary ordinary.</div>
+    </div>
+
+    <!-- QUOTE PANEL -->
+    <div class="ditl-panel" id="panel-quote">
+      <div class="ditl-section-label">Engineered quote &middot; a cycle</div>
+      <div class="ditl-table rows-6">
+        <div class="ditl-col">
+          <div class="ditl-col-head">
+            <span class="ditl-col-title without">Without Flow</span>
+            <span class="ditl-col-title without">Timeline</span>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 1</div>
+            <div class="ditl-event">
+              <b>RFQ arrives.</b>
+              <span class="desc"> Sales engineer logs it and forwards to applications engineering. They already have two others ahead in the queue.</span>
+              <div><span class="ditl-tag red">Queue, no start</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 3</div>
+            <div class="ditl-event">
+              <b>Applications engineering starts.</b>
+              <span class="desc"> Spec interpreted. Initial parts list built manually. Rough sizing in spreadsheets.</span>
+              <div><span class="ditl-tag red">Manual build</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Week 2</div>
+            <div class="ditl-event">
+              <b>Customer iterates.</b>
+              <span class="desc"> First quote sent. Customer responds: &ldquo;Can you do it 20% faster capacity?&rdquo; Engineering starts again.</span>
+              <div><span class="ditl-tag red">Start again</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Week 4</div>
+            <div class="ditl-event">
+              <b>Iteration five.</b>
+              <span class="desc"> Chief engineer pulled in to review. Everyone chasing for answers.</span>
+              <div><span class="ditl-tag red">Escalated</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Week 8</div>
+            <div class="ditl-event">
+              <b>Iteration fifteen.</b>
+              <span class="desc"> Customer has received quotes from three competitors. Some are ready to sign. Ours is still in draft.</span>
+              <div><span class="ditl-tag red">Deal drifting</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ditl-col">
+          <div class="ditl-col-head">
+            <span class="ditl-col-title with">With Flow</span>
+            <span class="ditl-col-title with">Timeline</span>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 1<br><span style="font-weight:400;color:var(--faint-light)">morning</span></div>
+            <div class="ditl-event">
+              <b>RFQ arrives.</b>
+              <span class="desc"> Flow reads the drawing, the spec, and the budget. Works through the engineering rules. First quote ready within hours.</span>
+              <div><span class="ditl-tag green">First quote ready</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 1<br><span style="font-weight:400;color:var(--faint-light)">afternoon</span></div>
+            <div class="ditl-event">
+              <b>Quote sent same day.</b>
+              <span class="desc"> Sales engineer reviews the Flow output, sanity-checks the numbers, sends the quote to the customer. Lead time and capacity backed by the live production plan.</span>
+              <div><span class="ditl-tag green">Same-day response</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 2</div>
+            <div class="ditl-event">
+              <b>Customer iterates.</b>
+              <span class="desc"> &ldquo;Can you do it 20% faster capacity?&rdquo; Change entered. Flow re-solves the whole quote. Updated quote sent same day.</span>
+              <div><span class="ditl-tag green">Re-solved same day</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 4</div>
+            <div class="ditl-event">
+              <b>Iteration three.</b>
+              <span class="desc"> Customer iterates one more time. Flow re-solves. Third quote sent.</span>
+              <div><span class="ditl-tag green">Same pace</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 5</div>
+            <div class="ditl-event">
+              <b>Quote accepted.</b>
+              <span class="desc"> Production plan already aware. Capacity allocated. Factory knows what&apos;s coming.</span>
+              <div><span class="ditl-tag green">Won and committed</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ditl-summary">
+        <div class="ditl-summary-col without">
+          <div class="ditl-summary-label">Without Flow</div>
+          <p>Eight weeks of iteration. Fifteen rounds. Engineering time burned on rework. Customer drifting to competitors.</p>
+        </div>
+        <div class="ditl-summary-col with">
+          <div class="ditl-summary-label">With Flow</div>
+          <p>Five days. Quote accepted. Production starting. Engineering freed up for the next RFQ.</p>
+        </div>
+      </div>
+
+      <div class="ditl-stats">
+        <div class="ditl-stat"><div class="n">5 days</div><div class="l">to accepted quote <span class="was">(was 8 weeks)</span></div></div>
+        <div class="ditl-stat"><div class="n">3</div><div class="l">iterations <span class="was">(was 15)</span></div></div>
+        <div class="ditl-stat"><div class="n">1</div><div class="l">chief engineer escalation avoided</div></div>
+        <div class="ditl-stat"><div class="n">0</div><div class="l">deals lost to faster competitors</div></div>
+      </div>
+
+      <div class="ditl-footer-note">Not every day is this eventful. Flow makes the extraordinary ordinary.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 05 COME AND TALK ================== -->
+<section class="dark cta-section" id="contact">
+  <div class="inner">
+    <div class="cbl">05 &nbsp; Come and talk</div>
+
+    <div class="cta-grid" style="margin-top:40px">
+      <div class="cta-left">
+        <img class="swirl" src="assets/why-flow-swirl-white.png" alt="">
+        <h2>The plan your operation should have been running all along.</h2>
+        <p class="lede-sm">The next step is a conversation. Thirty minutes to understand your operation. How you plan today, where it breaks, what&apos;s carried in the senior planner&apos;s head. Then we show you where Flow would fit. If it&apos;s a fit, we talk about a proof of value on your data. If it&apos;s not, you&apos;ve spent half an hour.</p>
+        <div class="email"><a href="mailto:nexusblack@ifs.com">nexusblack@ifs.com</a></div>
+      </div>
+
+      <form class="cta-form" onsubmit="event.preventDefault();alert('Thanks \u2014 we\u2019ll be in touch.')">
+        <div class="f full">
+          <label>Business Email<span class="req">*</span></label>
+          <input type="email" required>
+        </div>
+        <div class="f">
+          <label>First Name<span class="req">*</span></label>
+          <input type="text" required>
+        </div>
+        <div class="f">
+          <label>Last Name<span class="req">*</span></label>
+          <input type="text" required>
+        </div>
+        <div class="f">
+          <label>Job Title<span class="req">*</span></label>
+          <input type="text" required>
+        </div>
+        <div class="f">
+          <label>Company<span class="req">*</span></label>
+          <input type="text" required>
+        </div>
+        <div class="f full">
+          <label>Phone Number<span class="req">*</span></label>
+          <input type="tel" required>
+        </div>
+        <div class="f full">
+          <label>Country<span class="req">*</span></label>
+          <select required onchange="this.classList.toggle('has-value', !!this.value)">
+            <option value="" disabled selected>Please Select</option>
+            <option>United Kingdom</option>
+            <option>United States</option>
+            <option>Germany</option>
+            <option>France</option>
+            <option>Sweden</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="f full">
+          <label>Message<span class="req">*</span></label>
+          <textarea required></textarea>
+        </div>
+        <div class="f full">
+          <label>Country/Region</label>
+          <input type="text">
+        </div>
+        <label class="consent">
+          <input type="checkbox" required>
+          <span>By ticking this box, you agree to our processing of your data as described in our <a href="#">Privacy Policy</a> and to receiving relevant information from us.<span class="req">*</span></span>
+        </label>
+        <div class="submit-row">
+          <button type="submit" class="pill">Contact Us</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================== FOOTER ================== -->
+<footer>
+  <div class="footer-inner">
+    <div class="brand-line">IFS NEXUS BLACK &nbsp;·&nbsp; FLOW</div>
+    <div>Industrial AI, at the point of work.</div>
+    <div style="color:var(--faint-dark)">nexusblack.com</div>
+  </div>
+</footer>
+
+<!-- ================== SCRIPTS ================== -->
+<script>
+  // DITL tabs
+  document.querySelectorAll('.ditl-tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var tab = btn.dataset.tab;
+      document.querySelectorAll('.ditl-tab').forEach(function(b){ b.classList.toggle('on', b.dataset.tab === tab); });
+      document.querySelectorAll('.ditl-panel').forEach(function(p){ p.classList.remove('on'); });
+      document.getElementById('panel-' + tab).classList.add('on');
+    });
+  });
+
+  // Animation state machine
+  var SN = ["LINE DOWN","PULL-IN REQUEST","SUPPLIER DELAY","NEW ORDER"];
+  var SC = [
+    {s:"CHANGE DETECTED", d:"Line 2 down. Maintenance says two hours.",            c:"#7C5CFC", a:[5,3,4], g:0},
+    {s:"RE-SOLVING",      d:"Evaluating: move to Line 4, pull forward, or wait.",  c:"#F59E0B", a:[5,3,4], g:0},
+    {s:"RE-SOLVED",       d:"Moved to Line 4. Production resumed in 45 minutes.",  c:"#22C55E", a:[0,1,2,3,4,5], g:0},
+    {s:"CHANGE DETECTED", d:"Pull-in request: Henderson order moved up 2 weeks.",  c:"#7C5CFC", a:[2,1,4], g:1},
+    {s:"RE-SOLVING",      d:"Checking capacity, materials, and commitments.",      c:"#F59E0B", a:[2,1,3,4], g:1},
+    {s:"RE-SOLVED",       d:"Midwest order shifted 3 days. Schedule updated.",     c:"#22C55E", a:[0,1,2,3,4,5], g:1},
+    {s:"CHANGE DETECTED", d:"Supplier delay. Packaging materials ETA Friday.",     c:"#7C5CFC", a:[5,0,3], g:2},
+    {s:"RE-SOLVING",      d:"Evaluating: safety stock, alt PO, or reschedule.",    c:"#F59E0B", a:[5,0,3,4], g:2},
+    {s:"RE-SOLVED",       d:"Safety stock allocated. No line stoppage.",           c:"#22C55E", a:[0,1,2,3,4,5], g:2},
+    {s:"CHANGE DETECTED", d:"New order from regional chain. Can we take it?",      c:"#7C5CFC", a:[1,3,4], g:3},
+    {s:"RE-SOLVING",      d:"Checking schedule against live capacity.",            c:"#F59E0B", a:[1,3,4,0], g:3},
+    {s:"RE-SOLVED",       d:"Capacity confirmed. Order accepted. Revenue captured.", c:"#22C55E", a:[0,1,2,3,4,5], g:3}
+  ];
+  var tk = 0, resolved = 0;
+  function applyFrame(){
+    var x = SC[tk % SC.length];
+    var ps = document.getElementById('ps');
+    ps.textContent = x.s;
+    ps.setAttribute('fill', x.c);
+    var po = document.getElementById('po');
+    var pi = document.getElementById('pi');
+    po.setAttribute('stroke', x.c);
+    pi.setAttribute('stroke', x.c);
+    if (x.s === 'CHANGE DETECTED'){ po.setAttribute('r','54'); pi.setAttribute('stroke-width','2');   pi.setAttribute('opacity','0.75'); }
+    else if (x.s === 'RE-SOLVING'){ po.setAttribute('r','50'); pi.setAttribute('stroke-width','1.5'); pi.setAttribute('opacity','0.6'); }
+    else { po.setAttribute('r','46'); pi.setAttribute('stroke-width','1.2'); pi.setAttribute('opacity','0.5'); }
+
+    for (var i = 0; i < 6; i++){
+      var on = x.a.indexOf(i) !== -1;
+      document.getElementById('r'+i).setAttribute('stroke', on ? x.c : 'rgba(124,92,252,0.35)');
+      document.getElementById('r'+i).setAttribute('stroke-width', on ? '1.5' : '0.8');
+      document.getElementById('n'+i).setAttribute('filter', on ? 'url(#na)' : 'url(#ng)');
+    }
+
+    var sb = document.getElementById('sb');
+    document.getElementById('sd').style.background = x.c;
+    document.getElementById('sl').style.color = x.c;
+    document.getElementById('sl').textContent = x.s;
+    document.getElementById('sdt').textContent = x.d;
+    sb.style.borderColor = x.c.replace(')', ',0.35)').replace('rgb','rgba');
+
+    document.getElementById('scLabel').textContent = 'SCENARIO ' + (x.g + 1) + ' OF 4 : ' + SN[x.g];
+    document.getElementById('scLabel').style.color = x.c;
+
+    for (var pb = 0; pb < 4; pb++){
+      document.getElementById('pb'+pb).style.background = pb === x.g ? x.c : 'rgba(255,255,255,0.10)';
+    }
+
+    if (x.s === 'RE-SOLVED' && tk > 0){
+      resolved++;
+      document.getElementById('ctr').textContent = resolved;
+    }
+    tk++;
+  }
+  applyFrame();
+  setInterval(applyFrame, 3800);
+
+  // Reveal on scroll (very subtle)
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.wc-row, .ditl-row').forEach(function(el){
+    el.classList.add('reveal'); io.observe(el);
+  });
+
+  // ========== Quoting animation ==========
+  (function(){
+    'use strict';
+    var CASCADE = [
+      {label:'Vehicle',         timing:'0.4s'},
+      {label:'Grip',            timing:'0.7s'},
+      {label:'Sheave',          timing:'0.9s'},
+      {label:'Arm length',      timing:'1.2s'},
+      {label:'Station design',  timing:'1.5s'},
+      {label:'Rope',            timing:'1.8s'},
+      {label:'Tower placement', timing:'2.1s'},
+      {label:'Gearbox',         timing:'2.4s'},
+      {label:'Motor',           timing:'2.7s'},
+      {label:'Brakes',          timing:'3.0s'}
+    ];
+    var INITIAL_QUOTE = {
+      headline:'Quote ready',
+      lines:[
+        ['Configuration','3-section ropeway \u00b7 12 towers \u00b7 42 vehicles'],
+        ['Throughput','1,800 passengers per hour'],
+        ['Lead time','9 weeks to site'],
+        ['Price','\u00a34.2M']
+      ]
+    };
+    var CHANGES = [
+      {
+        notification:{headline:'Can you shorten the line by 8 metres?', detail:'Site survey came back. Usable footprint is tighter than we thought.'},
+        delta:{label:'Line length', old:'480m', new:'472m'},
+        revisedQuote:{headline:'Quote re-solved', lines:[
+          ['Configuration','3-section ropeway \u00b7 11 towers \u00b7 42 vehicles'],
+          ['Throughput','1,800 passengers per hour'],
+          ['Lead time','7 weeks to site'],
+          ['Price','\u00a33.6M']
+        ]}
+      },
+      {
+        notification:{headline:'We need to carry 20% more passengers per hour.', detail:'Tourism forecast revised upward for peak season.'},
+        delta:{label:'Throughput', old:'1,800 pph', new:'2,160 pph'},
+        revisedQuote:{headline:'Quote re-solved', lines:[
+          ['Configuration','3-section ropeway \u00b7 11 towers \u00b7 50 vehicles'],
+          ['Throughput','2,160 passengers per hour'],
+          ['Lead time','9 weeks to site'],
+          ['Price','\u00a34.1M']
+        ]}
+      },
+      {
+        notification:{headline:'Base elevation is 400 metres higher than specified.', detail:'Survey caught the error. Towers, motor and brakes all need reconsidering.'},
+        delta:{label:'Base elevation', old:'1,200m', new:'1,600m'},
+        revisedQuote:{headline:'Quote re-solved', lines:[
+          ['Configuration','Reinforced towers \u00b7 heavier-duty drive'],
+          ['Throughput','2,160 passengers per hour'],
+          ['Lead time','11 weeks to site'],
+          ['Price','\u00a34.5M']
+        ]}
+      }
+    ];
+
+    var BOX_STEP_MS=800, QUOTE_REVEAL_DELAY=600, QUOTE_DWELL_MS=4500, CHANGE_REQUEST_DWELL=3000,
+        DELTA_SETTLE_MS=1200, RETHINK_PAUSE_MS=800, BOX_STEP_FAST_MS=400, RESOLVED_DWELL_MS=4500, FINAL_DWELL_MS=5500;
+
+    function buildTimeline(){
+      var steps=[], t=0;
+      steps.push({at:t, apply:function(s){s.phase='cascading';s.litCount=0;s.changeIdx=-1;}});
+      CASCADE.forEach(function(_,i){ t+=BOX_STEP_MS; steps.push({at:t, apply:function(s){s.litCount=i+1;}}); });
+      t+=QUOTE_REVEAL_DELAY;
+      steps.push({at:t, apply:function(s){s.phase='quote';}});
+      t+=QUOTE_DWELL_MS;
+      CHANGES.forEach(function(_,changeI){
+        var isLast = changeI === CHANGES.length-1;
+        steps.push({at:t, apply:function(s){s.phase='changeIncoming';s.changeIdx=changeI;}});
+        t+=CHANGE_REQUEST_DWELL;
+        steps.push({at:t, apply:function(s){s.phase='changeLanded';}});
+        t+=DELTA_SETTLE_MS;
+        steps.push({at:t, apply:function(s){s.phase='rethinking';s.litCount=0;}});
+        t+=RETHINK_PAUSE_MS;
+        steps.push({at:t, apply:function(s){s.phase='resolving';}});
+        CASCADE.forEach(function(_,i){ t+=BOX_STEP_FAST_MS; steps.push({at:t, apply:function(s){s.litCount=i+1;}}); });
+        t+=QUOTE_REVEAL_DELAY;
+        steps.push({at:t, apply:function(s){s.phase='resolved';}});
+        t += isLast ? FINAL_DWELL_MS : RESOLVED_DWELL_MS;
+      });
+      return {steps:steps, total:t};
+    }
+    var TIMELINE = buildTimeline();
+    var state = {phase:'idle', litCount:0, changeIdx:-1};
+    var progress=0, nextStepIdx=0, lastTick=null, rafId=null, isPlaying=true;
+
+    var elCascadeList   = document.getElementById('qa-cascade-list');
+    if (!elCascadeList) return;
+    var elCascadeStatus = document.getElementById('qa-cascade-status');
+    var elInputPanel    = document.getElementById('qa-input-panel');
+    var elDeltaSlot     = document.getElementById('qa-delta-slot');
+    var elQuote         = document.getElementById('qa-quote');
+    var elQuoteEmpty    = document.getElementById('qa-quote-empty');
+    var elQuoteContent  = document.getElementById('qa-quote-content');
+    var elQuoteTitle    = document.getElementById('qa-quote-title');
+    var elQuoteBadge    = document.getElementById('qa-quote-badge');
+    var elQuoteGrid     = document.getElementById('qa-quote-grid');
+    var elNotifySlot    = document.getElementById('qa-notify-slot');
+    var elBtnPlay       = document.getElementById('qa-btn-play');
+    var elBtnRestart    = document.getElementById('qa-btn-restart');
+    var elDots = [document.getElementById('qa-dot-0'), document.getElementById('qa-dot-1'), document.getElementById('qa-dot-2')];
+
+    CASCADE.forEach(function(box,i){
+      var el = document.createElement('div');
+      el.className = 'qanim-cascade-box';
+      el.dataset.idx = i;
+      el.innerHTML = '<span class="qanim-cascade-label">'+box.label+'</span><span class="qanim-cascade-timing">&mdash;</span>';
+      elCascadeList.appendChild(el);
+    });
+
+    var lastRender = {litCount:-1, phase:null, changeIdx:-2, deltaKey:null, quoteKey:null, notifyKey:null};
+
+    function phaseStatusLabel(phase){
+      switch(phase){
+        case 'cascading':      return 'RUNNING';
+        case 'quote':          return 'COMPLETE';
+        case 'changeIncoming': return 'COMPLETE';
+        case 'changeLanded':   return 'CHANGE RECEIVED';
+        case 'rethinking':     return 'RETHINKING';
+        case 'resolving':      return 'RE-SOLVING';
+        case 'resolved':       return 'COMPLETE';
+        default:               return 'IDLE';
+      }
+    }
+
+    function render(){
+      var phase=state.phase, litCount=state.litCount, changeIdx=state.changeIdx;
+      var isResolving = (phase==='resolving' || phase==='rethinking');
+      var showAnyQuote = (phase!=='cascading' && phase!=='idle');
+
+      if (lastRender.litCount !== litCount || lastRender.phase !== phase){
+        var boxes = elCascadeList.children;
+        for (var i=0;i<boxes.length;i++){
+          var b = boxes[i];
+          var lit = i < litCount;
+          b.classList.toggle('lit', lit);
+          b.classList.toggle('resolving', isResolving);
+          var timingEl = b.querySelector('.qanim-cascade-timing');
+          timingEl.innerHTML = lit ? CASCADE[i].timing : '&mdash;';
+        }
+        elCascadeStatus.textContent = phaseStatusLabel(phase);
+        var activeStatus = (phase==='rethinking' || phase==='resolving' || phase==='changeLanded');
+        elCascadeStatus.classList.toggle('active', activeStatus);
+        elCascadeStatus.classList.toggle('pulsing', phase==='rethinking');
+      }
+
+      var showDelta = (phase==='changeLanded' || phase==='rethinking' || phase==='resolving' || phase==='resolved');
+      if (lastRender.phase !== phase || lastRender.changeIdx !== changeIdx){
+        elInputPanel.classList.toggle('accented', showDelta);
+      }
+      var deltaKey = showDelta && changeIdx>=0 ? String(changeIdx) : 'none';
+      if (deltaKey !== lastRender.deltaKey){
+        elDeltaSlot.innerHTML='';
+        if (showDelta && changeIdx>=0){
+          var c = CHANGES[changeIdx];
+          var d = document.createElement('div');
+          d.className='qanim-delta';
+          d.innerHTML = '<div class="qanim-delta-label">CUSTOMER CHANGE APPLIED</div>'+
+            '<div class="qanim-delta-row">'+
+              '<span class="qanim-delta-from">'+c.delta.label+'</span>'+
+              '<span class="qanim-delta-old">'+c.delta.old+'</span>'+
+              '<span class="qanim-delta-arrow">&rarr;</span>'+
+              '<span class="qanim-delta-new">'+c.delta.new+'</span>'+
+            '</div>';
+          elDeltaSlot.appendChild(d);
+        }
+        lastRender.deltaKey = deltaKey;
+      }
+
+      var quoteToShow = INITIAL_QUOTE;
+      if (phase==='resolved' && changeIdx>=0){
+        quoteToShow = CHANGES[changeIdx].revisedQuote;
+      } else if (changeIdx>=1 && (phase==='changeIncoming' || phase==='changeLanded' || phase==='rethinking' || phase==='resolving')){
+        quoteToShow = CHANGES[changeIdx-1].revisedQuote;
+      }
+
+      elQuote.classList.toggle('active', showAnyQuote);
+
+      if (!showAnyQuote){
+        elQuoteEmpty.style.display='';
+        elQuoteContent.style.display='none';
+        lastRender.quoteKey='empty';
+      } else {
+        elQuoteEmpty.style.display='none';
+        elQuoteContent.style.display='';
+        var badgeText = phase==='resolved' ? ('REVISION '+(changeIdx+1)+' OF 3')
+          : (phase==='quote' && changeIdx===-1) ? 'READY TO SEND'
+          : 'STANDING';
+        var quoteKey = phase+'|'+changeIdx+'|'+quoteToShow.headline+'|'+badgeText;
+        if (quoteKey !== lastRender.quoteKey){
+          elQuoteTitle.textContent = quoteToShow.headline;
+          elQuoteBadge.textContent = badgeText;
+          elQuoteGrid.innerHTML='';
+          quoteToShow.lines.forEach(function(pair,i){
+            var k=pair[0], v=pair[1];
+            var isPrice = (k==='Price');
+            var line = document.createElement('div');
+            line.className='qanim-quote-line';
+            line.style.animationDelay = (i*100)+'ms';
+            var priceClass = isPrice ? ('price' + (phase==='resolved' ? ' revised' : '')) : '';
+            line.innerHTML = '<div class="qanim-quote-key">'+k+'</div><div class="qanim-quote-val '+priceClass+'">'+v+'</div>';
+            elQuoteGrid.appendChild(line);
+          });
+          lastRender.quoteKey = quoteKey;
+        }
+      }
+
+      var notifyKey = (phase==='changeIncoming' && changeIdx>=0) ? String(changeIdx) : 'none';
+      if (notifyKey !== lastRender.notifyKey){
+        elNotifySlot.innerHTML='';
+        if (phase==='changeIncoming' && changeIdx>=0){
+          var c2 = CHANGES[changeIdx];
+          var n = document.createElement('div');
+          n.className='qanim-notify';
+          n.innerHTML = '<div class="qanim-notify-head"><div class="qanim-notify-dot"></div><div class="qanim-notify-label">INCOMING CHANGE &middot; '+(changeIdx+1)+' OF 3</div></div>'+
+            '<div class="qanim-notify-from">From customer</div>'+
+            '<div class="qanim-notify-headline">&ldquo;'+c2.notification.headline+'&rdquo;</div>'+
+            '<div class="qanim-notify-detail">'+c2.notification.detail+'</div>';
+          elNotifySlot.appendChild(n);
+        }
+        lastRender.notifyKey = notifyKey;
+      }
+
+      for (var j=0;j<3;j++){
+        var done = (changeIdx>j) || (changeIdx===j && phase==='resolved');
+        var active = (changeIdx===j && phase!=='resolved');
+        elDots[j].classList.toggle('done', done);
+        elDots[j].classList.toggle('active', active);
+      }
+
+      lastRender.litCount=litCount; lastRender.phase=phase; lastRender.changeIdx=changeIdx;
+    }
+
+    function tick(now){
+      if (!isPlaying){ lastTick=null; return; }
+      if (lastTick==null) lastTick=now;
+      var dt = now - lastTick;
+      lastTick = now;
+      progress += dt;
+      while (nextStepIdx < TIMELINE.steps.length && TIMELINE.steps[nextStepIdx].at <= progress){
+        TIMELINE.steps[nextStepIdx].apply(state);
+        nextStepIdx++;
+      }
+      if (progress >= TIMELINE.total){ progress=0; nextStepIdx=0; }
+      render();
+      rafId = requestAnimationFrame(tick);
+    }
+    function startLoop(){ if (rafId) cancelAnimationFrame(rafId); lastTick=null; rafId=requestAnimationFrame(tick); }
+    function stopLoop(){ if (rafId){ cancelAnimationFrame(rafId); rafId=null; } lastTick=null; }
+    function restart(){
+      progress=0; nextStepIdx=0;
+      state.phase='idle'; state.litCount=0; state.changeIdx=-1;
+      lastRender={litCount:-1,phase:null,changeIdx:-2,deltaKey:null,quoteKey:null,notifyKey:null};
+      isPlaying=true; updatePlayButton(); render(); startLoop();
+    }
+    function updatePlayButton(){
+      if (isPlaying){
+        elBtnPlay.setAttribute('aria-label','Pause');
+        elBtnPlay.setAttribute('title','Pause');
+        elBtnPlay.innerHTML = '<svg width="12" height="14" viewBox="0 0 12 14" fill="none"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg>';
+      } else {
+        elBtnPlay.setAttribute('aria-label','Play');
+        elBtnPlay.setAttribute('title','Play');
+        elBtnPlay.innerHTML = '<svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M1.5 1.5 L10.5 7 L1.5 12.5 Z" fill="currentColor"/></svg>';
+      }
+    }
+    elBtnPlay.addEventListener('click', function(){ isPlaying=!isPlaying; updatePlayButton(); if (isPlaying) startLoop(); else stopLoop(); });
+    elBtnRestart.addEventListener('click', restart);
+    render();
+    startLoop();
+  })();
+</script>
+
+<script>
+  // Scale animation inner (natural 1100px) to fit its card container
+  (function(){
+    function scale(){
+      document.querySelectorAll('.sir-card-anim').forEach(function(outer){
+        var inner = outer.querySelector('.sir-card-anim-inner');
+        if(!inner) return;
+        var cw = outer.clientWidth;
+        var nw = 1100; // natural inner width
+        var inLb = !!outer.closest('.sir-lb');
+        var s = inLb ? (cw / nw) : Math.min(1, cw / nw);
+        inner.style.transform = 'scale(' + s + ')';
+        var nh = inner.scrollHeight;
+        outer.style.height = Math.ceil(nh * s + 8) + 'px';
+      });
+    }
+    var ro = new ResizeObserver(scale);
+    document.querySelectorAll('.sir-card-anim').forEach(function(el){ ro.observe(el); });
+    var mo = new MutationObserver(scale);
+    document.querySelectorAll('.sir-card-anim-inner').forEach(function(el){
+      mo.observe(el, {childList:true, subtree:true, attributes:true, characterData:true});
+    });
+    window.addEventListener('load', scale);
+    setTimeout(scale, 300);
+    setTimeout(scale, 1500);
+    setTimeout(scale, 4000);
+    // Expose so the lightbox open/close can trigger it
+    window.__sirScale = scale;
+  })();
+</script>
+<script>
+  // Watch lightbox — lift a .sir-card-anim element into fullscreen
+  (function(){
+    var lb = document.createElement('div');
+    lb.className = 'sir-lb';
+    lb.setAttribute('role','dialog');
+    lb.setAttribute('aria-hidden','true');
+    lb.innerHTML = '<div class="sir-lb-inner"><button class="sir-lb-close" type="button" aria-label="Close">&#x2715;</button><div class="sir-lb-stage" id="sir-lb-stage"></div></div>';
+    document.body.appendChild(lb);
+    var stage = lb.querySelector('#sir-lb-stage');
+    var placeholder = null;
+    var originalParent = null;
+    var moved = null;
+    function open(which){
+      var idx = (which === 'quoting') ? 1 : 0;
+      var all = document.querySelectorAll('.sir-card-anim');
+      var src = all[idx];
+      if(!src) return;
+      originalParent = src.parentNode;
+      placeholder = document.createComment('sir-card-anim-slot');
+      originalParent.insertBefore(placeholder, src);
+      stage.appendChild(src);
+      moved = src;
+      // temporarily clear the forced height; the lightbox lets it be its natural (scaled) size
+      moved.dataset.prevHeight = moved.style.height || '';
+      lb.classList.add('on');
+      lb.setAttribute('aria-hidden','false');
+      document.body.classList.add('sir-lb-open');
+      // trigger rescale against the lightbox width
+      if(window.__sirScale) window.__sirScale();
+      setTimeout(function(){ if(window.__sirScale) window.__sirScale(); }, 50);
+      setTimeout(function(){ if(window.__sirScale) window.__sirScale(); }, 400);
+    }
+    function close(){
+      if(!moved || !originalParent || !placeholder) {
+        lb.classList.remove('on');
+        document.body.classList.remove('sir-lb-open');
+        return;
+      }
+      originalParent.insertBefore(moved, placeholder);
+      placeholder.remove();
+      placeholder = null;
+      moved = null;
+      originalParent = null;
+      lb.classList.remove('on');
+      lb.setAttribute('aria-hidden','true');
+      document.body.classList.remove('sir-lb-open');
+      if(window.__sirScale) window.__sirScale();
+    }
+    document.addEventListener('click', function(e){
+      var opener = e.target.closest('[data-sir-watch]');
+      if(opener){ e.preventDefault(); open(opener.getAttribute('data-sir-watch')); return; }
+      if(e.target.closest('.sir-lb-close')){ close(); return; }
+      if(e.target === lb){ close(); }
+    });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+  })();
+</script>
+</body>
+</html>

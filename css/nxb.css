@@ -1,0 +1,274 @@
+/* ============================================================
+   Nexus Black (NxB) — Colors & Type
+   Brand: Nexus Black, a sub-brand under IFS parent.
+   Agency: Drove Studio.
+   Philosophy: "We're a black and white brand" with greys and
+   a midnight purple accent. Premium, industrial, typographic.
+   ============================================================ */
+
+/* ---- Fonts ----
+   Primary display/body: PP Neue Montreal (Book/Regular/Medium/Bold)
+     — Not on Google Fonts. Nearest Google substitute: "Manrope"
+       (swap to PP Neue Montreal when licensed files are provided).
+   Secondary / UI: Suisse Int'l (Book/Medium/Semi Bold)
+     — Not on Google Fonts. Nearest Google substitute: "Inter Tight".
+   Mono metadata / technical: Suisse Int'l Mono
+     — Nearest Google substitute: "JetBrains Mono" (geometric mono).
+   Custom logotype: "NexusBlack Mono" (bespoke in Glyphs 3.0)
+     — Nearest open substitute: "Azeret Mono" / "Space Mono Bold".
+       Flagged to user: please provide the .otf/.ttf files.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Azeret+Mono:wght@400;700&display=swap');
+
+/* Real Suisse Int'l — supplied as .otf */
+@font-face { font-family: 'Suisse Intl'; font-weight: 100; font-style: normal; src: url('../fonts/SuisseIntl-Thin.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 200; font-style: normal; src: url('../fonts/SuisseIntl-UltraLight.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 300; font-style: normal; src: url('../fonts/SuisseIntl-Light.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 350; font-style: normal; src: url('../fonts/SuisseIntl-Book.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 400; font-style: normal; src: url('../fonts/SuisseIntl-Regular.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 500; font-style: normal; src: url('../fonts/SuisseIntl-Medium.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 600; font-style: normal; src: url('../fonts/SuisseIntl-SemiBold.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 700; font-style: normal; src: url('../fonts/SuisseIntl-Bold.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 900; font-style: normal; src: url('../fonts/SuisseIntl-Black.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 300; font-style: italic; src: url('../fonts/SuisseIntl-LightItalic.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 400; font-style: italic; src: url('../fonts/SuisseIntl-RegularItalic.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 500; font-style: italic; src: url('../fonts/SuisseIntl-MediumItalic.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl'; font-weight: 700; font-style: italic; src: url('../fonts/SuisseIntl-BoldItalic.otf') format('opentype'); font-display: swap; }
+
+@font-face { font-family: 'Suisse Intl Mono'; font-weight: 100; font-style: normal; src: url('../fonts/SuisseIntlMono-Thin.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl Mono'; font-weight: 400; font-style: normal; src: url('../fonts/SuisseIntlMono-Regular.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Suisse Intl Mono'; font-weight: 700; font-style: normal; src: url('../fonts/SuisseIntlMono-Bold.otf') format('opentype'); font-display: swap; }
+
+:root {
+  /* -------- Primary Palette (from Brand Book, Colour 01) -------- */
+  --nxb-black:            #000000; /* R:0 G:0 B:0 — canvas, ink */
+  --nxb-white:            #FFFFFF; /* R:255 G:255 B:255 — paper, reverse */
+  --nxb-dark-grey:        #232323; /* R:35 G:35 B:35 — near-black surface */
+  --nxb-grey-4:           #E1EBEB; /* R:225 G:235 B:235 — cool light neutral */
+  --nxb-midnight-purple:  #170430; /* R:23 G:4 B:48 — accent, restraint */
+
+  /* -------- Extended neutrals (derived, used across frames) -------- */
+  --nxb-grey-1:           #4F4F4F;
+  --nxb-grey-2:           #767676;
+  --nxb-grey-3:           #C4C4C4;
+  --nxb-grey-5:           #EAEBE6; /* warm paper tint seen in some frames */
+  --nxb-hairline:         rgba(0,0,0,0.12);
+  --nxb-hairline-light:   rgba(255,255,255,0.20);
+
+  /* -------- Shadow / Elevation (subtle, used sparingly) -------- */
+  --nxb-shadow-02: 0 1px 2px rgba(0,0,0,0.02);
+  --nxb-shadow-04: 0 2px 8px rgba(0,0,0,0.04);
+  --nxb-shadow-08: 0 8px 24px rgba(0,0,0,0.08);
+  --nxb-shadow-press: 0 0 0 1px rgba(0,0,0,0.15);
+
+  /* -------- Semantic foreground / background -------- */
+  --fg-1:   var(--nxb-black);   /* primary text on light */
+  --fg-2:   #4F4F4F;            /* secondary text */
+  --fg-3:   #8A8A8A;            /* tertiary / placeholder */
+  --fg-inv: var(--nxb-white);   /* text on dark */
+
+  --bg-1:   var(--nxb-white);
+  --bg-2:   var(--nxb-grey-4);
+  --bg-inv: var(--nxb-black);
+  --bg-accent: var(--nxb-midnight-purple);
+
+  --border-ink:    var(--nxb-black);
+  --border-light:  var(--nxb-hairline);
+  --border-reverse: var(--nxb-hairline-light);
+
+  /* -------- Type families -------- */
+  --font-display: 'Manrope', 'PP Neue Montreal', ui-sans-serif, system-ui, sans-serif;
+  --font-ui:      'Suisse Intl', 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    'Suisse Intl Mono', 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --font-logo:    'Azeret Mono', 'NexusBlack Mono', 'Suisse Intl Mono', ui-monospace, monospace;
+
+  /* -------- Type scale (from Brand Book usage audit) -------- */
+  --fs-hero:    120px;  /* wordmark / cover */
+  --fs-display: 80px;   /* section opening statements */
+  --fs-h1:      60px;   /* slide titles ("The Big Picture", "Primary Palette") */
+  --fs-h2:      48px;
+  --fs-h3:      30px;
+  --fs-h4:      20px;
+  --fs-body:    16px;   /* PP Neue Montreal Book 16/1.4 */
+  --fs-meta:    12px;   /* Suisse Mono 12/1.1 — chips, footer, labels */
+  --fs-micro:   10px;
+
+  /* -------- Line-heights -------- */
+  --lh-tight:   1.0;
+  --lh-snug:    1.1;
+  --lh-body:    1.4;
+  --lh-loose:   1.6;
+
+  /* -------- Letter-spacing (tight by default) -------- */
+  --tracking-tight:  -0.01em;
+  --tracking-snug:   -0.005em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.04em;   /* only for ALL-CAPS meta */
+
+  /* -------- Spacing scale (based on 20px gutter system) -------- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;   /* canonical: outer frame inset */
+  --space-6: 24px;
+  --space-8: 40px;   /* canonical: inner content inset */
+  --space-10: 60px;
+  --space-12: 80px;
+  --space-16: 120px;
+
+  /* -------- Radii — Nexus Black is hard-cornered by default -------- */
+  --radius-0: 0;          /* DEFAULT: no radius. Everything is a rectangle. */
+  --radius-soft: 2px;     /* only for tiny ornamental rounding */
+  --radius-pill: 999px;   /* reserved for a very small set of interactions */
+
+  /* -------- Motion -------- */
+  --ease-standard: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+  --ease-in:       cubic-bezier(0.4, 0.0, 1.0, 1.0);
+  --ease-out:      cubic-bezier(0.0, 0.0, 0.2, 1.0);
+  --dur-fast:      120ms;
+  --dur-med:       200ms;
+  --dur-slow:      400ms;
+}
+
+/* ============================================================
+   Semantic element styles
+   ============================================================ */
+
+.nxb-hero {
+  font-family: var(--font-logo);
+  font-size: var(--fs-hero);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-normal);
+  font-weight: 400;
+  color: var(--fg-1);
+}
+
+.nxb-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-display);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+
+.nxb-h1 {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+
+.nxb-h2 {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+
+.nxb-h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+
+.nxb-h4 {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: var(--fs-h4);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+
+.nxb-body {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+
+.nxb-meta {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+  text-transform: none;
+}
+
+.nxb-meta-caps {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+/* The signature chip — Suisse Mono in a thin black border */
+.nxb-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 10px;
+  border: 1px solid var(--border-ink);
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+  background: transparent;
+  border-radius: var(--radius-0);
+}
+.nxb-chip--muted { opacity: 0.6; }
+.nxb-chip--reverse { border-color: var(--fg-inv); color: var(--fg-inv); }
+
+/* Frame — the 1px border inset seen on every brand-book page */
+.nxb-frame {
+  position: absolute;
+  inset: 20px;
+  border: 1px solid var(--border-ink);
+  pointer-events: none;
+}
+.nxb-frame--reverse { border-color: var(--fg-inv); }
+
+/* Button — from components/Button. Flat, black fill, white Suisse Medium 12px. */
+.nxb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--nxb-black);
+  color: var(--nxb-white);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.1;
+  letter-spacing: var(--tracking-tight);
+  border: 1px solid var(--nxb-black);
+  border-radius: var(--radius-0);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard);
+}
+.nxb-btn:hover   { background: var(--nxb-dark-grey); }
+.nxb-btn:active  { background: var(--nxb-black); transform: translateY(0.5px); }
+.nxb-btn--ghost  { background: transparent; color: var(--nxb-black); }
+.nxb-btn--ghost:hover { background: var(--nxb-black); color: var(--nxb-white); }
+.nxb-btn--reverse { background: var(--nxb-white); color: var(--nxb-black); border-color: var(--nxb-white); }

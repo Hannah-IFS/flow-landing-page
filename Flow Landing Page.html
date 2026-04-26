@@ -1,0 +1,2499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Flow — IFS Nexus Black</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="css/nxb.css">
+<style>
+  /* ---------- Page shell ---------- */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#000;color:#fff;font-family:var(--font-ui);font-weight:350;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+  :root{
+    --purple:#7C5CFC;
+    --purple-deep:#170430;
+    --purple-soft:rgba(124,92,252,0.10);
+    --line-dark:rgba(255,255,255,0.14);
+    --line-light:rgba(0,0,0,0.10);
+    --dim-dark:rgba(255,255,255,0.82);
+    --faint-dark:rgba(255,255,255,0.55);
+    --dim-light:#2E2E2E;
+    --faint-light:#6B6B6B;
+  }
+
+  /* ---------- Top Nav ---------- */
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-dark)}
+  .nav .brand{display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:13px;letter-spacing:-0.01em;color:#fff}
+  .nav .brand img{height:20px;width:auto}
+  .nav .right{display:flex;align-items:center;gap:20px}
+  .nav .linklist{display:none}
+  @media(min-width:900px){.nav .linklist{display:flex;gap:28px;font-family:var(--font-ui);font-size:13px;color:var(--dim-dark)}
+    .nav .linklist a:hover{color:#fff}}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;background:linear-gradient(180deg,#7e3bdb 0%,#6520c2 55%,#4f14a3 100%);color:#fff;font-family:var(--font-mono);font-size:12px;letter-spacing:-0.01em;transition:all .18s ease;text-decoration:none;border:1px solid rgba(255,255,255,0.08);cursor:pointer;box-shadow:0 0 0 4px rgba(101,32,194,0.22),0 6px 16px rgba(79,20,163,0.5),inset 0 1px 0 rgba(255,255,255,0.15)}
+  .pill:hover{background:linear-gradient(180deg,#9150ea 0%,#7530d4 55%,#5a1bbd 100%);box-shadow:0 0 0 6px rgba(101,32,194,0.28),0 8px 22px rgba(79,20,163,0.55),inset 0 1px 0 rgba(255,255,255,0.2)}
+  .pill--ghost{background:transparent;border:1px solid var(--line-dark);color:#fff}
+  .pill--ghost:hover{background:rgba(255,255,255,0.05)}
+  .pill--ghost-light{background:transparent;border:1px solid rgba(0,0,0,0.18);color:#000}
+  .pill--ghost-light:hover{background:rgba(0,0,0,0.04)}
+
+  /* ---------- Section base ---------- */
+  section{padding:56px 48px;position:relative}
+  section.light + section.light{padding-top:0}
+  .inner{max-width:1240px;margin:0 auto;position:relative}
+  .inner--narrow{max-width:1040px}
+  .dark{background:#000;color:#fff}
+  .light{background:#F5F5F2;color:#000}
+
+  /* Corner bracket label (from screenshots) */
+  .cbl{position:relative;display:inline-block;padding:10px 16px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple)}
+  .cbl::before,.cbl::after{content:"";position:absolute;width:10px;height:10px;border:1px solid var(--purple)}
+  .cbl::before{top:0;left:0;border-right:0;border-bottom:0}
+  .cbl::after{bottom:0;right:0;border-left:0;border-top:0}
+
+  /* Section marker — mono decimal eyebrow (e.g. "0.3 Predictive Maintenance") */
+  .sec-mark{font-family:var(--font-mono);font-weight:400;font-size:13px;letter-spacing:0;line-height:1.4;color:inherit;display:block}
+  .sec-mark .num{margin-right:6px;color:inherit}
+  .dark .sec-mark{color:#fff}
+  .light .sec-mark{color:#000}
+
+  /* Type */
+  .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint-dark)}
+  .light .eyebrow{color:var(--dim-light)}
+  h1.display,h2.display{font-family:var(--font-ui);font-weight:500;letter-spacing:-0.02em;line-height:1.02}
+  .h-hero{font-size:clamp(52px,6.2vw,92px);font-weight:500;letter-spacing:-0.025em;line-height:1}
+  .h-section{font-size:clamp(38px,4.2vw,60px);font-weight:500;letter-spacing:-0.02em;line-height:1.02}
+  .h-sub{font-size:clamp(28px,2.6vw,36px);font-weight:500;letter-spacing:-0.015em;line-height:1.1}
+  .lede{font-family:var(--font-ui);font-weight:350;font-size:17px;line-height:1.55;color:var(--dim-dark);max-width:56ch}
+  .light .lede{color:var(--dim-light)}
+  .body{font-family:var(--font-ui);font-weight:350;font-size:15px;line-height:1.6;color:var(--dim-dark)}
+  .light .body{color:var(--dim-light)}
+  .italic-note{font-style:italic;color:var(--faint-dark);font-size:14px;line-height:1.55}
+  .light .italic-note{color:var(--faint-light)}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:32px 48px 56px;background:#000;position:relative}
+  .hero-media{width:100%;aspect-ratio:1000/430;background:#000;overflow:hidden;display:block;margin:0 0 56px}
+  .hero-media img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:start}
+  @media(min-width:900px){.hero-grid{grid-template-columns:1.55fr 1fr;gap:80px;align-items:flex-end}}
+  /* Headline — matches reference: ~36-40px, regular weight, tight leading, slight tracking-in */
+  .hero-statement{font-family:var(--font-ui);font-weight:400;font-size:clamp(26px,2.8vw,38px);line-height:1.18;letter-spacing:-0.012em;color:#fff;max-width:28ch;margin:0}
+  .hero-statement span{display:block}
+  .hero-statement .resolve{color:#fff;font-weight:400;letter-spacing:-0.012em}
+  .hero-aside{padding-top:6px;display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+  .hero-aside p{color:rgba(255,255,255,0.92);font-size:15px;line-height:1.5;max-width:38ch;margin:0;letter-spacing:-0.003em;font-family:var(--font-ui);font-weight:400}
+  .hero-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;letter-spacing:-0.005em;color:#fff;padding:2px 0;border-bottom:1px solid transparent;text-decoration:none;transition:border-color .18s;align-self:flex-end}
+  .hero-link:hover{border-bottom-color:#fff}
+  .hero-link .arr-glyph{display:inline-block;width:8px;height:8px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(-45deg);margin-left:4px}
+  .hero-link img.arr-glyph.arr-down{width:34px;height:auto;border:0;transform:none;margin-left:10px;display:inline-block;vertical-align:-14px;object-fit:contain}
+  .hero-cta-row{display:none}
+
+  /* ---------- Section 01 — Why Flow ---------- */
+  .why-grid{display:grid;grid-template-columns:1fr;gap:48px;padding:0;max-width:1400px;margin:0 auto}
+  @media(min-width:1000px){.why-grid{grid-template-columns:1fr 1fr;gap:20px;align-items:start}}
+  .why-left{display:flex;align-items:center;gap:16px;padding-top:8px}
+  .swirl{width:44px;height:44px;display:block;color:#000;flex-shrink:0;object-fit:contain}
+  .swirl-sm{width:64px;height:76px}
+  section.dark .swirl,.cta-left .swirl{color:#fff}
+  .why-label{font-family:var(--font-mono);font-size:14px;letter-spacing:-0.005em;color:#000}
+  .why-headline{font-family:var(--font-ui);font-weight:500;font-size:clamp(36px,3.8vw,52px);line-height:1.08;letter-spacing:-0.018em;color:#000;max-width:22ch}
+  .why-headline span{display:block}
+  .why-body{margin-top:44px;display:flex;flex-direction:column;gap:24px;max-width:52ch}
+  .why-body p{font-family:var(--font-ui);font-weight:400;font-size:15px;line-height:1.6;color:var(--dim-light);margin:0}
+
+  /* ---------- Section 02 — Animation ---------- */
+  .anim-wrap{margin-top:56px;position:relative;border:1px solid var(--line-light);background:#F7F6F4;padding:32px 24px;max-width:1100px;margin-left:auto;margin-right:auto}
+  .anim-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,0,0,0.5);padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,0.12)}
+  .anim-scene-label{color:var(--purple);letter-spacing:0.18em}
+  .anim-pbars{display:flex;gap:6px;justify-content:center;padding:18px 0 10px}
+  .anim-pbars .pb{width:52px;height:2px;background:rgba(0,0,0,0.08);transition:background .4s}
+
+  .anim-stage{position:relative;width:100%;padding-bottom:48%;margin-top:10px;background:#fff;border:1px solid var(--qa-panel-border, #EAE7E1);border-radius:12px;overflow:hidden}
+  .anim-stage>div,.anim-stage>svg{position:absolute;inset:0;width:100%;height:100%}
+  @keyframes cp{0%,100%{r:46;opacity:0.18}50%{r:54;opacity:0.08}}
+  .cpulse{animation:cp 2.6s ease-in-out infinite}
+  .nd{transition:all 0.6s ease}
+  .dot{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--purple);box-shadow:0 0 8px var(--purple);opacity:0}
+  @keyframes dot1{0%{left:17%;top:20%;opacity:0}50%{opacity:0.8}100%{left:50%;top:20%;opacity:0}}
+  @keyframes dot2{0%{left:50%;top:20%;opacity:0}50%{opacity:0.8}100%{left:83%;top:20%;opacity:0}}
+  @keyframes dot3{0%{left:83%;top:20%;opacity:0}50%{opacity:0.8}100%{left:83%;top:76%;opacity:0}}
+  @keyframes dot4{0%{left:83%;top:76%;opacity:0}50%{opacity:0.8}100%{left:50%;top:76%;opacity:0}}
+  @keyframes dot5{0%{left:50%;top:76%;opacity:0}50%{opacity:0.8}100%{left:17%;top:76%;opacity:0}}
+  @keyframes dot6{0%{left:17%;top:76%;opacity:0}50%{opacity:0.8}100%{left:17%;top:20%;opacity:0}}
+  @keyframes dot7{0%{left:17%;top:20%;opacity:0}50%{opacity:0.55}100%{left:50%;top:48%;opacity:0}}
+  @keyframes dot8{0%{left:50%;top:20%;opacity:0}50%{opacity:0.55}100%{left:50%;top:48%;opacity:0}}
+  @keyframes dot9{0%{left:83%;top:20%;opacity:0}50%{opacity:0.55}100%{left:50%;top:48%;opacity:0}}
+
+  .anim-status{display:flex;align-items:center;gap:14px;margin-top:14px;padding:14px 18px;border:1px solid rgba(0,0,0,0.1);background:rgba(0,0,0,0.02);transition:all 0.6s}
+  @keyframes pdot{0%,100%{opacity:0.35}50%{opacity:1}}
+  .anim-status .sd{width:7px;height:7px;border-radius:50%;flex-shrink:0;animation:pdot 1.4s ease-in-out infinite}
+  .anim-status .sl{font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;flex-shrink:0}
+  .anim-status .sdt{font-family:var(--font-ui);font-size:13px;color:rgba(0,0,0,0.65)}
+  .anim-meta{display:flex;justify-content:space-between;padding:12px 4px 0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(0,0,0,0.5)}
+  .anim-meta b{color:#000;font-weight:500;padding:0 4px}
+  .anim-caption{margin-top:28px;font-style:italic;color:rgba(0,0,0,0.5);font-size:14px;line-height:1.6;max-width:60ch}
+
+  /* ---------- Section 03 — What changes ---------- */
+  .wc-wrap{display:grid;grid-template-columns:1fr;gap:48px;margin-top:48px;max-width:1400px;margin-left:auto;margin-right:auto;align-items:start}
+  @media(min-width:1000px){.wc-wrap{grid-template-columns:0.9fr 1.4fr;gap:80px}}
+  .wc-left{position:sticky;top:80px;align-self:start;background:#000;padding-bottom:16px;z-index:2}
+  @media(min-width:1000px){.wc-left{padding-bottom:0}}
+  .wc-eyebrow{font-family:var(--font-mono);color:var(--purple);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:24px}
+  .wc-h{font-family:var(--font-ui);font-weight:500;font-size:clamp(36px,3.4vw,48px);line-height:1.05;letter-spacing:-0.018em;color:#fff;margin:0 0 24px}
+  .wc-h .dim{color:#8A8A8A}
+  .wc-sub{font-family:var(--font-ui);font-size:15px;line-height:1.6;color:var(--dim-dark);margin:0 0 32px;max-width:42ch}
+  .wc-meta{display:flex;flex-direction:column;gap:10px;border-top:1px solid rgba(255,255,255,0.16);padding-top:20px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.02em;color:rgba(255,255,255,0.55)}
+  .wc-meta div{display:flex;justify-content:space-between;gap:16px}
+  .wc-meta span:last-child{color:#fff}
+
+  .wc-list{display:none;flex-direction:column;gap:20px}
+  .wc-list.on{display:flex}
+  .wc-tabs{display:flex;gap:10px;margin-top:8px;border-top:1px solid rgba(255,255,255,0.16);padding-top:22px}
+  .wc-tab{background:transparent;border:1px solid rgba(255,255,255,0.16);color:rgba(255,255,255,0.55);font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;padding:10px 14px;cursor:pointer;transition:all 0.2s;border-radius:4px;text-align:left;line-height:1.3}
+  .wc-tab:hover{color:#fff;border-color:rgba(255,255,255,0.32)}
+  .wc-tab.on{background:var(--purple);border-color:var(--purple);color:#fff}
+  @media(min-width:1000px){.wc-tabs{flex-direction:column;align-items:stretch}}
+  .wc-row{display:grid;grid-template-columns:1fr;gap:0;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:28px 32px;transition:border-color .25s, background .25s}
+  .wc-row:hover{border-color:rgba(124,58,237,0.5);background:rgba(124,58,237,0.04)}
+  .wc-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:12px}
+  .wc-num{font-family:var(--font-mono);color:var(--purple);font-size:11px;letter-spacing:0.12em;text-transform:uppercase}
+  .wc-num .gt{opacity:0.5;margin-right:6px}
+  .wc-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5)}
+  .wc-title{font-family:var(--font-ui);font-weight:500;font-size:clamp(22px,1.8vw,28px);line-height:1.15;letter-spacing:-0.016em;color:#fff;margin:0 0 10px}
+  .wc-body{font-size:14px;line-height:1.6;color:var(--dim-dark);margin:0 0 22px;max-width:56ch}
+  .wc-delta{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;border-top:1px dashed rgba(255,255,255,0.16);padding-top:18px}
+  .wc-cell{display:flex;flex-direction:column;gap:4px}
+  .wc-cell .lbl{font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45)}
+  .wc-cell .val{font-family:var(--font-mono);font-size:15px;color:#fff;letter-spacing:-0.01em}
+  .wc-cell.before .val{color:rgba(255,255,255,0.5);text-decoration:line-through;text-decoration-color:rgba(255,255,255,0.25)}
+  .wc-cell.after .val{color:var(--purple)}
+  .wc-arrow{display:flex;align-items:center;color:rgba(255,255,255,0.35);font-family:var(--font-mono);font-size:14px;padding-top:14px}
+
+  /* light-section overrides */
+  .light .wc-h{color:#000}
+  .light .wc-h .dim{color:#8A8A8A}
+  .light .wc-sub{color:var(--dim-light)}
+  .light .wc-meta{border-top-color:var(--line-light);color:rgba(0,0,0,0.5)}
+  .light .wc-meta span:last-child{color:#000}
+  .light .wc-row{background:rgba(0,0,0,0.02);border-color:rgba(0,0,0,0.08)}
+  .light .wc-row:hover{border-color:rgba(124,58,237,0.4);background:rgba(124,58,237,0.04)}
+  .light .wc-tag{color:rgba(0,0,0,0.5)}
+  .light .wc-title{color:#000}
+  .light .wc-body{color:var(--dim-light)}
+  .light .wc-delta{border-top-color:rgba(0,0,0,0.15)}
+  .light .wc-cell .lbl{color:rgba(0,0,0,0.5)}
+  .light .wc-cell .val{color:#000}
+  .light .wc-cell.before .val{color:rgba(0,0,0,0.4);text-decoration-color:rgba(0,0,0,0.2)}
+  .light .wc-arrow{color:rgba(0,0,0,0.35)}
+
+  /* cbl on light bg */
+  .cbl-light{color:var(--purple)}
+
+  /* See-it-run: 2-col grid of animation cards (NxB industry-card style) */
+  .sir-grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:1400px;margin:0 auto}
+  @media(min-width:1000px){.sir-grid{grid-template-columns:1fr 1fr;gap:20px}}
+  .sir-card{background:#fff;border:1px solid var(--line-light);border-radius:6px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,0.02);display:flex;flex-direction:column;min-width:0}
+  .sir-card-head{display:flex;align-items:baseline;gap:14px;padding:6px 6px 14px;font-family:var(--font-mono);font-size:12px;letter-spacing:-0.005em;color:#000}
+  .sir-card-head .num{color:var(--faint-light)}
+  .sir-card-head .ttl{color:#000;font-family:var(--font-ui);font-weight:500;font-size:13px}
+  .sir-card-foot{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:20px 6px 6px;flex:1 1 auto}
+  .sir-card-foot h3{font-family:var(--font-ui);font-weight:500;font-size:17px;line-height:1.3;letter-spacing:-0.012em;color:#000;margin:0 0 6px}
+  .sir-card-foot p{font-size:13px;line-height:1.55;color:#6a6a72;margin:0;max-width:none}
+  .sir-card-foot .sir-more{margin-top:auto}
+  .sir-more{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:#000;color:#fff;font-family:var(--font-mono);font-size:11px;text-decoration:none;white-space:nowrap;transition:background 0.18s;border:0;cursor:pointer}
+  .sir-more:hover{background:#1a1a1a}
+  .sir-more .arr{display:inline-block;width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(-45deg);margin-left:2px}
+
+  /* Animation surface inside each card — lock to natural render width and scale down */
+  .sir-card-anim{position:relative;width:100%;overflow:hidden;border-radius:4px;min-height:200px}
+  .sir-fs{position:absolute;top:10px;right:10px;z-index:5;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,0.72);color:#fff;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background 0.18s, transform 0.18s}
+  .sir-fs:hover{background:#000;transform:scale(1.08)}
+  .sir-fs svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.6}
+  .sir-card-anim-inner{width:1100px;transform-origin:top left}
+  .sir-card .anim-wrap{margin:0;max-width:none;border:0;background:#F7F6F4;padding:16px 16px 16px;overflow:hidden;width:100%}
+  .sir-card .qanim-wrap{margin:0;border:0;overflow:hidden;width:100%}
+  .sir-lb .sir-card-anim{background:#F7F6F4}
+  .sir-lb .sir-card-anim .anim-wrap{padding:16px;background:#F7F6F4}
+  .sir-lb .sir-card-anim .qa2-stage{background:#F7F6F4;padding:16px 16px 16px}
+
+  /* Intro above the animation grid, right-aligned with the right card */
+  .sir-intro{display:grid;grid-template-columns:1fr;gap:20px;max-width:1400px;margin:0 auto 32px}
+  @media(min-width:1000px){.sir-intro{grid-template-columns:1fr 1fr;gap:20px}}
+  .sir-intro-spacer{display:none}
+  @media(min-width:1000px){.sir-intro-spacer{display:block}}
+  .sir-intro-body{display:flex;flex-direction:column;gap:16px;padding:0 6px}
+  .sir-intro-body p{font-family:var(--font-ui);font-size:15px;line-height:1.6;color:#6a6a72;margin:0;max-width:52ch}
+
+  /* Watch lightbox */
+  .sir-lb{position:fixed;inset:0;background:rgba(6,6,14,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:1000;display:none;align-items:center;justify-content:center;padding:40px 24px;overflow-y:auto}
+  .sir-lb.on{display:flex;animation:sirLbIn .25s ease-out}
+  @keyframes sirLbIn{from{opacity:0}to{opacity:1}}
+  .sir-lb-inner{width:100%;max-width:1280px;position:relative}
+  .sir-lb-close{position:fixed;top:20px;right:20px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.32);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:18px;padding:0;transition:background .18s, transform .18s;z-index:1001}
+  .sir-lb-close:hover{background:rgba(255,255,255,0.24);transform:scale(1.05)}
+  .sir-lb-stage{background:transparent;border-radius:6px;overflow:hidden;position:relative}
+  body.sir-lb-open{overflow:hidden}
+
+  /* ---------- Quoting Animation v2 (scoped with .qa2-) ---------- */
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+  }
+  .qa2-stage {
+    padding: 40px 40px 48px;
+    min-height: 700px;
+    position: relative;
+    overflow: hidden;
+    /* Scoped design tokens — ensure these exist wherever the stage is rendered
+       (in-page AND lifted into the fullscreen lightbox). */
+    --bg: #F7F6F4;
+    --panel: #FFFFFF;
+    --panel-border: rgba(0, 0, 0, 0.10);
+    --ink: #111111;
+    --ink-muted: #555555;
+    --ink-faint: #888888;
+    --purple-tint: rgba(124, 92, 252, 0.08);
+    --purple-border: rgba(124, 92, 252, 0.28);
+  }
+  .qa2-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+  .qa2-mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Header */
+  .qa2-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 20px; gap: 24px;
+  }
+  .qa2-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--purple);
+    letter-spacing: 2px; margin-bottom: 8px;
+  }
+  .qa2-desc { font-size: 13px; color: var(--ink-muted); font-style: italic; }
+
+  .qa2-header-right { display: flex; align-items: center; gap: 16px; }
+  .qa2-controls { display: flex; gap: 6px; }
+  .qa2-ctl-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 8px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+  }
+  .qa2-ctl-btn:hover {
+    background: var(--purple-tint);
+    border-color: var(--purple-border);
+    color: var(--purple);
+  }
+  .qa2-ctl-btn:active { transform: scale(0.96); }
+
+  /* =================================================================
+     TOP STRIP: compact input + cascade, side by side, slim height
+     ================================================================= */
+  .qa2-top-strip {
+    display: grid;
+    grid-template-columns: minmax(260px, 320px) 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+
+  .qa2-input-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    transition: border-color 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 160px;
+  }
+  .qa2-input-card.qa2-accented { border-color: var(--purple-border); }
+
+  .qa2-input-head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  }
+  .qa2-input-filename {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .qa2-input-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--purple);
+    letter-spacing: 1.5px;
+  }
+
+  .qa2-input-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 14px;
+  }
+  .qa2-input-meta-row {
+    display: flex; justify-content: space-between; gap: 8px;
+    font-size: 11px;
+  }
+  .qa2-input-meta-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--ink-faint);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .qa2-input-meta-val { color: var(--ink-muted); }
+
+  .qa2-delta {
+    padding: 9px 12px;
+    border-radius: 7px;
+    background: var(--purple-tint);
+    border: 1px solid var(--purple-border);
+    animation: qa2DeltaLand 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    margin-top: auto;
+  }
+  .qa2-delta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; color: var(--purple);
+    letter-spacing: 1.5px; margin-bottom: 4px;
+  }
+  .qa2-delta-row {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--ink); flex-wrap: wrap;
+  }
+  .qa2-delta-from { color: var(--ink-muted); }
+  .qa2-delta-old {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-faint);
+    text-decoration: line-through;
+  }
+  .qa2-delta-arrow { color: var(--ink-faint); }
+  .qa2-delta-new {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--purple); font-weight: 500;
+  }
+
+  /* Cascade — horizontal 5x2 grid */
+  .qa2-cascade-panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    min-height: 160px;
+  }
+  .qa2-cascade-head {
+    display: flex; justify-content: space-between;
+    align-items: baseline;
+  }
+  .qa2-cascade-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--ink-faint);
+    letter-spacing: 1.5px;
+    transition: color 0.4s ease;
+  }
+  .qa2-cascade-status.qa2-active { color: var(--purple); }
+  .qa2-cascade-status.qa2-pulsing { animation: qa2RethinkPulse 0.9s ease-in-out infinite; }
+
+  .qa2-cascade-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    flex: 1;
+  }
+  .qa2-cascade-box {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8px 10px; border-radius: 6px;
+    border: 1px solid var(--panel-border);
+    background: var(--bg);
+    transition: all 0.5s ease;
+    min-height: 42px;
+  }
+  .qa2-cascade-box.qa2-lit {
+    animation: qa2LightUp 0.5s ease-out both;
+    border-color: var(--green-border);
+    background: var(--green-tint);
+  }
+  .qa2-cascade-box.qa2-lit.qa2-resolving {
+    border-color: var(--purple-border);
+    background: var(--purple-tint);
+  }
+  .qa2-cascade-box.qa2-highlight-target {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.18);
+    transition: all 0.25s ease;
+  }
+  .qa2-cascade-label {
+    font-size: 11px; color: var(--ink-faint);
+    transition: color 0.4s ease;
+    line-height: 1.2;
+  }
+  .qa2-cascade-box.qa2-lit .qa2-cascade-label { color: var(--ink); }
+  .qa2-cascade-timing {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.5px;
+    color: var(--ink-faint);
+    transition: color 0.4s ease;
+    margin-top: 2px;
+  }
+  .qa2-cascade-box.qa2-lit .qa2-cascade-timing { color: var(--green); }
+  .qa2-cascade-box.qa2-lit.qa2-resolving .qa2-cascade-timing { color: var(--purple); }
+
+  /* =================================================================
+     HERO: the action — quote / options / question
+     ================================================================= */
+  .qa2-hero {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 24px 28px 28px;
+    transition: all 0.6s ease;
+    min-height: 320px;
+    position: relative;
+  }
+  .qa2-hero.qa2-active {
+    background: var(--purple-tint);
+    border-color: var(--purple-border);
+  }
+
+  .qa2-hero-empty {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-faint);
+    letter-spacing: 2px; text-align: center;
+    padding-top: 130px;
+  }
+
+  .qa2-hero-head {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--purple-border);
+    gap: 24px;
+  }
+  .qa2-hero-title-wrap {
+    display: flex; align-items: baseline; gap: 14px; flex: 1; min-width: 0;
+  }
+  .qa2-hero-title {
+    font-size: 20px; font-weight: 500; color: var(--ink);
+  }
+  .qa2-hero-sub {
+    font-size: 12px; color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  .qa2-hero-head-right {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .qa2-progress-wrap { display: flex; align-items: center; gap: 10px; }
+  .qa2-progress-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--ink-faint);
+    letter-spacing: 1.5px; margin-right: 4px;
+  }
+  .qa2-dot {
+    width: 10px; height: 10px; border-radius: 6px;
+    background: var(--panel-border);
+    transition: all 0.5s ease;
+  }
+  .qa2-dot.qa2-active { width: 28px; background: var(--purple); }
+  .qa2-dot.qa2-done   { background: var(--purple); }
+
+  .qa2-hero-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--purple);
+    letter-spacing: 1.5px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: rgba(124, 92, 252, 0.08);
+  }
+
+  /* Single quote layout */
+  .qa2-quote-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  }
+  .qa2-quote-line { animation: qa2FadeUp 0.6s ease-out both; }
+  .qa2-quote-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--ink-faint);
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .qa2-quote-val {
+    font-size: 15px; color: var(--ink); line-height: 1.35;
+    transition: color 0.5s ease;
+  }
+  .qa2-quote-val.qa2-price { font-size: 28px; font-weight: 600; line-height: 1; }
+  .qa2-quote-val.qa2-price.qa2-revised { color: var(--purple); }
+
+  /* Options cards */
+  .qa2-options-wrap {
+    display: grid; gap: 14px;
+  }
+  .qa2-options-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .qa2-options-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .qa2-option-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: all 0.35s ease;
+    position: relative;
+    animation: qa2FadeUp 0.6s ease-out both;
+    display: flex; flex-direction: column; gap: 12px;
+    min-height: 170px;
+  }
+  .qa2-option-card.qa2-selected {
+    border-color: var(--purple);
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.18), 0 8px 22px rgba(124, 92, 252, 0.12);
+  }
+  .qa2-option-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 1.5px;
+    color: var(--purple);
+  }
+  .qa2-option-headline {
+    font-size: 16px; color: var(--ink); font-weight: 500;
+    line-height: 1.3;
+  }
+  .qa2-option-meta {
+    display: flex; flex-direction: column; gap: 5px;
+    margin-top: auto;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .qa2-option-meta-row {
+    display: flex; justify-content: space-between; gap: 10px;
+  }
+  .qa2-option-meta-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1px;
+    color: var(--ink-faint); text-transform: uppercase;
+  }
+  .qa2-option-meta-val { color: var(--ink); font-weight: 500; }
+
+  /* Cursor */
+  .qa2-cursor {
+    position: absolute;
+    width: 22px; height: 28px;
+    pointer-events: none;
+    z-index: 25;
+    opacity: 0;
+    transform: translate(-4px, -2px);
+    transition: top 1.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                left 1.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                opacity 0.35s ease;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  }
+  .qa2-cursor.qa2-visible { opacity: 1; }
+  .qa2-cursor.qa2-clicking { animation: qa2CursorClick 0.35s ease-out; }
+
+  @keyframes qa2CursorClick {
+    0%   { transform: translate(-4px, -2px) scale(1); }
+    50%  { transform: translate(-4px, -2px) scale(0.82); }
+    100% { transform: translate(-4px, -2px) scale(1); }
+  }
+
+  /* Chiller detail pop-out */
+  .qa2-detail-popout {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    background: var(--panel);
+    border: 1px solid var(--purple-border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+    z-index: 20;
+    animation: qa2PopOut 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .qa2-detail-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--purple);
+    letter-spacing: 1.5px; margin-bottom: 8px;
+  }
+  .qa2-detail-title {
+    font-size: 18px; font-weight: 500; color: var(--ink);
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .qa2-detail-row {
+    display: grid; grid-template-columns: 130px 1fr;
+    gap: 12px; padding: 6px 0;
+    font-size: 12px;
+    align-items: baseline;
+  }
+  .qa2-detail-k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 1px;
+    color: var(--ink-faint); text-transform: uppercase;
+  }
+  .qa2-detail-v { color: var(--ink); line-height: 1.4; }
+  .qa2-detail-row.qa2-reason {
+    margin-top: 10px; padding-top: 12px;
+    border-top: 1px solid var(--panel-border);
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .qa2-detail-row.qa2-reason .qa2-detail-k { margin-bottom: 2px; }
+  .qa2-detail-row.qa2-reason .qa2-detail-v {
+    font-style: italic; color: var(--ink-muted); font-size: 12px;
+  }
+
+  /* Incoming question notification */
+  .qa2-notify {
+    position: absolute;
+    top: 90px; right: -8px;
+    width: 340px;
+    background: var(--panel);
+    border: 1px solid var(--purple-border);
+    border-left: 4px solid var(--purple);
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.10);
+    z-index: 15;
+    animation: qa2SlideInRight 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .qa2-notify-head {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+  }
+  .qa2-notify-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%; background: var(--purple);
+  }
+  .qa2-notify-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--purple); letter-spacing: 1.5px;
+  }
+  .qa2-notify-from {
+    font-size: 10px; color: var(--ink-faint);
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .qa2-notify-headline {
+    font-size: 15px; color: var(--ink); font-weight: 500;
+    margin-bottom: 8px; line-height: 1.35;
+  }
+  .qa2-notify-detail { font-size: 12px; color: var(--ink-muted); line-height: 1.45; }
+
+  @keyframes qa2FadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes qa2LightUp {
+    from { opacity: 0.55; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes qa2SlideInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes qa2RethinkPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+  @keyframes qa2DeltaLand {
+    0%   { opacity: 0; transform: scale(0.9); }
+    60%  { opacity: 1; transform: scale(1.04); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes qa2PopOut {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+  .sir-card .qa2-stage{border:0;background:transparent;padding:16px 16px 16px}
+  .sir-card .qa2-stage{background:#F7F6F4}
+
+  /* ---------- Section 04 — A day in the life ---------- */
+  .ditl-intro{max-width:760px}
+  .ditl-tabs{display:inline-flex;gap:8px;margin-top:36px;padding:4px;border:1px solid rgba(0,0,0,0.12);background:#fff}
+  .ditl-tab{padding:12px 20px;font-family:var(--font-mono);font-size:12px;letter-spacing:-0.005em;color:#000;background:transparent;cursor:pointer;transition:background .18s}
+  .ditl-tab.on{background:#000;color:#fff}
+  .ditl-tab:not(.on):hover{background:rgba(0,0,0,0.05)}
+  .ditl-panel{display:none;margin-top:48px}
+  .ditl-panel.on{display:block}
+
+  .ditl-section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin-bottom:28px}
+  .ditl-table{display:grid;grid-template-columns:1fr;gap:0}
+  @media(min-width:900px){
+    .ditl-table{
+      grid-template-columns:1fr 1fr;
+      column-gap:56px;
+      row-gap:0;
+    }
+    .ditl-table.rows-9{grid-template-rows:repeat(9,auto)}
+    .ditl-table.rows-8{grid-template-rows:repeat(8,auto)}
+    .ditl-table.rows-6{grid-template-rows:repeat(6,auto)}
+    .ditl-table.rows-7{grid-template-rows:repeat(7,auto)}
+    .ditl-col{display:grid;grid-template-rows:subgrid;grid-row:1 / -1}
+  }
+  .ditl-col{padding-top:0}
+  .ditl-col-head{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,0.18);margin-bottom:6px}
+  .ditl-col-title{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase}
+  .ditl-col-title.without{color:var(--faint-light)}
+  .ditl-col-title.with{color:var(--purple)}
+  .ditl-row{display:grid;grid-template-columns:90px 1fr;gap:24px;padding:24px 0;border-bottom:1px solid rgba(0,0,0,0.08)}
+  .ditl-time{font-family:var(--font-mono);font-size:13px;letter-spacing:-0.01em;color:#000;font-weight:500;line-height:1.4}
+  .ditl-event{font-family:var(--font-ui);font-size:14px;line-height:1.55;color:#000}
+  .ditl-event b{font-weight:500;color:#000}
+  .ditl-event .desc{color:var(--dim-light);font-weight:350}
+  .ditl-tag{display:inline-block;margin-top:10px;padding:4px 10px;font-family:var(--font-mono);font-size:11px;letter-spacing:-0.005em;background:rgba(0,0,0,0.05);color:#000;border-radius:2px}
+  .ditl-tag.red{background:rgba(226,75,74,0.08);color:#9E2F2E}
+  .ditl-tag.green{background:rgba(23,4,48,0.08);color:var(--purple-deep)}
+
+  .ditl-footer-note{margin-top:64px;padding-top:32px;border-top:1px solid rgba(0,0,0,0.12);font-style:italic;color:var(--faint-light);font-size:15px;max-width:60ch}
+
+  .ditl-summary{display:grid;grid-template-columns:1fr;gap:32px;margin-top:56px;padding-top:40px;border-top:1px solid rgba(0,0,0,0.18)}
+  @media(min-width:900px){.ditl-summary{grid-template-columns:1fr 1fr;gap:56px}}
+  .ditl-summary-col{}
+  .ditl-summary-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px}
+  .ditl-summary-col.without .ditl-summary-label{color:var(--faint-light)}
+  .ditl-summary-col.with .ditl-summary-label{color:var(--purple)}
+  .ditl-summary-col p{font-family:var(--font-ui);font-size:20px;line-height:1.4;letter-spacing:-0.012em;color:#000;margin:0;font-weight:350}
+
+  .ditl-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:24px 32px;margin-top:56px;padding-top:40px;border-top:1px solid rgba(0,0,0,0.18)}
+  @media(min-width:900px){.ditl-stats{grid-template-columns:repeat(4,1fr)}}
+  .ditl-stat{}
+  .ditl-stat .n{font-family:var(--font-ui);font-size:clamp(44px,5vw,64px);font-weight:500;letter-spacing:-0.02em;line-height:1;color:var(--purple)}
+  .ditl-stat .l{font-family:var(--font-mono);font-size:12px;letter-spacing:-0.005em;color:var(--dim-light);margin-top:10px;line-height:1.5}
+  .ditl-stat .l .was{color:var(--faint-light)}
+
+  /* ---------- Section 05 — Come and talk ---------- */
+  .cta-section{padding-top:120px;padding-bottom:120px}
+  .cta-grid{display:grid;grid-template-columns:1fr;gap:72px;align-items:start}
+  @media(min-width:900px){.cta-grid{grid-template-columns:1fr 1.15fr;gap:96px}}
+  .cta-left .swirl{width:44px;height:44px;margin-bottom:28px;display:block}
+  .cta-left h2{font-family:var(--font-ui);font-weight:500;font-size:clamp(30px,3.2vw,44px);line-height:1.05;letter-spacing:-0.02em;color:#fff;max-width:16ch}
+  .cta-left .lede-sm{margin-top:24px;font-size:16px;line-height:1.6;color:var(--dim-dark);max-width:50ch}
+  .cta-left .email{margin-top:36px;font-family:var(--font-ui);font-size:16px;color:#fff}
+  .cta-left .email a:hover{color:var(--purple)}
+  .cta-left .fine-note{margin-top:40px;padding-top:24px;border-top:1px solid var(--line-dark);font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint-dark);max-width:28ch;line-height:1.7}
+
+  .cta-form{display:grid;grid-template-columns:1fr 1fr;gap:18px 16px}
+  .cta-form .f{display:flex;flex-direction:column;gap:8px}
+  .cta-form .f.full{grid-column:1/-1}
+  .cta-form label{font-family:var(--font-ui);font-size:13px;color:#E8E8E8;letter-spacing:0;font-weight:400}
+  .cta-form label .req{color:var(--purple);margin-left:2px}
+  .cta-form input,.cta-form select,.cta-form textarea{width:100%;background:#F5F5F2;border:1px solid transparent;outline:none;color:#000;font-family:var(--font-ui);font-size:15px;padding:11px 14px;border-radius:0;transition:border-color .18s, background .18s}
+  .cta-form input:focus,.cta-form select:focus,.cta-form textarea:focus{border-color:var(--purple);background:#fff}
+  .cta-form textarea{min-height:96px;resize:vertical;font-family:var(--font-ui)}
+  .cta-form select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;color:#8A8A8A}
+  .cta-form select.has-value{color:#000}
+  .cta-form .consent{grid-column:1/-1;display:flex;gap:12px;align-items:flex-start;margin-top:4px;font-size:13px;color:var(--dim-dark);line-height:1.5}
+  .cta-form .consent input[type=checkbox]{width:16px;height:16px;margin-top:3px;flex-shrink:0;accent-color:var(--purple)}
+  .cta-form .consent a{color:var(--purple);text-decoration:underline}
+  .cta-form .submit-row{grid-column:1/-1;margin-top:4px}
+  .cta-form .submit-row button{font-family:var(--font-ui);font-weight:500;font-size:14px;padding:12px 28px}
+
+  /* ---------- Footer ---------- */
+  footer{padding:40px 48px;border-top:1px solid var(--line-dark);background:#000;color:var(--dim-dark);font-family:var(--font-mono);font-size:12px;letter-spacing:-0.005em}
+  .footer-inner{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
+  .footer-inner .brand-line{color:#fff}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(12px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.on{opacity:1;transform:none}
+
+  /* Utility */
+  .arr::after{content:" →";font-family:var(--font-mono)}
+  .divider{height:1px;background:var(--line-dark);width:100%;margin:0}
+
+  /* ---------- Mobile ---------- */
+  @media(max-width:700px){
+    section{padding:40px 20px}
+    .nav{padding:14px 20px}
+    .hero{padding:20px 20px 48px}
+    .hero-media{margin-bottom:36px;aspect-ratio:4/3}
+    footer{padding:32px 20px}
+    .cta-section{padding-top:72px;padding-bottom:72px}
+    .sir-card{padding:12px}
+    .sir-card-anim-inner{width:1100px} /* keep natural; scale handles it */
+    .qa2-stage{padding:24px 20px 28px;min-height:560px}
+    .anim-wrap{padding:20px 12px !important}
+    h1.display,h2.display{letter-spacing:-0.015em}
+    .hero-grid{gap:28px}
+    .why-grid{gap:32px;padding:0}
+    .wc-wrap{gap:28px}
+    .sir-grid{gap:16px}
+    .sir-intro{gap:16px;margin-bottom:24px}
+  }
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#000"/><circle cx="200" cy="200" r="80" fill="none" stroke="#7C5CFC" stroke-width="4"/><text x="200" y="210" font-family="monospace" font-size="28" fill="#fff" text-anchor="middle" font-weight="500">Flow</text><text x="200" y="310" font-family="monospace" font-size="11" fill="#7C5CFC" text-anchor="middle" letter-spacing="2">IFS NEXUSBLACK</text></svg></template>
+
+<!-- ================== NAV ================== -->
+<nav class="nav">
+  <div class="brand">
+    <img src="assets/logos/ifs-nexusblack-inline-white.png" alt="IFS NexusBlack">
+    <span style="opacity:0.4;margin:0 10px">·</span>
+    <span style="letter-spacing:0.18em;text-transform:uppercase;font-size:11px;color:var(--faint-dark)">Flow</span>
+  </div>
+  <div class="right">
+    <div class="linklist">
+      <a href="#what">What Flow does</a>
+      <a href="#animation">See it run</a>
+      <a href="#changes">What changes</a>
+      <a href="#ditl">A day in the life</a>
+    </div>
+    <a class="pill" href="#contact">Book a meeting</a>
+  </div>
+</nav>
+
+<!-- ================== HERO ================== -->
+<section class="hero">
+  <div class="inner">
+    <div class="hero-media">
+      <img src="assets/hero-manufacturing.png?v=3" alt="Three workers in PPE standing in front of two large industrial boilers in a process plant.">
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1 class="hero-statement">
+          <span>One line goes down.</span>
+          <span>One supplier slips.</span>
+          <span>One order moves.</span>
+          <span class="resolve">The whole plan re-solves.</span>
+        </h1>
+      </div>
+      <div class="hero-aside">
+        <p>Flow is our Industrial AI product for production planning and scheduling. It quotes the work against real capacity, plans the factory against what it can actually do, and re-solves the moment anything changes. Results in weeks, not quarters.</p>
+        <a class="hero-link" href="#animation">See how it works <img class="arr-glyph arr-down" src="assets/arrow-down-right-down.png?v=2" alt=""></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 01 WHAT FLOW DOES ================== -->
+<section class="light" id="what">
+  <div class="inner">
+    <div class="why-grid">
+      <div class="why-left">
+        <img class="swirl swirl-sm" src="assets/why-flow-swirl-black.png" alt="">
+        <span class="why-label">Why Flow</span>
+      </div>
+      <div class="why-right">
+        <h2 class="why-headline">
+          <span>Quote the work.</span>
+          <span>Plan the factory.</span>
+          <span style="color:#8A8A8A">Re-solve the moment anything changes.</span>
+        </h2>
+        <div class="why-body">
+          <p>Most planning tools run once a period. Flow runs every time something changes. Major events: a line goes down, a supplier slips, a priority order lands. Minor ones too: production or quality drops that usually wait until the next day.</p>
+          <p>Flow re-solves on the spot. Forecast, plan, and schedule together. Planner picks from the options on screen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 02 SEE IT RUN ================== -->
+<section class="light" id="animation">
+  <div class="inner">
+
+    <!-- Grid of two animation cards -->
+    <div class="sir-grid">
+
+    <!-- ===== Card 1: PRODUCTION ===== -->
+    <div class="sir-card">
+      <div class="sir-card-head">
+        <span class="num">01</span>
+        <span class="ttl">See it run: Production Planning and Scheduling</span>
+      </div>
+
+      <div class="sir-card-anim"><button class="sir-fs" type="button" data-sir-watch="production" aria-label="Open fullscreen" title="Open fullscreen"><svg viewBox="0 0 16 16"><path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4"/></svg></button><div class="sir-card-anim-inner">
+      <div class="anim-wrap" aria-label="Flow intelligence layer, live">
+      <div class="anim-top">
+        <span>Flow · Intelligence Layer</span>
+        <span id="scLabel" class="anim-scene-label">SCENARIO 1 OF 4 : LINE DOWN</span>
+      </div>
+      <div class="anim-pbars">
+        <div class="pb" id="pb0"></div>
+        <div class="pb" id="pb1"></div>
+        <div class="pb" id="pb2"></div>
+        <div class="pb" id="pb3"></div>
+      </div>
+
+      <div class="anim-stage">
+        <div>
+          <!-- moving purple dots along the perimeter -->
+          <div class="dot" style="animation:dot1 2.2s linear infinite"></div>
+          <div class="dot" style="animation:dot2 2.6s linear infinite 0.5s"></div>
+          <div class="dot" style="animation:dot3 2.9s linear infinite 1s"></div>
+          <div class="dot" style="animation:dot4 3.1s linear infinite 1.5s"></div>
+          <div class="dot" style="animation:dot5 3.4s linear infinite 2s"></div>
+          <div class="dot" style="animation:dot6 3.7s linear infinite 2.5s"></div>
+          <div class="dot" style="animation:dot7 2.1s linear infinite"></div>
+          <div class="dot" style="animation:dot8 2.5s linear infinite 0.5s"></div>
+          <div class="dot" style="animation:dot9 2.8s linear infinite 1s"></div>
+        </div>
+        <svg viewBox="0 35 660 318" preserveAspectRatio="xMidYMid meet" width="100%" height="100%">
+          <defs>
+            <filter id="ng"><feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#7C5CFC" flood-opacity="0.25"/></filter>
+            <filter id="na"><feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#7C5CFC" flood-opacity="0.7"/></filter>
+          </defs>
+          <!-- perimeter lines (dashed) -->
+          <line x1="120" y1="70" x2="330" y2="70" stroke="rgba(124,92,252,0.45)" stroke-width="1" stroke-dasharray="3 9"/>
+          <line x1="330" y1="70" x2="540" y2="70" stroke="rgba(124,92,252,0.45)" stroke-width="1" stroke-dasharray="3 9"/>
+          <line x1="540" y1="70" x2="540" y2="295" stroke="rgba(124,92,252,0.45)" stroke-width="1" stroke-dasharray="3 9"/>
+          <line x1="540" y1="295" x2="330" y2="295" stroke="rgba(124,92,252,0.45)" stroke-width="1" stroke-dasharray="3 9"/>
+          <line x1="330" y1="295" x2="120" y2="295" stroke="rgba(124,92,252,0.45)" stroke-width="1" stroke-dasharray="3 9"/>
+          <line x1="120" y1="295" x2="120" y2="70" stroke="rgba(124,92,252,0.45)" stroke-width="1" stroke-dasharray="3 9"/>
+          <!-- cross-links into centre -->
+          <line x1="120" y1="70" x2="330" y2="180" stroke="rgba(124,92,252,0.32)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <line x1="330" y1="70" x2="330" y2="180" stroke="rgba(124,92,252,0.32)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <line x1="540" y1="70" x2="330" y2="180" stroke="rgba(124,92,252,0.32)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <line x1="540" y1="295" x2="330" y2="180" stroke="rgba(124,92,252,0.32)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <line x1="330" y1="295" x2="330" y2="180" stroke="rgba(124,92,252,0.32)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <line x1="120" y1="295" x2="330" y2="180" stroke="rgba(124,92,252,0.32)" stroke-width="0.8" stroke-dasharray="4 8"/>
+          <!-- diagonal cross-connections -->
+          <line x1="120" y1="70" x2="540" y2="295" stroke="rgba(124,92,252,0.22)" stroke-width="0.6" stroke-dasharray="3 9"/>
+          <line x1="540" y1="70" x2="120" y2="295" stroke="rgba(124,92,252,0.22)" stroke-width="0.6" stroke-dasharray="3 9"/>
+
+          <!-- Centre: THE PLAN -->
+          <circle cx="330" cy="180" r="46" fill="none" stroke-width="0.8" class="cpulse" id="po" stroke="#7C5CFC"/>
+          <circle cx="330" cy="180" r="42" fill="rgba(255,255,255,0.95)" stroke="#7C5CFC" stroke-width="1.2" opacity="0.85" id="pi"/>
+          <text x="330" y="168" text-anchor="middle" fill="rgba(0,0,0,0.55)" font-size="7" font-family="'Suisse Intl Mono',monospace" letter-spacing="2">THE PLAN</text>
+          <text x="330" y="186" text-anchor="middle" font-size="8" font-weight="600" id="ps" fill="#7C5CFC">STEADY STATE</text>
+
+          <!-- Nodes -->
+          <g filter="url(#ng)" id="n0" class="nd">
+            <rect x="50" y="47" width="140" height="46" rx="8" fill="#fff" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r0"/>
+            <text x="120" y="66" text-anchor="middle" fill="#000" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Forecasting</text>
+            <text x="120" y="82" text-anchor="middle" fill="rgba(0,0,0,0.55)" font-size="8" font-family="'Suisse Intl Mono',monospace">by customer</text>
+          </g>
+          <g filter="url(#ng)" id="n1" class="nd">
+            <rect x="260" y="47" width="140" height="46" rx="8" fill="#fff" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r1"/>
+            <text x="330" y="66" text-anchor="middle" fill="#000" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Order obligations</text>
+            <text x="330" y="82" text-anchor="middle" fill="rgba(0,0,0,0.55)" font-size="8" font-family="'Suisse Intl Mono',monospace">priority + risk</text>
+          </g>
+          <g filter="url(#ng)" id="n2" class="nd">
+            <rect x="470" y="49" width="140" height="42" rx="8" fill="#fff" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r2"/>
+            <text x="540" y="74" text-anchor="middle" fill="#000" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Order changes</text>
+          </g>
+          <g filter="url(#ng)" id="n3" class="nd">
+            <rect x="470" y="272" width="140" height="46" rx="8" fill="#fff" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r3"/>
+            <text x="540" y="291" text-anchor="middle" fill="#000" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Production plan</text>
+            <text x="540" y="307" text-anchor="middle" fill="rgba(0,0,0,0.55)" font-size="8" font-family="'Suisse Intl Mono',monospace">capacity aware</text>
+          </g>
+          <g filter="url(#ng)" id="n4" class="nd">
+            <rect x="250" y="272" width="160" height="46" rx="8" fill="#fff" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r4"/>
+            <text x="330" y="291" text-anchor="middle" fill="#000" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Scheduling + Sequencing</text>
+            <text x="330" y="307" text-anchor="middle" fill="rgba(0,0,0,0.55)" font-size="8" font-family="'Suisse Intl Mono',monospace">changeover aware</text>
+          </g>
+          <g filter="url(#ng)" id="n5" class="nd">
+            <rect x="45" y="272" width="150" height="46" rx="8" fill="#fff" stroke="rgba(124,92,252,0.55)" stroke-width="0.8" id="r5"/>
+            <text x="120" y="291" text-anchor="middle" fill="#000" font-size="10.5" font-weight="500" font-family="'Suisse Intl',sans-serif">Unplanned events</text>
+            <text x="120" y="307" text-anchor="middle" fill="rgba(0,0,0,0.55)" font-size="8" font-family="'Suisse Intl Mono',monospace">options + trade-offs</text>
+          </g>
+
+          <text x="330" y="345" text-anchor="middle" fill="rgba(0,0,0,0.55)" font-size="9" font-family="'Suisse Intl Mono',monospace" letter-spacing="1">Resolving against: constraints · capacity · changeover · lead times · safety stock</text>
+        </svg>
+      </div>
+
+      <div class="anim-status" id="sb">
+        <div class="sd" id="sd" style="background:#7C5CFC"></div>
+        <span class="sl" id="sl" style="color:#7C5CFC">STEADY STATE</span>
+        <span class="sdt" id="sdt">Forecast, plan, and schedule running together.</span>
+      </div>
+
+      <div class="anim-meta">
+        <span><b id="ctr">0</b> disruptions resolved</span>
+        <span><b>0</b> line stoppages</span>
+        <span>Live · resolving continuously</span>
+      </div>
+    </div>
+      </div></div><!-- /sir-card-anim production -->
+
+      <div class="sir-card-foot">
+        <h3>Watch Flow plan and re-solve.</h3>
+        <p>Most planning tools run once a period and hope nothing changes. A line goes down, a customer pulls an order forward, a supplier slips, a new order lands. Each one re-solves the forecast, the plan, and the schedule together. Options surfaced, trade-offs visible, decision in the planner&apos;s hands.</p>
+        <button class="sir-more" type="button" data-sir-watch="production">Watch <span class="arr"></span></button>
+      </div>
+    </div><!-- /sir-card production -->
+
+    <!-- ===== Card 2: QUOTING ===== -->
+    <div class="sir-card">
+      <div class="sir-card-head">
+        <span class="num">02</span>
+        <span class="ttl">See it run: Quoting</span>
+      </div>
+
+      <div class="sir-card-anim"><button class="sir-fs" type="button" data-sir-watch="quoting" aria-label="Open fullscreen" title="Open fullscreen"><svg viewBox="0 0 16 16"><path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4"/></svg></button><div class="sir-card-anim-inner">
+      <div class="qa2-stage" id="qa2-stage-el">
+        <div class="qa2-inner" id="qa2-inner-el">
+      
+          <!-- Header -->
+          <div class="qa2-header">
+            <div>
+              <div class="qa2-desc">
+                A commercial developer is commissioning an office HVAC system. Three customer questions come in. Flow presents options back each time.
+              </div>
+            </div>
+            <div class="qa2-header-right">
+              <div class="qa2-controls">
+                <button class="qa2-ctl-btn" id="qa2-btn-play" aria-label="Pause" title="Pause">
+                  <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+                    <rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+                    <rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+                  </svg>
+                </button>
+                <button class="qa2-ctl-btn" id="qa2-btn-restart" aria-label="Restart" title="Restart">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7 A4 4 0 1 1 7 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                    <path d="M1 5 L3 7 L5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+      
+          <!-- TOP STRIP: compact input + cascade -->
+          <div class="qa2-top-strip">
+            <!-- Input card -->
+            <div class="qa2-input-card" id="qa2-input-panel">
+              <div id="qa2-input-empty-state">
+                <div class="qa2-input-head">
+                  <div class="qa2-input-filename" style="color: var(--ink-faint);">No active enquiry</div>
+                  <div class="qa2-input-label" style="color: var(--ink-faint);">DRAWING</div>
+                </div>
+                <div style="font-size: 11px; color: var(--ink-faint); margin-top: 8px;">
+                  Waiting for next order.
+                </div>
+              </div>
+              <div id="qa2-input-populated" style="display: none; flex-direction: column; gap: 10px; flex: 1;">
+                <div class="qa2-input-head">
+                  <div class="qa2-input-filename">office_tower_hvac_03.dwg</div>
+                  <div class="qa2-input-label">DRAWING</div>
+                </div>
+                <div class="qa2-input-meta-grid">
+                  <div class="qa2-input-meta-row">
+                    <span class="qa2-input-meta-key">Customer</span>
+                    <span class="qa2-input-meta-val">Commercial developer</span>
+                  </div>
+                  <div class="qa2-input-meta-row">
+                    <span class="qa2-input-meta-key">Floors</span>
+                    <span class="qa2-input-meta-val">2</span>
+                  </div>
+                  <div class="qa2-input-meta-row">
+                    <span class="qa2-input-meta-key">Format</span>
+                    <span class="qa2-input-meta-val">AutoCAD R2024</span>
+                  </div>
+                  <div class="qa2-input-meta-row">
+                    <span class="qa2-input-meta-key">Total area</span>
+                    <span class="qa2-input-meta-val">4,800m²</span>
+                  </div>
+                </div>
+                <div id="qa2-delta-slot"></div>
+              </div>
+            </div>
+      
+            <!-- Cascade panel -->
+            <div class="qa2-cascade-panel" id="qa2-cascade-panel-el">
+              <div class="qa2-cascade-head">
+                <div class="qa2-input-label">CONSTRAINT CASCADE</div>
+                <div class="qa2-cascade-status" id="qa2-cascade-status-el">IDLE</div>
+              </div>
+              <div class="qa2-cascade-grid" id="qa2-cascade-list"></div>
+              <div id="qa2-detail-slot"></div>
+            </div>
+          </div>
+      
+          <!-- HERO: where the action happens -->
+          <div class="qa2-hero" id="qa2-hero-el">
+            <div class="qa2-hero-empty" id="qa2-hero-empty-el">QUOTE WILL APPEAR WHEN CASCADE COMPLETES</div>
+            <div id="qa2-hero-content" style="display: none;">
+              <div class="qa2-hero-head">
+                <div class="qa2-hero-title-wrap">
+                  <div class="qa2-hero-title" id="qa2-hero-title-el">Quote ready</div>
+                  <div class="qa2-hero-sub" id="qa2-hero-sub-el"></div>
+                </div>
+                <div class="qa2-hero-head-right">
+                  <div class="qa2-progress-wrap">
+                    <div class="qa2-progress-label">QUESTIONS</div>
+                    <div class="qa2-dot" id="qa2-dot-0"></div>
+                    <div class="qa2-dot" id="qa2-dot-1"></div>
+                    <div class="qa2-dot" id="qa2-dot-2"></div>
+                  </div>
+                  <div class="qa2-hero-badge" id="qa2-hero-badge-el">READY TO SEND</div>
+                </div>
+              </div>
+              <div id="qa2-hero-body"></div>
+            </div>
+          </div>
+      
+          <!-- Overlays -->
+          <div id="qa2-notify-slot"></div>
+          <svg id="qa2-cursor-el" class="qa2-cursor" viewBox="0 0 22 28" fill="none">
+            <path d="M2 2 L2 22 L7 17.5 L11 25 L14 23.5 L10 16 L17 15 Z"
+                  fill="#0B0B12" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+      
+        </div>
+      </div>
+      
+      </div></div><!-- /sir-card-anim quoting -->
+
+      <div class="sir-card-foot">
+        <h3>Watch Flow quote and re-solve.</h3>
+        <p>Most quoting takes weeks, and every change starts the clock again. Flow reads the input, works through the full constraint system, and produces a quote in minutes. Customer changes a parameter, the whole quote re-solves. Works wherever the spec, the drawing, or the tender drives the quote.</p>
+        <button class="sir-more" type="button" data-sir-watch="quoting">Watch <span class="arr"></span></button>
+      </div>
+    </div><!-- /sir-card quoting -->
+
+    </div><!-- /sir-grid -->
+  </div>
+</section>
+
+<!-- ================== 03 WHAT CHANGES ================== -->
+<section class="dark" id="changes">
+  <div class="inner">
+    <div class="sec-mark"><span class="num">03</span>What changes</div>
+
+    <div class="wc-wrap">
+      <div class="wc-left">
+        <div class="wc-eyebrow">Day one &middot; measurable</div>
+        <h2 class="wc-h">Three things that <span class="dim">change on day one.</span></h2>
+        <p class="wc-sub">Not a roadmap. Not a pilot result. What planners and engineers see the week Flow goes live.</p>
+        <div class="wc-tabs" role="tablist">
+          <button class="wc-tab on" type="button" data-wc-tab="production">Production Planning &amp; Scheduling</button>
+          <button class="wc-tab" type="button" data-wc-tab="quoting">Quoting</button>
+        </div>
+      </div>
+
+      <div class="wc-list on" id="wc-production">
+        <div class="wc-row">
+          <div class="wc-head">
+            <div class="wc-num"><span class="gt">&gt;</span>01 &middot; Absorb change</div>
+            <div class="wc-tag">Service level</div>
+          </div>
+          <h3 class="wc-title">Absorb change as it happens.</h3>
+          <p class="wc-body">Every day starts off-plan. Overnight runs missed quantity, a supplier slips, a line goes down at 13:00. Flow reconciles what actually happened, re-solves the plan, and puts the options on screen. Planner picks.</p>
+          <div class="wc-delta">
+            <div class="wc-cell before"><span class="lbl">Before</span><span class="val">Hours of rebuilding, every day</span></div>
+            <div class="wc-arrow">&rarr;</div>
+            <div class="wc-cell after"><span class="lbl">With Flow</span><span class="val">Minutes, options on screen</span></div>
+          </div>
+        </div>
+
+        <div class="wc-row">
+          <div class="wc-head">
+            <div class="wc-num"><span class="gt">&gt;</span>02 &middot; Throughput</div>
+            <div class="wc-tag">Throughput</div>
+          </div>
+          <h3 class="wc-title">Produce more in the factory you already have.</h3>
+          <p class="wc-body">The schedule isn&apos;t as full as it looks. Flow sequences against real constraints &mdash; changeovers, clean-downs, allergen rules, shift patterns &mdash; and surfaces capacity that was always there. More good units, same lines, same people.</p>
+          <div class="wc-delta">
+            <div class="wc-cell before"><span class="lbl">Before</span><span class="val">Capex conversation to make more</span></div>
+            <div class="wc-arrow">&rarr;</div>
+            <div class="wc-cell after"><span class="lbl">With Flow</span><span class="val">Hidden capacity, surfaced</span></div>
+          </div>
+        </div>
+
+        <div class="wc-row">
+          <div class="wc-head">
+            <div class="wc-num"><span class="gt">&gt;</span>03 &middot; Inventory</div>
+            <div class="wc-tag">Working capital</div>
+          </div>
+          <h3 class="wc-title">Optimise inventory levels and safety stock.</h3>
+          <p class="wc-body">Most of what&apos;s on your shelves is insurance against a plan that can&apos;t react. When the plan reacts in minutes, the insurance shrinks. Flow re-tunes safety stock across finished goods, WIP and raw materials. Same service level, less working capital.</p>
+          <div class="wc-delta">
+            <div class="wc-cell before"><span class="lbl">Before</span><span class="val">Cash sitting on shelves</span></div>
+            <div class="wc-arrow">&rarr;</div>
+            <div class="wc-cell after"><span class="lbl">With Flow</span><span class="val">Stock sized to today&apos;s reality</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wc-list" id="wc-quoting">
+        <div class="wc-row">
+          <div class="wc-head">
+            <div class="wc-num"><span class="gt">&gt;</span>01 &middot; Speed</div>
+            <div class="wc-tag">Response time</div>
+          </div>
+          <h3 class="wc-title">Quote in hours, not weeks.</h3>
+          <p class="wc-body">Drawing, spec, or tender in. Flow works the full constraint system &mdash; materials, manufacturability, sourcing, lead times, margin &mdash; and produces an accurate quote the same day. Respond to more enquiries than the competition. Win on speed.</p>
+          <div class="wc-delta">
+            <div class="wc-cell before"><span class="lbl">Before</span><span class="val">Weeks per quote</span></div>
+            <div class="wc-arrow">&rarr;</div>
+            <div class="wc-cell after"><span class="lbl">With Flow</span><span class="val">Same day, accurate</span></div>
+          </div>
+        </div>
+
+        <div class="wc-row">
+          <div class="wc-head">
+            <div class="wc-num"><span class="gt">&gt;</span>02 &middot; Change</div>
+            <div class="wc-tag">Win rate</div>
+          </div>
+          <h3 class="wc-title">Every change re-solves the whole quote.</h3>
+          <p class="wc-body">Customer changes a parameter &mdash; longer span, different material, tighter tolerance. Today, the clock restarts. With Flow, the whole quote re-solves and the engineer picks from options on screen. Decide while the customer is still on the call.</p>
+          <div class="wc-delta">
+            <div class="wc-cell before"><span class="lbl">Before</span><span class="val">Restart the quote, restart the clock</span></div>
+            <div class="wc-arrow">&rarr;</div>
+            <div class="wc-cell after"><span class="lbl">With Flow</span><span class="val">Options on screen, in minutes</span></div>
+          </div>
+        </div>
+
+        <div class="wc-row">
+          <div class="wc-head">
+            <div class="wc-num"><span class="gt">&gt;</span>03 &middot; Win rate</div>
+            <div class="wc-tag">Gross margin</div>
+          </div>
+          <h3 class="wc-title">Quote more. Win more. Protect margin.</h3>
+          <p class="wc-body">When quoting takes a week, engineers chase the winnable ones and inflate prices on the rest to cover what they&apos;re unsure about. When quoting takes hours, every enquiry gets an answer priced on real costs. More shots on goal. Margin held.</p>
+          <div class="wc-delta">
+            <div class="wc-cell before"><span class="lbl">Before</span><span class="val">Triaged enquiries, inflated prices</span></div>
+            <div class="wc-arrow">&rarr;</div>
+            <div class="wc-cell after"><span class="lbl">With Flow</span><span class="val">Every enquiry answered, on real cost</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 04 A DAY IN THE LIFE ================== -->
+<section class="light" id="ditl">
+  <div class="inner">
+    <div class="sec-mark"><span class="num">04</span>A day in the life</div>
+
+    <div class="ditl-intro" style="margin-top:24px">
+      <h2 class="h-section" style="color:#000">A day in a plant.<br><span style="color:#8A8A8A;font-weight:500">A cycle in an engineered quote.</span></h2>
+      <p class="lede" style="color:var(--dim-light);margin-top:18px">Two ways the same problem shows up. Same factory, same people, two very different days. Flip between them.</p>
+    </div>
+
+    <div class="ditl-tabs" role="tablist">
+      <button class="ditl-tab on" data-tab="plant" id="tb-plant">Day in a plant</button>
+      <button class="ditl-tab" data-tab="quote" id="tb-quote">Engineered quote cycle</button>
+    </div>
+
+    <!-- PLANT PANEL -->
+    <div class="ditl-panel on" id="panel-plant">
+      <div class="ditl-section-label">Plant &middot; a day</div>
+      <div class="ditl-table rows-7">
+        <!-- WITHOUT -->
+        <div class="ditl-col">
+          <div class="ditl-col-head">
+            <span class="ditl-col-title without">Without Flow</span>
+            <span class="ditl-col-title without">Timeline</span>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">07:00</div>
+            <div class="ditl-event">
+              <b>Lead planner arrives.</b>
+              <span class="desc"> Yesterday&apos;s plan got disrupted half a dozen times. None of it is optimal for today. Planner opens Excel, rebuilds today&apos;s schedule, knows they&apos;ll do this again tomorrow.</span>
+              <div><span class="ditl-tag red">+1 hr rebuilding</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">08:15</div>
+            <div class="ditl-event">
+              <b>Demand shifts.</b>
+              <span class="desc"> Two orders cancelled. Another came in larger than expected. Planner scrambles across three systems, then spends the next half hour updating shop orders and republishing the schedule.</span>
+              <div><span class="ditl-tag red">+45 min scramble</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">11:30</div>
+            <div class="ditl-event">
+              <b>New order opportunity.</b>
+              <span class="desc"> &ldquo;Can we take it?&rdquo; Schedule looks full. Planner says no.</span>
+              <div><span class="ditl-tag red">Order turned away</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">15:00</div>
+            <div class="ditl-event">
+              <b>Quality issue on Line 3.</b>
+              <span class="desc"> Third time this week. Planner can&apos;t get to root cause &mdash; too busy replanning.</span>
+              <div><span class="ditl-tag red">Root cause untouched</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">18:00</div>
+            <div class="ditl-event">
+              <b>Planner leaves late.</b>
+              <span class="desc"> Day spent rebuilding. Tomorrow will be the same.</span>
+              <div><span class="ditl-tag red">Long day. 0 hrs improving.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WITH -->
+        <div class="ditl-col">
+          <div class="ditl-col-head">
+            <span class="ditl-col-title with">With Flow</span>
+            <span class="ditl-col-title with">Timeline</span>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">07:00</div>
+            <div class="ditl-event">
+              <b>Today&apos;s plan already reflects last night.</b>
+              <span class="desc"> Flow compared what came off the line against what was planned. Three lines were off. Today&apos;s plan is already corrected. Planner reviews, approves.</span>
+              <div><span class="ditl-tag green">Done in minutes</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">07:20</div>
+            <div class="ditl-event">
+              <b>Cancellations absorbed. Larger order flagged.</b>
+              <span class="desc"> The cancellations adjust silently. The larger order needs a call: safety stock, push another order, or overtime. Flow shows the options. Planner decides.</span>
+              <div><span class="ditl-tag green">Adjusted automatically</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">11:30</div>
+            <div class="ditl-event">
+              <b>Real capacity checked.</b>
+              <span class="desc"> Schedule isn&apos;t as full as it looks. Flow finds the room two ways: safety stock that&apos;s oversized for that customer, or a sequencing change that lines up with other orders where the materials are already on site. Order taken.</span>
+              <div><span class="ditl-tag green">Revenue captured</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">15:00</div>
+            <div class="ditl-event">
+              <b>Out on the floor.</b>
+              <span class="desc"> Planner walks Line 3 to investigate and correct the issue at source.</span>
+              <div><span class="ditl-tag green">Problem solved</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">16:00</div>
+            <div class="ditl-event">
+              <b>Planner leaves after 8 hours.</b>
+              <span class="desc"> Flow flagged Line 3 falling behind at lunchtime. Planner spent the afternoon on root cause and got the day&apos;s production back on track.</span>
+              <div><span class="ditl-tag green">+3 hrs on root cause</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ditl-summary">
+        <div class="ditl-summary-col without">
+          <div class="ditl-summary-label">Without Flow</div>
+          <p>A chaotic day that ate the planner&apos;s shift. Most of it at the desk: Excel, calls, meetings to reconcile numbers. One order turned away.</p>
+        </div>
+        <div class="ditl-summary-col with">
+          <div class="ditl-summary-label">With Flow</div>
+          <p>Same chaotic day, absorbed into a handful of decisions. Factory ran close to optimal. Planner spent the afternoon on the floor: a recurring quality issue, a slowdown on Line 3, the yield gap on the night shift.</p>
+        </div>
+      </div>
+
+      <div class="ditl-stats">
+        <div class="ditl-stat"><div class="n">4</div><div class="l">disruptions absorbed</div></div>
+        <div class="ditl-stat"><div class="n">1</div><div class="l">order taken</div></div>
+        <div class="ditl-stat"><div class="n">1</div><div class="l">plan all day</div></div>
+        <div class="ditl-stat"><div class="n">0</div><div class="l">carry-over</div></div>
+      </div>
+
+      <div class="ditl-footer-note">Not every day is this eventful. Flow makes the extraordinary ordinary.</div>
+    </div>
+
+    <!-- QUOTE PANEL -->
+    <div class="ditl-panel" id="panel-quote">
+      <div class="ditl-section-label">Engineered quote &middot; a cycle</div>
+      <div class="ditl-table rows-7">
+        <div class="ditl-col">
+          <div class="ditl-col-head">
+            <span class="ditl-col-title without">Without Flow</span>
+            <span class="ditl-col-title without">Timeline</span>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 1</div>
+            <div class="ditl-event">
+              <b>RFQ, RFI, or tender pack arrives.</b>
+              <span class="desc"> Sales logs it. Applications engineering will investigate. Two others already ahead in the queue.</span>
+              <div><span class="ditl-tag red">Queue, no start</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 3</div>
+            <div class="ditl-event">
+              <b>Applications engineering starts.</b>
+              <span class="desc"> Spec interpreted. Initial parts list built manually. Rough sizing in spreadsheets.</span>
+              <div><span class="ditl-tag red">Manual build</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 4</div>
+            <div class="ditl-event">
+              <b>Clarification needed.</b>
+              <span class="desc"> Engineering works for three days. On day four they realise they need a clarification from the customer. Three days lost.</span>
+              <div><span class="ditl-tag red">3 days lost</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Week 2</div>
+            <div class="ditl-event">
+              <b>Customer iterates.</b>
+              <span class="desc"> Customer comes back: &ldquo;what would 20% more capacity look like?&rdquo; Engineering goes back to the drawing board. Two more days.</span>
+              <div><span class="ditl-tag red">Start again</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Week 3</div>
+            <div class="ditl-event">
+              <b>Senior engineer review.</b>
+              <span class="desc"> Six documents, four spreadsheets, two engineers&apos; calculations to chase down. Where did this number come from? Nobody can quite remember.</span>
+              <div><span class="ditl-tag red">Escalated</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">End of week 3</div>
+            <div class="ditl-event">
+              <b>Customer accepts.</b>
+              <span class="desc"> Quote package assembled by hand. Now someone has to type the order into the production system. Materials chased down. Crews scheduled. Days lost between yes and the first day of work.</span>
+              <div><span class="ditl-tag red">Days lost in handover</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ditl-col">
+          <div class="ditl-col-head">
+            <span class="ditl-col-title with">With Flow</span>
+            <span class="ditl-col-title with">Timeline</span>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 1<br><span style="font-weight:400;color:var(--faint-light)">morning</span></div>
+            <div class="ditl-event">
+              <b>RFQ, RFI, or tender pack arrives.</b>
+              <span class="desc"> Flow reads the drawing, the spec, and the budget. Works through the engineering rules. First draft back, complete with pricing and timelines, in minutes. Any clarification questions flagged on the way through.</span>
+              <div><span class="ditl-tag green">First quote ready</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 1<br><span style="font-weight:400;color:var(--faint-light)">afternoon</span></div>
+            <div class="ditl-event">
+              <b>Quote sent same day.</b>
+              <span class="desc"> Sales engineer reviews the Flow output, sanity-checks the numbers, sends the quote to the customer. Lead time and capacity backed by the live production plan.</span>
+              <div><span class="ditl-tag green">Same-day response</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 1</div>
+            <div class="ditl-event">
+              <b>Clarification flagged.</b>
+              <span class="desc"> Same clarification flagged on the first pass. Customer hears the question before engineering picks up a pencil.</span>
+              <div><span class="ditl-tag green">Day 1, not day 4</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 2</div>
+            <div class="ditl-event">
+              <b>Customer iterates.</b>
+              <span class="desc"> Flow already considered alternatives on the first pass. New requirement comes in, multiple priced options come back same day. Sales picks one.</span>
+              <div><span class="ditl-tag green">Re-solved same day</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 4</div>
+            <div class="ditl-event">
+              <b>Senior engineer signs.</b>
+              <span class="desc"> Every number cites its source. Every decision shows its working. Senior engineer reads, asks one question, signs.</span>
+              <div><span class="ditl-tag green">Same pace</span></div>
+            </div>
+          </div>
+
+          <div class="ditl-row">
+            <div class="ditl-time">Day 5</div>
+            <div class="ditl-event">
+              <b>Customer says yes.</b>
+              <span class="desc"> Quote package generated as part of the quote. On acceptance, BOM, BOQ, and schedule dispatched. Materials and crews lined up the same day. The first day of work starts the day after the customer signs.</span>
+              <div><span class="ditl-tag green">Yes to work, next day</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ditl-summary">
+        <div class="ditl-summary-col without">
+          <div class="ditl-summary-label">Without Flow</div>
+          <p>Revenue capped by how fast sales engineering can write quotes.</p>
+        </div>
+        <div class="ditl-summary-col with">
+          <div class="ditl-summary-label">With Flow</div>
+          <p>Same engineering team, more quotes out the door. Customers hear back in a day. Competitors are still on week three.</p>
+        </div>
+      </div>
+
+      <div class="ditl-footer-note">Not every day is this eventful. Flow makes the extraordinary ordinary.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 05 COME AND TALK ================== -->
+<section class="dark cta-section" id="contact">
+  <div class="inner">
+    <div class="sec-mark"><span class="num">05</span>Come and talk</div>
+
+    <div class="cta-grid" style="margin-top:40px">
+      <div class="cta-left">
+        <h2>The plan your operation should have been running all along.</h2>
+        <p class="lede-sm">The next step is a conversation. Thirty minutes to understand your operation. How you plan today, where it breaks, what&apos;s carried in the senior planner&apos;s head. Then we show you where Flow would fit. If it&apos;s a fit, we talk about a proof of value on your data. If it&apos;s not, you&apos;ve spent half an hour.</p>
+        <div class="email"><a href="mailto:nexusblack@ifs.com">nexusblack@ifs.com</a></div>
+      </div>
+
+      <form class="cta-form" onsubmit="event.preventDefault();alert('Thanks \u2014 we\u2019ll be in touch.')">
+        <div class="f full">
+          <label>Business Email<span class="req">*</span></label>
+          <input type="email" required>
+        </div>
+        <div class="f full">
+          <label>First Name<span class="req">*</span></label>
+          <input type="text" required>
+        </div>
+        <div class="f full">
+          <label>Company<span class="req">*</span></label>
+          <input type="text" required>
+        </div>
+        <label class="consent">
+          <input type="checkbox" required>
+          <span>By ticking this box, you agree to our processing of your data as described in our <a href="#">Privacy Policy</a> and to receiving relevant information from us.<span class="req">*</span></span>
+        </label>
+        <div class="submit-row">
+          <button type="submit" class="pill">Contact Us</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================== FOOTER ================== -->
+<footer>
+  <div class="footer-inner">
+    <div class="brand-line">IFS NEXUS BLACK &nbsp;·&nbsp; FLOW</div>
+    <div>Industrial AI, at the point of work.</div>
+    <div style="color:var(--faint-dark)">nexusblack.com</div>
+  </div>
+</footer>
+
+<!-- ================== SCRIPTS ================== -->
+<script>
+  // DITL tabs
+  document.querySelectorAll('.ditl-tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var tab = btn.dataset.tab;
+      document.querySelectorAll('.ditl-tab').forEach(function(b){ b.classList.toggle('on', b.dataset.tab === tab); });
+      document.querySelectorAll('.ditl-panel').forEach(function(p){ p.classList.remove('on'); });
+      document.getElementById('panel-' + tab).classList.add('on');
+    });
+  });
+
+  // What-changes tabs (Production / Quoting)
+  document.querySelectorAll('.wc-tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var tab = btn.dataset.wcTab;
+      document.querySelectorAll('.wc-tab').forEach(function(b){ b.classList.toggle('on', b.dataset.wcTab === tab); });
+      document.querySelectorAll('.wc-list').forEach(function(p){ p.classList.remove('on'); });
+      document.getElementById('wc-' + tab).classList.add('on');
+    });
+  });
+
+  // Animation state machine
+  var SN = ["LINE DOWN","PULL-IN REQUEST","SUPPLIER DELAY","NEW ORDER"];
+  var SC = [
+    {s:"CHANGE DETECTED", d:"Line 2 down. Maintenance says two hours.",            c:"#7C5CFC", a:[5,3,4], g:0},
+    {s:"RE-SOLVING",      d:"Evaluating: move to Line 4, pull forward, or wait.",  c:"#F59E0B", a:[5,3,4], g:0},
+    {s:"RE-SOLVED",       d:"Moved to Line 4. Production resumed in 45 minutes.",  c:"#22C55E", a:[0,1,2,3,4,5], g:0},
+    {s:"CHANGE DETECTED", d:"Pull-in request: Henderson order moved up 2 weeks.",  c:"#7C5CFC", a:[2,1,4], g:1},
+    {s:"RE-SOLVING",      d:"Checking capacity, materials, and commitments.",      c:"#F59E0B", a:[2,1,3,4], g:1},
+    {s:"RE-SOLVED",       d:"Midwest order shifted 3 days. Schedule updated.",     c:"#22C55E", a:[0,1,2,3,4,5], g:1},
+    {s:"CHANGE DETECTED", d:"Supplier delay. Packaging materials ETA Friday.",     c:"#7C5CFC", a:[5,0,3], g:2},
+    {s:"RE-SOLVING",      d:"Evaluating: safety stock, alt PO, or reschedule.",    c:"#F59E0B", a:[5,0,3,4], g:2},
+    {s:"RE-SOLVED",       d:"Safety stock allocated. No line stoppage.",           c:"#22C55E", a:[0,1,2,3,4,5], g:2},
+    {s:"CHANGE DETECTED", d:"New order from regional chain. Can we take it?",      c:"#7C5CFC", a:[1,3,4], g:3},
+    {s:"RE-SOLVING",      d:"Checking schedule against live capacity.",            c:"#F59E0B", a:[1,3,4,0], g:3},
+    {s:"RE-SOLVED",       d:"Capacity confirmed. Order accepted. Revenue captured.", c:"#22C55E", a:[0,1,2,3,4,5], g:3}
+  ];
+  var tk = 0, resolved = 0;
+  function applyFrame(){
+    var x = SC[tk % SC.length];
+    var ps = document.getElementById('ps');
+    ps.textContent = x.s;
+    ps.setAttribute('fill', x.c);
+    var po = document.getElementById('po');
+    var pi = document.getElementById('pi');
+    po.setAttribute('stroke', x.c);
+    pi.setAttribute('stroke', x.c);
+    if (x.s === 'CHANGE DETECTED'){ po.setAttribute('r','54'); pi.setAttribute('stroke-width','2');   pi.setAttribute('opacity','0.75'); }
+    else if (x.s === 'RE-SOLVING'){ po.setAttribute('r','50'); pi.setAttribute('stroke-width','1.5'); pi.setAttribute('opacity','0.6'); }
+    else { po.setAttribute('r','46'); pi.setAttribute('stroke-width','1.2'); pi.setAttribute('opacity','0.5'); }
+
+    for (var i = 0; i < 6; i++){
+      var on = x.a.indexOf(i) !== -1;
+      document.getElementById('r'+i).setAttribute('stroke', on ? x.c : 'rgba(124,92,252,0.35)');
+      document.getElementById('r'+i).setAttribute('stroke-width', on ? '1.5' : '0.8');
+      document.getElementById('n'+i).setAttribute('filter', on ? 'url(#na)' : 'url(#ng)');
+    }
+
+    var sb = document.getElementById('sb');
+    document.getElementById('sd').style.background = x.c;
+    document.getElementById('sl').style.color = x.c;
+    document.getElementById('sl').textContent = x.s;
+    document.getElementById('sdt').textContent = x.d;
+    sb.style.borderColor = x.c.replace(')', ',0.35)').replace('rgb','rgba');
+
+    document.getElementById('scLabel').textContent = 'SCENARIO ' + (x.g + 1) + ' OF 4 : ' + SN[x.g];
+    document.getElementById('scLabel').style.color = x.c;
+
+    for (var pb = 0; pb < 4; pb++){
+      document.getElementById('pb'+pb).style.background = pb === x.g ? x.c : 'rgba(255,255,255,0.10)';
+    }
+
+    if (x.s === 'RE-SOLVED' && tk > 0){
+      resolved++;
+      document.getElementById('ctr').textContent = resolved;
+    }
+    tk++;
+  }
+  applyFrame();
+  setInterval(applyFrame, 3800);
+
+  // Reveal on scroll (very subtle)
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.wc-row, .ditl-row').forEach(function(el){
+    el.classList.add('reveal'); io.observe(el);
+  });
+
+  // ========== Quoting animation v2 ==========
+  (function () {
+    'use strict';
+  
+    const CASCADE = [
+      { label: 'Load calc',    timing: '0.4s' },
+      { label: 'Zoning',       timing: '0.7s' },
+      { label: 'Air handlers', timing: '0.9s' },
+      { label: 'Chillers',     timing: '1.2s' },
+      { label: 'Ductwork',     timing: '1.5s' },
+      { label: 'Diffusers',    timing: '1.8s' },
+      { label: 'Controls',     timing: '2.1s' },
+      { label: 'Refrigerant',  timing: '2.4s' },
+      { label: 'Filtration',   timing: '2.7s' },
+      { label: 'Commissioning',timing: '3.0s' }
+    ];
+  
+    const INITIAL_QUOTE = {
+      headline: 'Quote ready',
+      sub: 'Standing quote · ready to send to customer',
+      lines: [
+        ['Configuration',     '12-zone VRF · 4 air handlers · 2 chillers'],
+        ['Cooling capacity',  '400 kW'],
+        ['Lead time',         '9 weeks to site'],
+        ['Price',             '£420k']
+      ]
+    };
+  
+    const CHANGES = [
+      {
+        notification: {
+          headline: 'We\u2019ve added a 3rd floor to the build. Does the design still work?',
+          detail: 'Developer expanded the scheme mid-design.'
+        },
+        delta: { label: 'Zones', old: '12', new: '16' },
+        options: [
+          {
+            label: 'OPTION A', headline: 'Extend existing VRF system',
+            meta: [['Price', '£520k'], ['Lead time', '10 weeks'], ['Fit', 'Same system']]
+          },
+          {
+            label: 'OPTION B', headline: 'Add separate rooftop unit for new floor',
+            meta: [['Price', '£485k'], ['Lead time', '8 weeks'], ['Fit', 'Lower efficiency']]
+          },
+          {
+            label: 'OPTION C', headline: 'Upgrade to centralised chiller plant',
+            meta: [['Price', '£610k'], ['Lead time', '12 weeks'], ['Fit', 'Better long-term']]
+          }
+        ],
+        selectedIdx: 0,
+        selectedQuote: {
+          headline: 'Quote re-solved',
+          sub: 'Option A selected',
+          lines: [
+            ['Configuration',     '16-zone VRF · 5 air handlers · 2 chillers'],
+            ['Cooling capacity',  '520 kW'],
+            ['Lead time',         '10 weeks to site'],
+            ['Price',             '£520k']
+          ]
+        }
+      },
+      {
+        notification: {
+          headline: 'Tenants are worried about noise. Can we make the system quieter?',
+          detail: 'Acoustic consultant raised concerns on the top floor.'
+        },
+        delta: { label: 'Max noise', old: '78 dB(A)', new: '68 dB(A)' },
+        options: [
+          {
+            label: 'OPTION A', headline: 'Sound attenuators + variable-speed fans',
+            meta: [['Price', '£580k'], ['Lead time', '10 weeks'], ['Fit', 'Minimal disruption']]
+          },
+          {
+            label: 'OPTION B', headline: 'Relocate plant to rooftop enclosure',
+            meta: [['Price', '£640k'], ['Lead time', '11 weeks'], ['Fit', 'Best acoustic']]
+          }
+        ],
+        selectedIdx: 0,
+        selectedQuote: {
+          headline: 'Quote re-solved',
+          sub: 'Option A selected',
+          lines: [
+            ['Configuration',     '16-zone VRF · variable-speed fans · attenuators'],
+            ['Cooling capacity',  '520 kW'],
+            ['Lead time',         '10 weeks to site'],
+            ['Price',             '£580k']
+          ]
+        }
+      },
+      {
+        notification: {
+          headline: 'Floor 2 is now a data centre instead of offices. How does that change the design?',
+          detail: 'Tenant mix changed. Precision cooling needed.'
+        },
+        delta: { label: 'Floor 2 use', old: 'Offices', new: 'Data centre' },
+        options: [
+          {
+            label: 'OPTION A', headline: 'Dedicated precision cooling + redundancy',
+            meta: [['Price', '£720k'], ['Lead time', '13 weeks'], ['Fit', 'Industry standard']]
+          },
+          {
+            label: 'OPTION B', headline: 'Oversized existing system + backup',
+            meta: [['Price', '£660k'], ['Lead time', '11 weeks'], ['Fit', 'Cheaper, less resilient']]
+          },
+          {
+            label: 'OPTION C', headline: 'Liquid cooling for servers + standard HVAC rest',
+            meta: [['Price', '£810k'], ['Lead time', '14 weeks'], ['Fit', 'Best efficiency']]
+          }
+        ],
+        selectedIdx: 0,
+        selectedQuote: {
+          headline: 'Quote re-solved',
+          sub: 'Option A selected',
+          lines: [
+            ['Configuration',     'Precision cooling · N+1 redundancy · standard HVAC'],
+            ['Cooling capacity',  '680 kW (incl. 180 kW precision)'],
+            ['Lead time',         '13 weeks to site'],
+            ['Price',             '£720k']
+          ]
+        }
+      }
+    ];
+  
+    const CHILLER_DETAIL = {
+      title: 'Chillers',
+      rows: [
+        ['Selected unit',     'Carrier AquaForce 30XWV'],
+        ['Capacity',          '450 kW'],
+        ['Capacity margin',   '12% headroom above peak load'],
+        ['Efficiency (COP)',  '5.8 at full load'],
+        ['Noise level',       '72 dB(A) at 1m'],
+        ['Supplier',          'Carrier · 6-week lead']
+      ],
+      reason: 'Best efficiency-to-footprint ratio for the zoning layout.'
+    };
+    const CHILLER_BOX_INDEX = 3;
+  
+    const BOX_STEP_MS = 800;
+    const QUOTE_REVEAL_DELAY = 600;
+    const INITIAL_QUOTE_DWELL = 4500;
+    const CHANGE_REQUEST_DWELL = 3200;
+    const DELTA_SETTLE_MS = 1200;
+    const RETHINK_PAUSE_MS = 800;
+    const BOX_STEP_FAST_MS = 400;
+    const OPTIONS_DWELL_BEFORE_CURSOR = 5000;
+    const CURSOR_MOVE_TIME = 1400;
+    const CURSOR_CLICK_TIME = 400;
+    const AFTER_SELECTION_DWELL = 2800;
+    const DETAIL_CURSOR_MOVE = 1400;
+    const DETAIL_POPOUT_DWELL = 4200;
+    const DETAIL_POPOUT_CLOSE = 500;
+    const FINAL_DWELL_MS = 5500;
+  
+    // Opening beat: order arrives
+    const PRE_ORDER_PAUSE = 900;        // brief empty state before notification
+    const ORDER_NOTIFY_SHOW_MS = 2600;  // order-arrival notification dwell
+    const ORDER_FILE_POPULATE_MS = 1100; // time the file has populated before cascade starts
+  
+    function buildTimeline() {
+      const steps = [];
+      let t = 0;
+  
+      // Opening beat: empty state + incoming order
+      steps.push({ at: t, apply: (s) => {
+        s.phase = 'awaitingOrder';
+        s.litCount = 0; s.changeIdx = -1;
+        s.showOptions = false; s.selectedOptionIdx = -1;
+        s.showDetail = false; s.detailCursorOnBox = false;
+        s.cursorTarget = null;
+        s.inputPopulated = false;
+        s.showOrderNotification = false;
+      }});
+      t += PRE_ORDER_PAUSE;
+  
+      steps.push({ at: t, apply: (s) => { s.showOrderNotification = true; } });
+      t += 400;
+  
+      steps.push({ at: t, apply: (s) => { s.inputPopulated = true; } });
+      t += ORDER_NOTIFY_SHOW_MS;
+  
+      steps.push({ at: t, apply: (s) => { s.showOrderNotification = false; } });
+      t += ORDER_FILE_POPULATE_MS;
+  
+      // Initial cascade
+      steps.push({ at: t, apply: (s) => { s.phase = 'cascading'; } });
+  
+      CASCADE.forEach((_, i) => {
+        t += BOX_STEP_MS;
+        steps.push({ at: t, apply: (s) => { s.litCount = i + 1; } });
+      });
+      t += QUOTE_REVEAL_DELAY;
+      steps.push({ at: t, apply: (s) => { s.phase = 'quote'; } });
+      t += INITIAL_QUOTE_DWELL;
+  
+      CHANGES.forEach((_, changeI) => {
+        const isLast = changeI === CHANGES.length - 1;
+  
+        steps.push({ at: t, apply: (s) => {
+          s.phase = 'changeIncoming'; s.changeIdx = changeI;
+          s.showOptions = false; s.selectedOptionIdx = -1;
+        }});
+        t += CHANGE_REQUEST_DWELL;
+  
+        steps.push({ at: t, apply: (s) => { s.phase = 'changeLanded'; } });
+        t += DELTA_SETTLE_MS;
+  
+        steps.push({ at: t, apply: (s) => { s.phase = 'rethinking'; s.litCount = 0; } });
+        t += RETHINK_PAUSE_MS;
+        steps.push({ at: t, apply: (s) => { s.phase = 'resolving'; } });
+        CASCADE.forEach((_, i) => {
+          t += BOX_STEP_FAST_MS;
+          steps.push({ at: t, apply: (s) => { s.litCount = i + 1; } });
+        });
+        t += QUOTE_REVEAL_DELAY;
+  
+        steps.push({ at: t, apply: (s) => {
+          s.phase = 'optionsShown';
+          s.showOptions = true;
+          s.selectedOptionIdx = -1;
+        }});
+        t += OPTIONS_DWELL_BEFORE_CURSOR;
+  
+        steps.push({ at: t, apply: (s) => {
+          s.cursorTarget = 'qa2-option-' + CHANGES[changeI].selectedIdx;
+        }});
+        t += CURSOR_MOVE_TIME;
+  
+        steps.push({ at: t, apply: (s) => {
+          s.phase = 'optionClicked';
+          s.selectedOptionIdx = CHANGES[changeI].selectedIdx;
+        }});
+        t += CURSOR_CLICK_TIME;
+  
+        steps.push({ at: t, apply: (s) => {
+          s.phase = 'resolved';
+          s.showOptions = false;
+          s.cursorTarget = null;
+        }});
+        t += AFTER_SELECTION_DWELL;
+  
+        if (changeI === 0) {
+          steps.push({ at: t, apply: (s) => {
+            s.cursorTarget = 'qa2-cascade-' + CHILLER_BOX_INDEX;
+            s.detailCursorOnBox = true;
+          }});
+          t += DETAIL_CURSOR_MOVE;
+  
+          steps.push({ at: t, apply: (s) => {
+            s.phase = 'detailCursorClicked';
+          }});
+          t += CURSOR_CLICK_TIME;
+  
+          steps.push({ at: t, apply: (s) => {
+            s.showDetail = true;
+            s.cursorTarget = null;
+          }});
+          t += DETAIL_POPOUT_DWELL;
+  
+          steps.push({ at: t, apply: (s) => {
+            s.showDetail = false;
+            s.detailCursorOnBox = false;
+            s.phase = 'resolved';
+          }});
+          t += DETAIL_POPOUT_CLOSE;
+        }
+  
+        t += isLast ? FINAL_DWELL_MS : 2800;
+      });
+  
+      return { steps, total: t };
+    }
+  
+    const TIMELINE = buildTimeline();
+  
+    const state = {
+      phase: 'idle',
+      litCount: 0,
+      changeIdx: -1,
+      showOptions: false,
+      selectedOptionIdx: -1,
+      showDetail: false,
+      detailCursorOnBox: false,
+      cursorTarget: null,
+      inputPopulated: false,
+      showOrderNotification: false
+    };
+  
+    let progress = 0;
+    let nextStepIdx = 0;
+    let lastTick = null;
+    let rafId = null;
+    let isPlaying = true;
+  
+    const el = (id) => document.getElementById(id);
+    const elCascadeList   = el('qa2-cascade-list');
+    const elCascadeStatus = el('qa2-cascade-status-el');
+    const elInputPanel    = el('qa2-input-panel');
+    const elInputEmpty    = el('qa2-input-empty-state');
+    const elInputPopulated = el('qa2-input-populated');
+    const elDeltaSlot     = el('qa2-delta-slot');
+    const elHero          = el('qa2-hero-el');
+    const elHeroEmpty     = el('qa2-hero-empty-el');
+    const elHeroContent   = el('qa2-hero-content');
+    const elHeroTitle     = el('qa2-hero-title-el');
+    const elHeroSub       = el('qa2-hero-sub-el');
+    const elHeroBadge     = el('qa2-hero-badge-el');
+    const elHeroBody      = el('qa2-hero-body');
+    const elNotifySlot    = el('qa2-notify-slot');
+    const elDetailSlot    = el('qa2-detail-slot');
+    const elCursor        = el('qa2-cursor-el');
+    const elInner         = el('qa2-inner-el');
+    const elBtnPlay       = el('qa2-btn-play');
+    const elBtnRestart    = el('qa2-btn-restart');
+    const elDots = [el('qa2-dot-0'), el('qa2-dot-1'), el('qa2-dot-2')];
+  
+    CASCADE.forEach((box, i) => {
+      const d = document.createElement('div');
+      d.className = 'cascade-box';
+      d.id = 'qa2-cascade-' + i;
+      d.innerHTML = `<span class="qa2-cascade-label">${box.label}</span><span class="qa2-cascade-timing">—</span>`;
+      elCascadeList.appendChild(d);
+    });
+  
+    let lastRender = {
+      litCount: -1, phase: null, changeIdx: -2,
+      deltaKey: null, heroKey: null, notifyKey: null,
+      optionsKey: null, selectedIdx: -2,
+      showDetail: null, cursorTarget: '__init__',
+      highlightBoxKey: null,
+      inputPopulated: null, showOrderNotification: null
+    };
+  
+    function phaseStatusLabel(phase) {
+      switch (phase) {
+        case 'awaitingOrder':        return 'AWAITING ORDER';
+        case 'cascading':            return 'RUNNING';
+        case 'quote':                return 'COMPLETE';
+        case 'changeIncoming':       return 'COMPLETE';
+        case 'changeLanded':         return 'CHANGE RECEIVED';
+        case 'rethinking':           return 'RETHINKING';
+        case 'resolving':            return 'RE-SOLVING';
+        case 'optionsShown':         return 'OPTIONS READY';
+        case 'optionClicked':        return 'SELECTED';
+        case 'resolved':             return 'COMPLETE';
+        case 'detailCursorClicked':  return 'EXPLORING';
+        default:                     return 'IDLE';
+      }
+    }
+  
+    function render() {
+      const {
+        phase, litCount, changeIdx,
+        showOptions, selectedOptionIdx,
+        showDetail, detailCursorOnBox, cursorTarget,
+        inputPopulated, showOrderNotification
+      } = state;
+      const isResolving = phase === 'resolving' || phase === 'rethinking';
+      const showAnyHero = phase !== 'cascading' && phase !== 'idle' && phase !== 'awaitingOrder';
+  
+      // Input card empty vs populated
+      if (inputPopulated !== lastRender.inputPopulated) {
+        if (inputPopulated) {
+          elInputEmpty.style.display = 'none';
+          elInputPopulated.style.display = 'flex';
+        } else {
+          elInputEmpty.style.display = '';
+          elInputPopulated.style.display = 'none';
+        }
+        lastRender.inputPopulated = inputPopulated;
+      }
+  
+      if (lastRender.litCount !== litCount || lastRender.phase !== phase) {
+        const boxes = elCascadeList.children;
+        for (let i = 0; i < boxes.length; i++) {
+          const b = boxes[i];
+          const lit = i < litCount;
+          b.classList.toggle('qa2-lit', lit);
+          b.classList.toggle('qa2-resolving', isResolving);
+          const tEl = b.querySelector('.qa2-cascade-timing'); if (tEl) tEl.textContent = lit ? CASCADE[i].timing : '—';
+        }
+        elCascadeStatus.textContent = phaseStatusLabel(phase);
+        const activeStatus = (phase === 'rethinking' || phase === 'resolving' || phase === 'changeLanded' || phase === 'detailCursorClicked');
+        elCascadeStatus.classList.toggle('qa2-active', activeStatus);
+        elCascadeStatus.classList.toggle('qa2-pulsing', phase === 'rethinking');
+      }
+  
+      const highlightKey = detailCursorOnBox ? 'on' : 'off';
+      if (highlightKey !== lastRender.highlightBoxKey) {
+        CASCADE.forEach((_, i) => {
+          const b = el('qa2-cascade-' + i);
+          if (b) b.classList.toggle('qa2-highlight-target', detailCursorOnBox && i === CHILLER_BOX_INDEX);
+        });
+        lastRender.highlightBoxKey = highlightKey;
+      }
+  
+      const showDelta = phase === 'changeLanded' || phase === 'rethinking' || phase === 'resolving' ||
+                        phase === 'optionsShown' || phase === 'optionClicked' || phase === 'resolved' ||
+                        phase === 'detailCursorClicked';
+      if (lastRender.phase !== phase || lastRender.changeIdx !== changeIdx) {
+        elInputPanel.classList.toggle('qa2-accented', showDelta);
+      }
+  
+      const deltaKey = showDelta && changeIdx >= 0 ? `${changeIdx}` : 'none';
+      if (deltaKey !== lastRender.deltaKey) {
+        elDeltaSlot.innerHTML = '';
+        if (showDelta && changeIdx >= 0) {
+          const c = CHANGES[changeIdx];
+          const d = document.createElement('div');
+          d.className = 'delta';
+          d.innerHTML = `
+            <div class="qa2-delta-label">CUSTOMER CHANGE APPLIED</div>
+            <div class="qa2-delta-row">
+              <span class="qa2-delta-from">${c.delta.label}</span>
+              <span class="qa2-delta-old">${c.delta.old}</span>
+              <span class="qa2-delta-arrow">→</span>
+              <span class="qa2-delta-new">${c.delta.new}</span>
+            </div>
+          `;
+          elDeltaSlot.appendChild(d);
+        }
+        lastRender.deltaKey = deltaKey;
+      }
+  
+      elHero.classList.toggle('qa2-active', showAnyHero);
+  
+      if (!showAnyHero) {
+        elHeroEmpty.style.display = '';
+        elHeroContent.style.display = 'none';
+        elHeroEmpty.textContent = phase === 'awaitingOrder'
+          ? 'NO ACTIVE QUOTE · AWAITING ORDER'
+          : 'QUOTE WILL APPEAR WHEN CASCADE COMPLETES';
+        lastRender.heroKey = 'empty-' + phase;
+        lastRender.optionsKey = null;
+      } else {
+        elHeroEmpty.style.display = 'none';
+        elHeroContent.style.display = '';
+  
+        if (showOptions) {
+          const opts = CHANGES[changeIdx].options;
+          const optionsKey = `options-${changeIdx}-${selectedOptionIdx}`;
+          if (optionsKey !== lastRender.optionsKey) {
+            elHeroTitle.textContent = 'Flow presents options';
+            elHeroSub.textContent = 'Engineer reviews and chooses';
+            elHeroBadge.textContent = `QUESTION ${changeIdx + 1} OF 3`;
+  
+            elHeroBody.innerHTML = '';
+            const wrap = document.createElement('div');
+            wrap.className = 'options-wrap options-grid-' + opts.length;
+            opts.forEach((opt, i) => {
+              const card = document.createElement('div');
+              card.className = 'option-card' + (i === selectedOptionIdx ? ' selected' : '');
+              card.id = 'qa2-option-' + i;
+              card.style.animationDelay = `${i * 120}ms`;
+              const metaHtml = opt.meta.map(([k, v]) =>
+                `<div class="qa2-option-meta-row"><span class="qa2-option-meta-key">${k}</span><span class="qa2-option-meta-val">${v}</span></div>`
+              ).join('');
+              card.innerHTML = `
+                <div class="qa2-option-label">${opt.label}</div>
+                <div class="qa2-option-headline">${opt.headline}</div>
+                <div class="qa2-option-meta">${metaHtml}</div>
+              `;
+              wrap.appendChild(card);
+            });
+            elHeroBody.appendChild(wrap);
+            lastRender.optionsKey = optionsKey;
+            lastRender.heroKey = 'options-active';
+          } else if (selectedOptionIdx !== lastRender.selectedIdx) {
+            CHANGES[changeIdx].options.forEach((_, i) => {
+              const card = el('qa2-option-' + i);
+              if (card) card.classList.toggle('qa2-selected', i === selectedOptionIdx);
+            });
+            lastRender.selectedIdx = selectedOptionIdx;
+          }
+        } else {
+          let quoteToShow = INITIAL_QUOTE;
+          if (phase === 'resolved' && changeIdx >= 0) {
+            quoteToShow = CHANGES[changeIdx].selectedQuote;
+          } else if (phase === 'detailCursorClicked' && changeIdx >= 0) {
+            quoteToShow = CHANGES[changeIdx].selectedQuote;
+          } else if (changeIdx >= 1 && (phase === 'changeIncoming' || phase === 'changeLanded' || phase === 'rethinking' || phase === 'resolving')) {
+            quoteToShow = CHANGES[changeIdx - 1].selectedQuote;
+          }
+  
+          const badgeText =
+            phase === 'resolved' ? `REVISION ${changeIdx + 1} OF 3`
+            : phase === 'detailCursorClicked' ? `REVISION ${changeIdx + 1} OF 3`
+            : (phase === 'quote' && changeIdx === -1) ? 'READY TO SEND'
+            : 'STANDING';
+  
+          const heroKey = `q-${phase}-${changeIdx}-${quoteToShow.headline}-${badgeText}`;
+          if (heroKey !== lastRender.heroKey) {
+            elHeroTitle.textContent = quoteToShow.headline;
+            elHeroSub.textContent = quoteToShow.sub || '';
+            elHeroBadge.textContent = badgeText;
+            const isRevised = phase === 'resolved' || phase === 'detailCursorClicked';
+  
+            elHeroBody.innerHTML = '';
+            const grid = document.createElement('div');
+            grid.className = 'quote-grid';
+            quoteToShow.lines.forEach(([k, v], i) => {
+              const line = document.createElement('div');
+              line.className = 'quote-line';
+              line.style.animationDelay = `${i * 100}ms`;
+              const isPrice = k === 'Price';
+              const priceClass = isPrice ? `price${isRevised ? ' revised' : ''}` : '';
+              line.innerHTML = `<div class="qa2-quote-key">${k}</div><div class="qa2-quote-val ${priceClass}">${v}</div>`;
+              grid.appendChild(line);
+            });
+            elHeroBody.appendChild(grid);
+            lastRender.heroKey = heroKey;
+            lastRender.optionsKey = null;
+          }
+        }
+      }
+  
+      // Notification — order arrival or change question
+      let notifyKey = 'none';
+      if (showOrderNotification) {
+        notifyKey = 'order';
+      } else if (phase === 'changeIncoming' && changeIdx >= 0) {
+        notifyKey = `change-${changeIdx}`;
+      }
+      if (notifyKey !== lastRender.notifyKey) {
+        elNotifySlot.innerHTML = '';
+        if (notifyKey === 'order') {
+          const n = document.createElement('div');
+          n.className = 'qa2-notify';
+          n.innerHTML = `
+            <div class="qa2-notify-head">
+              <div class="qa2-notify-dot"></div>
+              <div class="qa2-notify-label">NEW ORDER</div>
+            </div>
+            <div class="qa2-notify-from">From commercial developer</div>
+            <div class="qa2-notify-headline">"New enquiry from commercial developer. Office HVAC design requested."</div>
+            <div class="qa2-notify-detail">2 floors · 4,800m² · AutoCAD drawing attached.</div>
+          `;
+          elNotifySlot.appendChild(n);
+        } else if (notifyKey.startsWith('change-') && changeIdx >= 0) {
+          const c = CHANGES[changeIdx];
+          const n = document.createElement('div');
+          n.className = 'qa2-notify';
+          n.innerHTML = `
+            <div class="qa2-notify-head">
+              <div class="qa2-notify-dot"></div>
+              <div class="qa2-notify-label">INCOMING QUESTION · ${changeIdx + 1} OF 3</div>
+            </div>
+            <div class="qa2-notify-from">From customer</div>
+            <div class="qa2-notify-headline">"${c.notification.headline}"</div>
+            <div class="qa2-notify-detail">${c.notification.detail}</div>
+          `;
+          elNotifySlot.appendChild(n);
+        }
+        lastRender.notifyKey = notifyKey;
+        lastRender.showOrderNotification = showOrderNotification;
+      }
+  
+      if (showDetail !== lastRender.showDetail) {
+        elDetailSlot.innerHTML = '';
+        if (showDetail) {
+          const d = document.createElement('div');
+          d.className = 'qa2-detail-popout';
+          const rowsHtml = CHILLER_DETAIL.rows.map(([k, v]) =>
+            `<div class="qa2-detail-row"><span class="qa2-detail-k">${k}</span><span class="qa2-detail-v">${v}</span></div>`
+          ).join('');
+          d.innerHTML = `
+            <div class="qa2-detail-label">CHILLER DETAIL · CLICKED BY ENGINEER</div>
+            <div class="qa2-detail-title">${CHILLER_DETAIL.title}</div>
+            ${rowsHtml}
+            <div class="qa2-detail-row qa2-reason">
+              <span class="qa2-detail-k">Why chosen</span>
+              <span class="qa2-detail-v">${CHILLER_DETAIL.reason}</span>
+            </div>
+          `;
+          elDetailSlot.appendChild(d);
+        }
+        lastRender.showDetail = showDetail;
+      }
+  
+      if (cursorTarget !== lastRender.cursorTarget) {
+        if (cursorTarget) {
+          moveCursorTo(cursorTarget);
+        } else {
+          hideCursor();
+        }
+        lastRender.cursorTarget = cursorTarget;
+      }
+      if (phase === 'optionClicked' || phase === 'detailCursorClicked') {
+        if (!elCursor.classList.contains('qa2-clicking')) {
+          elCursor.classList.add('qa2-clicking');
+          setTimeout(() => elCursor.classList.remove('qa2-clicking'), 400);
+        }
+      }
+  
+      for (let i = 0; i < 3; i++) {
+        const done = changeIdx > i || (changeIdx === i && (phase === 'resolved' || phase === 'detailCursorClicked'));
+        const active = changeIdx === i && !done;
+        elDots[i].classList.toggle('qa2-done', done);
+        elDots[i].classList.toggle('qa2-active', active);
+      }
+  
+      lastRender.litCount = litCount;
+      lastRender.phase = phase;
+      lastRender.changeIdx = changeIdx;
+      lastRender.selectedIdx = selectedOptionIdx;
+    }
+  
+    function moveCursorTo(targetId) {
+      const target = el(targetId);
+      if (!target) return;
+      const targetRect = target.getBoundingClientRect();
+      const innerRect = elInner.getBoundingClientRect();
+      const top = targetRect.top - innerRect.top + targetRect.height / 2 - 14;
+      const left = targetRect.left - innerRect.left + targetRect.width / 2 - 4;
+      elCursor.style.top = top + 'px';
+      elCursor.style.left = left + 'px';
+      elCursor.classList.add('qa2-visible');
+    }
+  
+    function hideCursor() {
+      elCursor.classList.remove('qa2-visible');
+    }
+  
+    function tick(now) {
+      if (!isPlaying) { lastTick = null; return; }
+      if (lastTick == null) lastTick = now;
+      const dt = now - lastTick;
+      lastTick = now;
+      progress += dt;
+  
+      while (nextStepIdx < TIMELINE.steps.length && TIMELINE.steps[nextStepIdx].at <= progress) {
+        TIMELINE.steps[nextStepIdx].apply(state);
+        nextStepIdx++;
+      }
+  
+      if (progress >= TIMELINE.total) {
+        progress = 0;
+        nextStepIdx = 0;
+      }
+  
+      render();
+      rafId = requestAnimationFrame(tick);
+    }
+  
+    function startLoop() {
+      if (rafId) cancelAnimationFrame(rafId);
+      lastTick = null;
+      rafId = requestAnimationFrame(tick);
+    }
+    function stopLoop() {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      lastTick = null;
+    }
+    function restart() {
+      progress = 0; nextStepIdx = 0;
+      Object.assign(state, {
+        phase: 'idle', litCount: 0, changeIdx: -1,
+        showOptions: false, selectedOptionIdx: -1,
+        showDetail: false, detailCursorOnBox: false, cursorTarget: null,
+        inputPopulated: false, showOrderNotification: false
+      });
+      lastRender = {
+        litCount: -1, phase: null, changeIdx: -2,
+        deltaKey: null, heroKey: null, notifyKey: null,
+        optionsKey: null, selectedIdx: -2,
+        showDetail: null, cursorTarget: '__init__', highlightBoxKey: null,
+        inputPopulated: null, showOrderNotification: null
+      };
+      isPlaying = true;
+      updatePlayButton();
+      render();
+      startLoop();
+    }
+  
+    function updatePlayButton() {
+      if (isPlaying) {
+        elBtnPlay.setAttribute('aria-label', 'Pause');
+        elBtnPlay.setAttribute('title', 'Pause');
+        elBtnPlay.innerHTML = `<svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+          <rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+          <rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+        </svg>`;
+      } else {
+        elBtnPlay.setAttribute('aria-label', 'Play');
+        elBtnPlay.setAttribute('title', 'Play');
+        elBtnPlay.innerHTML = `<svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+          <path d="M1.5 1.5 L10.5 7 L1.5 12.5 Z" fill="currentColor"/>
+        </svg>`;
+      }
+    }
+  
+    elBtnPlay.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      updatePlayButton();
+      if (isPlaying) startLoop(); else stopLoop();
+    });
+    elBtnRestart.addEventListener('click', restart);
+  
+    window.addEventListener('resize', () => {
+      if (state.cursorTarget) moveCursorTo(state.cursorTarget);
+    });
+  
+    render();
+    startLoop();
+  })();
+</script>
+
+<script>
+  // Scale animation inner (natural 1100px) to fit its card container
+  (function(){
+    function scale(){
+      // First pass: compute each card-anim's scaled height individually
+      var entries = [];
+      document.querySelectorAll('.sir-card-anim').forEach(function(outer){
+        var inner = outer.querySelector('.sir-card-anim-inner');
+        if(!inner) return;
+        var cw = outer.clientWidth;
+        var nw = 1100; // natural inner width
+        var inLb = !!outer.closest('.sir-lb');
+        var s = inLb ? (cw / nw) : Math.min(1, cw / nw);
+        inner.style.transform = 'scale(' + s + ')';
+        var nh = inner.scrollHeight;
+        var scaledH = Math.ceil(nh * s + 8);
+        entries.push({outer:outer, inLb:inLb, scaledH:scaledH});
+      });
+      // Second pass: within the in-page grid (not lightbox), equalize heights per row
+      // so both animation boxes line up exactly — keeps the h3/copy/buttons aligned.
+      var gridEntries = entries.filter(function(e){ return !e.inLb; });
+      if(gridEntries.length){
+        var maxH = Math.max.apply(null, gridEntries.map(function(e){ return e.scaledH; }));
+        gridEntries.forEach(function(e){ e.outer.style.height = maxH + 'px'; });
+      }
+      // Lightbox instances size to their own content
+      entries.filter(function(e){ return e.inLb; }).forEach(function(e){
+        e.outer.style.height = e.scaledH + 'px';
+      });
+    }
+    var ro = new ResizeObserver(scale);
+    document.querySelectorAll('.sir-card-anim').forEach(function(el){ ro.observe(el); });
+    var mo = new MutationObserver(scale);
+    document.querySelectorAll('.sir-card-anim-inner').forEach(function(el){
+      mo.observe(el, {childList:true, subtree:true, attributes:true, characterData:true});
+    });
+    window.addEventListener('load', scale);
+    setTimeout(scale, 300);
+    setTimeout(scale, 1500);
+    setTimeout(scale, 4000);
+    // Expose so the lightbox open/close can trigger it
+    window.__sirScale = scale;
+  })();
+</script>
+<script>
+  // Watch lightbox — lift a .sir-card-anim element into fullscreen
+  (function(){
+    var lb = document.createElement('div');
+    lb.className = 'sir-lb';
+    lb.setAttribute('role','dialog');
+    lb.setAttribute('aria-hidden','true');
+    lb.innerHTML = '<div class="sir-lb-inner"><button class="sir-lb-close" type="button" aria-label="Close">&#x2715;</button><div class="sir-lb-stage" id="sir-lb-stage"></div></div>';
+    document.body.appendChild(lb);
+    var stage = lb.querySelector('#sir-lb-stage');
+    var placeholder = null;
+    var originalParent = null;
+    var moved = null;
+    function open(which){
+      var idx = (which === 'quoting') ? 1 : 0;
+      var all = document.querySelectorAll('.sir-card-anim');
+      var src = all[idx];
+      if(!src) return;
+      originalParent = src.parentNode;
+      placeholder = document.createComment('sir-card-anim-slot');
+      originalParent.insertBefore(placeholder, src);
+      stage.appendChild(src);
+      moved = src;
+      // temporarily clear the forced height; the lightbox lets it be its natural (scaled) size
+      moved.dataset.prevHeight = moved.style.height || '';
+      lb.classList.add('on');
+      lb.setAttribute('aria-hidden','false');
+      document.body.classList.add('sir-lb-open');
+      // trigger rescale against the lightbox width
+      if(window.__sirScale) window.__sirScale();
+      setTimeout(function(){ if(window.__sirScale) window.__sirScale(); }, 50);
+      setTimeout(function(){ if(window.__sirScale) window.__sirScale(); }, 400);
+    }
+    function close(){
+      if(!moved || !originalParent || !placeholder) {
+        lb.classList.remove('on');
+        document.body.classList.remove('sir-lb-open');
+        return;
+      }
+      originalParent.insertBefore(moved, placeholder);
+      placeholder.remove();
+      placeholder = null;
+      moved = null;
+      originalParent = null;
+      lb.classList.remove('on');
+      lb.setAttribute('aria-hidden','true');
+      document.body.classList.remove('sir-lb-open');
+      if(window.__sirScale) window.__sirScale();
+    }
+    document.addEventListener('click', function(e){
+      var opener = e.target.closest('[data-sir-watch]');
+      if(opener){ e.preventDefault(); open(opener.getAttribute('data-sir-watch')); return; }
+      if(e.target.closest('.sir-lb-close')){ close(); return; }
+      if(e.target === lb){ close(); }
+    });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+  })();
+</script>
+</body>
+</html>

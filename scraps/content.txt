@@ -1,0 +1,107 @@
+[] FLOW  ·  PRODUCTION PLANNING AND SCHEDULING
+[] ONE LINE GOES DOWN.
+[] ONE SUPPLIER SLIPS.
+[] ONE ORDER MOVES.
+[] THE WHOLE PLAN RE-SOLVES.
+[] Flow is our Industrial AI product for production planning and scheduling. It quotes the work against real capacity, plans the factory against what it can actually do, and re-solves the moment anything changes. Results in weeks, not quarters.
+[] Book a meeting  →
+
+[] 01  WHAT FLOW DOES
+[] Quote the work.
+[] Plan the factory.
+[] Re-solve the moment anything changes.
+[] Most planning tools run once a day and hope nothing changes. Flow runs every time something does. A line goes down. A customer pulls an order forward. A supplier slips. A new order lands.
+[] Each one re-solves the forecast, the plan, and the schedule together. Options on screen, trade-offs visible, decision in the planner&apos;s hands.
+
+[] 02  SEE IT RUN
+[] Watch Flow plan and re-solve.
+[] [ PLANNING ANIMATION ]
+[] Existing production visual, embed full-bleed
+[] A line went down. Flow re-solved the forecast, plan, and schedule together. Planner picked.
+
+[] 03  WHAT CHANGES
+[] Three things Flow changes on day one.
+[] &gt; 01
+[] Absorb disruption in minutes.
+[] Line down. Supplier slips. Pull-in lands. Flow works out the options and puts them on screen. Planner picks. The rest of the factory never stopped.
+[] &gt; 02
+[] Find capacity already in the factory.
+[] The schedule isn&apos;t as full as it looks. Flow surfaces the hour on Line 3, the half-shift on Tuesday, the sequence that frees two changeovers. Orders you&apos;d have turned away, taken.
+[] &gt; 03
+[] Quote in hours, not weeks.
+[] Drawing, spec, or tender in. Quote out the same day. Customer changes a parameter, the whole quote re-solves. Engineers back on real engineering work.
+
+[] 04  A DAY IN THE LIFE
+[] A day in a plant.
+[] WITHOUT FLOW
+[] WITH FLOW
+[] 09:00
+[] Supply disruption.
+[] Snowstorm delayed deliveries. Line 3 runs out of packaging by Thursday. Planner scrambles.
+[] +1 hr scrambling
+[] Before it happened
+[] Flagged when the supplier&apos;s ETA slipped.
+[] As soon as the supplier updated the delivery date, Flow surfaced the impact: Line 3 runs out by Thursday. Options on screen. Planner pulled forward a different PO. No stoppage.
+[] Flagged before it hit
+[] 11:30
+[] New order opportunity.
+[] &quot;Can we take it?&quot; Schedule looks full. Planner says no. Order turned away.
+[] Order turned away
+[] 11:30
+[] Real capacity checked.
+[] Schedule isn&apos;t as full as it looks. Flow knows the safety stock for that customer is oversized. Room to take the order. Accepted. Revenue captured.
+[] Revenue captured
+[] 13:00
+[] Line 2 down.
+[] Maintenance says two hours. Planner rebuilds the schedule from scratch. Two hours of replanning on top of the downtime.
+[] +2 hrs replanning
+[] 13:00
+[] Line 2 down. Three paths on screen.
+[] Move to Line 4 (allergen-safe, 45 min restart). Pull tomorrow&apos;s Line 3 run forward. Or wait. Planner picks. Live in minutes.
+[] Live in minutes
+[] Not every day is this eventful. Flow makes the extraordinary ordinary.
+
+[] A cycle in an engineered quote.
+[] WITHOUT FLOW
+[] WITH FLOW
+[] Day 1
+[] RFQ arrives.
+[] Sales engineer logs it and forwards to applications engineering. They already have two others ahead in the queue.
+[] Queue, no start
+[] Day 1 · morning
+[] RFQ arrives.
+[] Flow reads the drawing, the spec, and the budget. Works through the engineering rules. First quote ready within hours.
+[] First quote ready
+[] Week 2
+[] Customer iterates.
+[] First quote sent. Customer responds: &quot;Can you do it 20% faster capacity?&quot; Engineering starts again.
+[] Start again
+[] Day 2
+[] Customer iterates.
+[] &quot;Can you do it 20% faster capacity?&quot; Change entered. Flow re-solves the whole quote. Updated quote sent same day.
+[] Re-solved same day
+[] Week 8
+[] Iteration fifteen.
+[] Customer has received quotes from three competitors. Some are ready to sign. Ours is still in draft.
+[] Deal drifting
+[] Day 5
+[] Quote accepted.
+[] Production plan already aware. Capacity allocated. Factory knows what&apos;s coming.
+[] Won and committed
+
+[] 05  COME AND TALK
+[] The plan your operation should have been running all along.
+[] The next step is a conversation. Thirty minutes to understand your operation. How you plan today, where it breaks, what&apos;s carried in the senior planner&apos;s head. Then we show you where Flow would fit. If it&apos;s a fit, we talk about a proof of value on your data. If it&apos;s not, you&apos;ve spent half an hour.
+[] Book a meeting  →
+[] Or drop your details and we&apos;ll come to you.
+[] &gt; Name
+
+[] &gt; Company
+
+[] &gt; Work email
+
+[] &gt; Role
+
+
+[] IFS NEXUS BLACK  ·  FLOW
+[] Industrial AI, at the point of work.

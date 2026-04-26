@@ -1,0 +1,112 @@
+<div class="stage" id="stage">
+  <div class="inner" id="inner">
+
+    <!-- Header -->
+    <div class="header">
+      <div>
+        <div class="kicker">SEE IT RUN: QUOTING</div>
+        <div class="desc">
+          A commercial developer is commissioning an office HVAC system. Three customer questions come in. Flow presents options back each time.
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="controls">
+          <button class="ctl-btn" id="btn-play" aria-label="Pause" title="Pause">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+              <rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+              <rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+            </svg>
+          </button>
+          <button class="ctl-btn" id="btn-restart" aria-label="Restart" title="Restart">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7 A4 4 0 1 1 7 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+              <path d="M1 5 L3 7 L5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP STRIP: compact input + cascade -->
+    <div class="top-strip">
+      <!-- Input card -->
+      <div class="input-card" id="input-panel">
+        <div id="input-empty-state">
+          <div class="input-head">
+            <div class="input-filename" style="color: var(--ink-faint);">No active enquiry</div>
+            <div class="input-label" style="color: var(--ink-faint);">DRAWING</div>
+          </div>
+          <div style="font-size: 11px; color: var(--ink-faint); margin-top: 8px;">
+            Waiting for next order.
+          </div>
+        </div>
+        <div id="input-populated" style="display: none; flex-direction: column; gap: 10px; flex: 1;">
+          <div class="input-head">
+            <div class="input-filename">office_tower_hvac_03.dwg</div>
+            <div class="input-label">DRAWING</div>
+          </div>
+          <div class="input-meta-grid">
+            <div class="input-meta-row">
+              <span class="input-meta-key">Customer</span>
+              <span class="input-meta-val">Commercial developer</span>
+            </div>
+            <div class="input-meta-row">
+              <span class="input-meta-key">Floors</span>
+              <span class="input-meta-val">2</span>
+            </div>
+            <div class="input-meta-row">
+              <span class="input-meta-key">Format</span>
+              <span class="input-meta-val">AutoCAD R2024</span>
+            </div>
+            <div class="input-meta-row">
+              <span class="input-meta-key">Total area</span>
+              <span class="input-meta-val">4,800m²</span>
+            </div>
+          </div>
+          <div id="delta-slot"></div>
+        </div>
+      </div>
+
+      <!-- Cascade panel -->
+      <div class="cascade-panel" id="cascade-panel">
+        <div class="cascade-head">
+          <div class="input-label">CONSTRAINT CASCADE</div>
+          <div class="cascade-status" id="cascade-status">IDLE</div>
+        </div>
+        <div class="cascade-grid" id="cascade-list"></div>
+        <div id="detail-slot"></div>
+      </div>
+    </div>
+
+    <!-- HERO: where the action happens -->
+    <div class="hero" id="hero">
+      <div class="hero-empty" id="hero-empty">QUOTE WILL APPEAR WHEN CASCADE COMPLETES</div>
+      <div id="hero-content" style="display: none;">
+        <div class="hero-head">
+          <div class="hero-title-wrap">
+            <div class="hero-title" id="hero-title">Quote ready</div>
+            <div class="hero-sub" id="hero-sub"></div>
+          </div>
+          <div class="hero-head-right">
+            <div class="progress-wrap">
+              <div class="progress-label">QUESTIONS</div>
+              <div class="dot" id="dot-0"></div>
+              <div class="dot" id="dot-1"></div>
+              <div class="dot" id="dot-2"></div>
+            </div>
+            <div class="hero-badge" id="hero-badge">READY TO SEND</div>
+          </div>
+        </div>
+        <div id="hero-body"></div>
+      </div>
+    </div>
+
+    <!-- Overlays -->
+    <div id="notify-slot"></div>
+    <svg id="cursor" class="cursor" viewBox="0 0 22 28" fill="none">
+      <path d="M2 2 L2 22 L7 17.5 L11 25 L14 23.5 L10 16 L17 15 Z"
+            fill="#0B0B12" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>
+    </svg>
+
+  </div>
+</div>

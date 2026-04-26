@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flow Quoting Animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F7F6F4;
+    --panel: #FFFFFF;
+    --panel-border: #EAE7E1;
+    --ink: #0B0B12;
+    --ink-muted: #5F5E68;
+    --ink-faint: #9A99A3;
+    --purple: #7C5CFC;
+    --purple-tint: #F3EFFF;
+    --purple-border: #D8CEFF;
+    --green: #0EA862;
+    --green-tint: #EAF7F0;
+    --green-border: #BFE6D0;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+  }
+
+  .stage {
+    padding: 48px 40px;
+    min-height: 680px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 28px;
+    gap: 24px;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--purple);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .desc {
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  /* Controls & progress */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .progress-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 1.5px;
+    margin-right: 4px;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 6px;
+    background: var(--panel-border);
+    transition: all 0.5s ease;
+  }
+  .dot.active { width: 28px; background: var(--purple); }
+  .dot.done   { background: var(--purple); }
+
+  .controls { display: flex; gap: 6px; }
+  .ctl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+  }
+  .ctl-btn:hover {
+    background: var(--purple-tint);
+    border-color: var(--purple-border);
+    color: var(--purple);
+  }
+  .ctl-btn:active { transform: scale(0.96); }
+
+  /* Panels */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 24px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 24px;
+    min-height: 440px;
+    transition: border-color 0.5s ease;
+  }
+  .panel.accented { border-color: var(--purple-border); }
+  .panel-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--purple);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .panel-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  .meta { display: flex; flex-direction: column; gap: 12px; }
+  .meta-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+  }
+  .meta-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    align-self: center;
+  }
+  .meta-val { font-size: 13px; color: var(--ink-muted); }
+
+  /* Delta badge in left panel */
+  .delta {
+    margin-top: 24px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: var(--purple-tint);
+    border: 1px solid var(--purple-border);
+    animation: deltaLand 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .delta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--purple);
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  .delta-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--ink);
+    flex-wrap: wrap;
+  }
+  .delta-from { color: var(--ink-muted); }
+  .delta-old {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-faint);
+    text-decoration: line-through;
+  }
+  .delta-arrow { color: var(--ink-faint); }
+  .delta-new {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--purple);
+    font-weight: 500;
+  }
+
+  /* Cascade */
+  .cascade-panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 24px;
+    min-height: 440px;
+    display: flex;
+    flex-direction: column;
+  }
+  .cascade-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+  }
+  .cascade-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 1.5px;
+    transition: color 0.4s ease;
+  }
+  .cascade-status.active { color: var(--purple); }
+  .cascade-status.pulsing { animation: rethinkPulse 0.9s ease-in-out infinite; }
+
+  .cascade-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+  .cascade-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--panel-border);
+    background: var(--bg);
+    transition: all 0.5s ease;
+  }
+  .cascade-box.lit {
+    animation: lightUp 0.5s ease-out both;
+    border-color: var(--green-border);
+    background: var(--green-tint);
+  }
+  .cascade-box.lit.resolving {
+    border-color: var(--purple-border);
+    background: var(--purple-tint);
+  }
+  .cascade-label {
+    font-size: 13px;
+    color: var(--ink-faint);
+    transition: color 0.4s ease;
+  }
+  .cascade-box.lit .cascade-label { color: var(--ink); }
+  .cascade-timing {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--ink-faint);
+    transition: color 0.4s ease;
+  }
+  .cascade-box.lit .cascade-timing { color: var(--green); }
+  .cascade-box.lit.resolving .cascade-timing { color: var(--purple); }
+
+  /* Quote panel */
+  .quote {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    transition: all 0.6s ease;
+    min-height: 140px;
+  }
+  .quote.active {
+    background: var(--purple-tint);
+    border-color: var(--purple-border);
+  }
+  .quote-empty {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 2px;
+    text-align: center;
+    padding-top: 36px;
+  }
+  .quote-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--purple-border);
+  }
+  .quote-title { font-size: 18px; font-weight: 500; color: var(--ink); }
+  .quote-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--purple);
+    letter-spacing: 1.5px;
+  }
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .quote-line { animation: fadeUp 0.6s ease-out both; }
+  .quote-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-faint);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .quote-val {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.3;
+    transition: color 0.5s ease;
+  }
+  .quote-val.price {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .quote-val.price.revised { color: var(--purple); }
+
+  /* Incoming change notification */
+  .notify {
+    position: absolute;
+    top: 120px;
+    right: -8px;
+    width: 340px;
+    background: var(--panel);
+    border: 1px solid var(--purple-border);
+    border-left: 4px solid var(--purple);
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.10);
+    z-index: 10;
+    animation: slideInRight 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .notify-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .notify-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--purple);
+  }
+  .notify-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--purple);
+    letter-spacing: 1.5px;
+  }
+  .notify-from {
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .notify-headline {
+    font-size: 15px;
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 8px;
+    line-height: 1.35;
+  }
+  .notify-detail {
+    font-size: 12px;
+    color: var(--ink-muted);
+    line-height: 1.45;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes lightUp {
+    from { opacity: 0.55; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes rethinkPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+  @keyframes deltaLand {
+    0%   { opacity: 0; transform: scale(0.9); }
+    60%  { opacity: 1; transform: scale(1.04); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="inner">
+
+    <!-- Header -->
+    <div class="header">
+      <div>
+        <div class="kicker">SEE IT RUN: QUOTING</div>
+        <div class="desc">
+          An alpine resort commissions a 3-section ropeway. Three customer changes land. Flow re-solves the quote each time.
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="progress-wrap">
+          <div class="progress-label">CHANGES</div>
+          <div class="dot" id="dot-0"></div>
+          <div class="dot" id="dot-1"></div>
+          <div class="dot" id="dot-2"></div>
+        </div>
+
+        <div class="controls">
+          <button class="ctl-btn" id="btn-play" aria-label="Pause" title="Pause">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+              <rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+              <rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+            </svg>
+          </button>
+          <button class="ctl-btn" id="btn-restart" aria-label="Restart" title="Restart">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7 A4 4 0 1 1 7 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+              <path d="M1 5 L3 7 L5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT: Input document -->
+      <div class="panel" id="input-panel">
+        <div class="panel-label">DRAWING</div>
+        <div class="panel-title">ropeway_alpine_03.dwg</div>
+        <div class="meta" id="meta">
+          <div class="meta-row"><span class="meta-key">Customer</span><span class="meta-val">Alpine resort</span></div>
+          <div class="meta-row"><span class="meta-key">Format</span><span class="meta-val">AutoCAD R2024</span></div>
+          <div class="meta-row"><span class="meta-key">Sections</span><span class="meta-val">3</span></div>
+          <div class="meta-row"><span class="meta-key">Vehicles</span><span class="meta-val">42</span></div>
+        </div>
+        <div id="delta-slot"></div>
+      </div>
+
+      <!-- MIDDLE: Constraint cascade -->
+      <div class="cascade-panel">
+        <div class="cascade-head">
+          <div class="panel-label" style="margin-bottom: 0;">CONSTRAINT CASCADE</div>
+          <div class="cascade-status" id="cascade-status">IDLE</div>
+        </div>
+        <div class="cascade-list" id="cascade-list"></div>
+      </div>
+    </div>
+
+    <!-- BOTTOM: Quote -->
+    <div class="quote" id="quote">
+      <div class="quote-empty" id="quote-empty">QUOTE WILL APPEAR WHEN CASCADE COMPLETES</div>
+      <div id="quote-content" style="display: none;">
+        <div class="quote-head">
+          <div class="quote-title" id="quote-title">Quote ready</div>
+          <div class="quote-badge" id="quote-badge">READY TO SEND</div>
+        </div>
+        <div class="quote-grid" id="quote-grid"></div>
+      </div>
+    </div>
+
+    <!-- Notification slot -->
+    <div id="notify-slot"></div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ====== DATA ======
+
+  const CASCADE = [
+    { label: 'Vehicle',         timing: '0.4s' },
+    { label: 'Grip',            timing: '0.7s' },
+    { label: 'Sheave',          timing: '0.9s' },
+    { label: 'Arm length',      timing: '1.2s' },
+    { label: 'Station design',  timing: '1.5s' },
+    { label: 'Rope',            timing: '1.8s' },
+    { label: 'Tower placement', timing: '2.1s' },
+    { label: 'Gearbox',         timing: '2.4s' },
+    { label: 'Motor',           timing: '2.7s' },
+    { label: 'Brakes',          timing: '3.0s' }
+  ];
+
+  const INITIAL_QUOTE = {
+    headline: 'Quote ready',
+    lines: [
+      ['Configuration', '3-section ropeway · 12 towers · 42 vehicles'],
+      ['Throughput',    '1,800 passengers per hour'],
+      ['Lead time',     '9 weeks to site'],
+      ['Price',         '£4.2M']
+    ]
+  };
+
+  const CHANGES = [
+    {
+      notification: {
+        headline: 'Can you shorten the line by 8 metres?',
+        detail: 'Site survey came back. Usable footprint is tighter than we thought.'
+      },
+      delta: { label: 'Line length', old: '480m', new: '472m' },
+      revisedQuote: {
+        headline: 'Quote re-solved',
+        lines: [
+          ['Configuration', '3-section ropeway · 11 towers · 42 vehicles'],
+          ['Throughput',    '1,800 passengers per hour'],
+          ['Lead time',     '7 weeks to site'],
+          ['Price',         '£3.6M']
+        ]
+      }
+    },
+    {
+      notification: {
+        headline: 'We need to carry 20% more passengers per hour.',
+        detail: 'Tourism forecast revised upward for peak season.'
+      },
+      delta: { label: 'Throughput', old: '1,800 pph', new: '2,160 pph' },
+      revisedQuote: {
+        headline: 'Quote re-solved',
+        lines: [
+          ['Configuration', '3-section ropeway · 11 towers · 50 vehicles'],
+          ['Throughput',    '2,160 passengers per hour'],
+          ['Lead time',     '9 weeks to site'],
+          ['Price',         '£4.1M']
+        ]
+      }
+    },
+    {
+      notification: {
+        headline: 'Base elevation is 400 metres higher than specified.',
+        detail: 'Survey caught the error. Towers, motor and brakes all need reconsidering.'
+      },
+      delta: { label: 'Base elevation', old: '1,200m', new: '1,600m' },
+      revisedQuote: {
+        headline: 'Quote re-solved',
+        lines: [
+          ['Configuration', 'Reinforced towers · heavier-duty drive'],
+          ['Throughput',    '2,160 passengers per hour'],
+          ['Lead time',     '11 weeks to site'],
+          ['Price',         '£4.5M']
+        ]
+      }
+    }
+  ];
+
+  // Pacing (ms)
+  const BOX_STEP_MS = 800;
+  const QUOTE_REVEAL_DELAY = 600;
+  const QUOTE_DWELL_MS = 4500;
+  const CHANGE_REQUEST_DWELL = 3000;
+  const DELTA_SETTLE_MS = 1200;
+  const RETHINK_PAUSE_MS = 800;
+  const BOX_STEP_FAST_MS = 400;
+  const RESOLVED_DWELL_MS = 4500;
+  const FINAL_DWELL_MS = 5500;
+
+  // ====== TIMELINE ======
+  // Pre-compute the full sequence as {at: ms, apply: state mutator} pairs.
+
+  function buildTimeline() {
+    const steps = [];
+    let t = 0;
+
+    steps.push({ at: t, apply: (s) => { s.phase = 'cascading'; s.litCount = 0; s.changeIdx = -1; } });
+
+    CASCADE.forEach((_, i) => {
+      t += BOX_STEP_MS;
+      steps.push({ at: t, apply: (s) => { s.litCount = i + 1; } });
+    });
+    t += QUOTE_REVEAL_DELAY;
+    steps.push({ at: t, apply: (s) => { s.phase = 'quote'; } });
+    t += QUOTE_DWELL_MS;
+
+    CHANGES.forEach((_, changeI) => {
+      const isLast = changeI === CHANGES.length - 1;
+
+      steps.push({ at: t, apply: (s) => { s.phase = 'changeIncoming'; s.changeIdx = changeI; } });
+      t += CHANGE_REQUEST_DWELL;
+
+      steps.push({ at: t, apply: (s) => { s.phase = 'changeLanded'; } });
+      t += DELTA_SETTLE_MS;
+
+      steps.push({ at: t, apply: (s) => { s.phase = 'rethinking'; s.litCount = 0; } });
+      t += RETHINK_PAUSE_MS;
+
+      steps.push({ at: t, apply: (s) => { s.phase = 'resolving'; } });
+      CASCADE.forEach((_, i) => {
+        t += BOX_STEP_FAST_MS;
+        steps.push({ at: t, apply: (s) => { s.litCount = i + 1; } });
+      });
+      t += QUOTE_REVEAL_DELAY;
+      steps.push({ at: t, apply: (s) => { s.phase = 'resolved'; } });
+      t += isLast ? FINAL_DWELL_MS : RESOLVED_DWELL_MS;
+    });
+
+    return { steps, total: t };
+  }
+
+  const TIMELINE = buildTimeline();
+
+  // ====== STATE ======
+
+  const state = {
+    phase: 'idle',
+    litCount: 0,
+    changeIdx: -1
+  };
+
+  let progress = 0;
+  let nextStepIdx = 0;
+  let lastTick = null;
+  let rafId = null;
+  let isPlaying = true;
+
+  // ====== DOM REFS ======
+
+  const elCascadeList   = document.getElementById('cascade-list');
+  const elCascadeStatus = document.getElementById('cascade-status');
+  const elInputPanel    = document.getElementById('input-panel');
+  const elDeltaSlot     = document.getElementById('delta-slot');
+  const elQuote         = document.getElementById('quote');
+  const elQuoteEmpty    = document.getElementById('quote-empty');
+  const elQuoteContent  = document.getElementById('quote-content');
+  const elQuoteTitle    = document.getElementById('quote-title');
+  const elQuoteBadge    = document.getElementById('quote-badge');
+  const elQuoteGrid     = document.getElementById('quote-grid');
+  const elNotifySlot    = document.getElementById('notify-slot');
+  const elBtnPlay       = document.getElementById('btn-play');
+  const elBtnRestart    = document.getElementById('btn-restart');
+  const elDots = [document.getElementById('dot-0'), document.getElementById('dot-1'), document.getElementById('dot-2')];
+
+  // ====== INITIAL RENDER: cascade boxes ======
+
+  CASCADE.forEach((box, i) => {
+    const el = document.createElement('div');
+    el.className = 'cascade-box';
+    el.dataset.idx = i;
+    el.innerHTML = `
+      <span class="cascade-label">${box.label}</span>
+      <span class="cascade-timing">—</span>
+    `;
+    elCascadeList.appendChild(el);
+  });
+
+  // ====== RENDER ======
+
+  // Remember the last version of dynamic DOM so we don't rebuild every tick.
+  let lastRender = {
+    litCount: -1,
+    phase: null,
+    changeIdx: -2,
+    deltaKey: null,
+    quoteKey: null,
+    notifyKey: null
+  };
+
+  function phaseStatusLabel(phase) {
+    switch (phase) {
+      case 'cascading':     return 'RUNNING';
+      case 'quote':         return 'COMPLETE';
+      case 'changeIncoming':return 'COMPLETE';
+      case 'changeLanded':  return 'CHANGE RECEIVED';
+      case 'rethinking':    return 'RETHINKING';
+      case 'resolving':     return 'RE-SOLVING';
+      case 'resolved':      return 'COMPLETE';
+      default:              return 'IDLE';
+    }
+  }
+
+  function render() {
+    const { phase, litCount, changeIdx } = state;
+    const isResolving = phase === 'resolving' || phase === 'rethinking';
+    const showAnyQuote = phase !== 'cascading' && phase !== 'idle';
+
+    // Cascade boxes (only update if litCount changed or resolving state changed)
+    if (lastRender.litCount !== litCount || lastRender.phase !== phase) {
+      const boxes = elCascadeList.children;
+      for (let i = 0; i < boxes.length; i++) {
+        const b = boxes[i];
+        const lit = i < litCount;
+        b.classList.toggle('lit', lit);
+        b.classList.toggle('resolving', isResolving);
+        const timingEl = b.querySelector('.cascade-timing');
+        timingEl.textContent = lit ? CASCADE[i].timing : '—';
+      }
+
+      elCascadeStatus.textContent = phaseStatusLabel(phase);
+      const activeStatus = (phase === 'rethinking' || phase === 'resolving' || phase === 'changeLanded');
+      elCascadeStatus.classList.toggle('active', activeStatus);
+      elCascadeStatus.classList.toggle('pulsing', phase === 'rethinking');
+    }
+
+    // Left panel accent + delta
+    const showDelta = phase === 'changeLanded' || phase === 'rethinking' || phase === 'resolving' || phase === 'resolved';
+    const shouldAccent = showDelta;
+    if (lastRender.phase !== phase || lastRender.changeIdx !== changeIdx) {
+      elInputPanel.classList.toggle('accented', shouldAccent);
+    }
+
+    const deltaKey = showDelta && changeIdx >= 0 ? `${changeIdx}` : 'none';
+    if (deltaKey !== lastRender.deltaKey) {
+      elDeltaSlot.innerHTML = '';
+      if (showDelta && changeIdx >= 0) {
+        const c = CHANGES[changeIdx];
+        const d = document.createElement('div');
+        d.className = 'delta';
+        d.innerHTML = `
+          <div class="delta-label">CUSTOMER CHANGE APPLIED</div>
+          <div class="delta-row">
+            <span class="delta-from">${c.delta.label}</span>
+            <span class="delta-old">${c.delta.old}</span>
+            <span class="delta-arrow">→</span>
+            <span class="delta-new">${c.delta.new}</span>
+          </div>
+        `;
+        elDeltaSlot.appendChild(d);
+      }
+      lastRender.deltaKey = deltaKey;
+    }
+
+    // Quote panel
+    let quoteToShow = INITIAL_QUOTE;
+    if (phase === 'resolved' && changeIdx >= 0) {
+      quoteToShow = CHANGES[changeIdx].revisedQuote;
+    } else if (changeIdx >= 1 && (phase === 'changeIncoming' || phase === 'changeLanded' || phase === 'rethinking' || phase === 'resolving')) {
+      quoteToShow = CHANGES[changeIdx - 1].revisedQuote;
+    }
+
+    elQuote.classList.toggle('active', showAnyQuote);
+
+    if (!showAnyQuote) {
+      elQuoteEmpty.style.display = '';
+      elQuoteContent.style.display = 'none';
+      lastRender.quoteKey = 'empty';
+    } else {
+      elQuoteEmpty.style.display = 'none';
+      elQuoteContent.style.display = '';
+
+      const badgeText =
+        phase === 'resolved' ? `REVISION ${changeIdx + 1} OF 3`
+        : (phase === 'quote' && changeIdx === -1) ? 'READY TO SEND'
+        : 'STANDING';
+      const quoteKey = `${phase}|${changeIdx}|${quoteToShow.headline}|${badgeText}`;
+
+      if (quoteKey !== lastRender.quoteKey) {
+        elQuoteTitle.textContent = quoteToShow.headline;
+        elQuoteBadge.textContent = badgeText;
+
+        // Rebuild quote grid with fresh animation
+        elQuoteGrid.innerHTML = '';
+        quoteToShow.lines.forEach(([k, v], i) => {
+          const isPrice = k === 'Price';
+          const line = document.createElement('div');
+          line.className = 'quote-line';
+          line.style.animationDelay = `${i * 100}ms`;
+          const priceClass = isPrice ? `price${phase === 'resolved' ? ' revised' : ''}` : '';
+          line.innerHTML = `
+            <div class="quote-key">${k}</div>
+            <div class="quote-val ${priceClass}">${v}</div>
+          `;
+          elQuoteGrid.appendChild(line);
+        });
+        lastRender.quoteKey = quoteKey;
+      }
+    }
+
+    // Notification
+    const notifyKey = phase === 'changeIncoming' && changeIdx >= 0 ? `${changeIdx}` : 'none';
+    if (notifyKey !== lastRender.notifyKey) {
+      elNotifySlot.innerHTML = '';
+      if (phase === 'changeIncoming' && changeIdx >= 0) {
+        const c = CHANGES[changeIdx];
+        const n = document.createElement('div');
+        n.className = 'notify';
+        n.innerHTML = `
+          <div class="notify-head">
+            <div class="notify-dot"></div>
+            <div class="notify-label">INCOMING CHANGE · ${changeIdx + 1} OF 3</div>
+          </div>
+          <div class="notify-from">From customer</div>
+          <div class="notify-headline">"${c.notification.headline}"</div>
+          <div class="notify-detail">${c.notification.detail}</div>
+        `;
+        elNotifySlot.appendChild(n);
+      }
+      lastRender.notifyKey = notifyKey;
+    }
+
+    // Progress dots
+    for (let i = 0; i < 3; i++) {
+      const done = changeIdx > i || (changeIdx === i && phase === 'resolved');
+      const active = changeIdx === i && phase !== 'resolved';
+      elDots[i].classList.toggle('done', done);
+      elDots[i].classList.toggle('active', active);
+    }
+
+    lastRender.litCount = litCount;
+    lastRender.phase = phase;
+    lastRender.changeIdx = changeIdx;
+  }
+
+  // ====== PLAYBACK LOOP ======
+
+  function tick(now) {
+    if (!isPlaying) {
+      lastTick = null;
+      return;
+    }
+    if (lastTick == null) lastTick = now;
+    const dt = now - lastTick;
+    lastTick = now;
+    progress += dt;
+
+    while (nextStepIdx < TIMELINE.steps.length && TIMELINE.steps[nextStepIdx].at <= progress) {
+      TIMELINE.steps[nextStepIdx].apply(state);
+      nextStepIdx++;
+    }
+
+    if (progress >= TIMELINE.total) {
+      progress = 0;
+      nextStepIdx = 0;
+    }
+
+    render();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function startLoop() {
+    if (rafId) cancelAnimationFrame(rafId);
+    lastTick = null;
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function stopLoop() {
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    lastTick = null;
+  }
+
+  function restart() {
+    progress = 0;
+    nextStepIdx = 0;
+    state.phase = 'idle';
+    state.litCount = 0;
+    state.changeIdx = -1;
+    lastRender = { litCount: -1, phase: null, changeIdx: -2, deltaKey: null, quoteKey: null, notifyKey: null };
+    isPlaying = true;
+    updatePlayButton();
+    render();
+    startLoop();
+  }
+
+  function updatePlayButton() {
+    if (isPlaying) {
+      elBtnPlay.setAttribute('aria-label', 'Pause');
+      elBtnPlay.setAttribute('title', 'Pause');
+      elBtnPlay.innerHTML = `
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+          <rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+          <rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/>
+        </svg>`;
+    } else {
+      elBtnPlay.setAttribute('aria-label', 'Play');
+      elBtnPlay.setAttribute('title', 'Play');
+      elBtnPlay.innerHTML = `
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+          <path d="M1.5 1.5 L10.5 7 L1.5 12.5 Z" fill="currentColor"/>
+        </svg>`;
+    }
+  }
+
+  elBtnPlay.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    updatePlayButton();
+    if (isPlaying) startLoop();
+    else stopLoop();
+  });
+
+  elBtnRestart.addEventListener('click', restart);
+
+  // Go
+  render();
+  startLoop();
+})();
+</script>
+
+</body>
+</html>
